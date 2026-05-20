@@ -7,18 +7,17 @@ Agente AI che ogni mattina alle 10:00 (Europe/Rome):
      naturopatia, omeopatia, erboristeria, cura del corpo.
   2. Cerca fonti autorevoli sull'argomento.
   3. Genera un articolo originale via Claude API (claude-sonnet-4-6).
-  4. Genera un'immagine coerente via Pollinations.ai (modello Flux).
+  4. Trova un'immagine di copertina coerente su Unsplash (foto stock pro).
   5. Aggiorna articles.json e pubblica via Git push su GitHub.
 
 Variabili d'ambiente richieste:
-  - ANTHROPIC_API_KEY   : chiave API Anthropic
-  - GITHUB_TOKEN        : personal access token con permessi `repo`
-  - GITHUB_REPO         : es. "intheboxstudio/parafarmacia-viale-umberto"
-  - GITHUB_BRANCH       : default "main"
+  - ANTHROPIC_API_KEY    : chiave API Anthropic
+  - UNSPLASH_ACCESS_KEY  : Access Key Unsplash (unsplash.com/developers)
+  - GITHUB_TOKEN         : personal access token con permessi `repo`
+  - GITHUB_REPO          : es. "intheboxstudio/parafarmacia-viale-umberto"
+  - GITHUB_BRANCH        : default "main"
 
 Variabili d'ambiente opzionali:
-  - GEMINI_API_KEY       : non più usata (image-gen passata a Pollinations).
-                           Mantenuta per backward compat con setup esistenti.
   - BRAVE_SEARCH_API_KEY : per ricerca fonti autorevoli (gratis 2k/mese)
   - FORCE_RUN            : "true" per eseguire fuori orario (test manuali)
   - SKIP_TIME_CHECK      : alias di FORCE_RUN per CI/CD
@@ -364,28 +363,17 @@ Quando ti viene fornito un topic, usa il tool `publish_article` per pubblicarlo.
 
 - content: HTML del corpo dell'articolo. Solo tag inline (<p>, <h2>, <h3>, <ul>, <ol>, <li>, <blockquote>, <em>, <strong>). NIENTE <html>, <body>, <head>. NIENTE attributi (no class, no style, no href). Almeno 600 parole. Struttura: intro con dato/contesto, 2-3 sezioni con sottotitoli <h2>, una sezione "cosa NON fare" o "cosa fare invece", chiusura che richiama l'esperienza in parafarmacia.
 
-- imagePrompt: SEGUI LE REGOLE DETTAGLIATE QUI SOTTO.
+- imageKeywords: 2-5 parole chiave in INGLESE per cercare una foto stock professionale su Unsplash. Pensa a parole concrete che un fotografo professionista userebbe come tag per la sua foto. NON usare parole troppo astratte o italiane. Esempi:
+  * tisana per dormire → ["herbal tea", "chamomile flowers", "evening relax"]
+  * pelle secca → ["skincare routine", "moisturizer cream", "self care"]
+  * stress lavoro → ["stressed woman", "office burnout", "tired professional"]
+  * vitamina D → ["sunlight window", "yellow capsules", "supplements"]
+  * mal di testa → ["tired woman", "headache temple", "migraine relief"]
+  Mai usare nomi commerciali, mai "italian" o nomi di brand. Privilegia singoli soggetti chiari su composizioni complesse.
 
 - products: 3 prodotti pertinenti dai marchi della whitelist (Solime, Lovrèn, Algàdemy, Naturalsalus, Cetilar, Esi, Biokyma, Bromatech). Per ciascuno: brand, name, description (max 25 parole).
 
-- sources: 2-3 fonti dai domini autorevoli (iss.it, salute.gov.it, aifa.gov.it, humanitas.it, fondazioneveronesi.it, ieo.it, mayoclinic.org, ncbi.nlm.nih.gov, cochranelibrary.com, who.int, examine.com, sciencedirect.com, nature.com, thelancet.com, bmj.com, frontiersin.org, harvard.edu, medlineplus.gov). Per ciascuna: name, url.
-
-REGOLE PER L'IMAGE PROMPT (importante):
-
-Decidi tu se l'immagine deve mostrare una persona o essere uno still-life, in base al topic.
-
-A) STILL-LIFE — quando il topic ruota attorno a una pianta, sostanza, rimedio, prodotto, alimento (tisana, valeriana, magnesio, omega 3, vitamina D, melissa, echinacea, arnica, integratori, ecc.). Descrivi una composizione fotografica elegante: pianta/foglia/tisana/oggetto come protagonista, su superficie naturale (legno chiaro, lino, ceramica), con elementi coerenti (cucchiaino, tazza fumante, foglie sparse, libro aperto sfocato sullo sfondo). Vista dall'alto o tre quarti. NIENTE persone.
-
-B) FRAMMENTO DI PERSONA — quando il topic riguarda un'esperienza vissuta dal corpo (skincare, capelli, stress, sonno, postura, dolore, massaggi, menopausa, acne). MAI volti riconoscibili a fuoco, MAI primi piani di facce intere. Mostra la persona SOLO attraverso: mani che fanno qualcosa, profilo sfocato/silhouette controluce, dettagli del corpo a contesto, persona di spalle, mezza inquadratura della parte interessata.
-
-Specifica sempre: "anonymous, no recognizable face, soft natural light, editorial photography style". Aggiungi etnia "Mediterranean" per coerenza col pubblico italiano.
-
-Esempi di buoni image prompt:
-- Valeriana: "A bunch of fresh valerian flowers and dried roots on a light oak wood table, a glass jar with herbal infusion next to it, a small ceramic spoon, soft morning light from the left, top-down view, minimal composition with negative space."
-- Skincare pelle secca: "Close-up of Mediterranean woman's hands applying a dollop of cream on the back of her other hand, anonymous, no face visible, soft natural side light, white marble bathroom counter with a green leaf and a small amber glass bottle in soft focus background, editorial photography style."
-- Stress lavorativo: "Mediterranean woman's silhouette from behind, sitting at a wooden desk near a sunlit window, hand resting on her forehead, laptop slightly out of focus, warm afternoon light, anonymous, no face visible, editorial photography style, calm muted palette."
-
-In tutti i casi NIENTE testo nell'immagine, NIENTE loghi, NIENTE marchi visibili."""
+- sources: 2-3 fonti dai domini autorevoli (iss.it, salute.gov.it, aifa.gov.it, humanitas.it, fondazioneveronesi.it, ieo.it, mayoclinic.org, ncbi.nlm.nih.gov, cochranelibrary.com, who.int, examine.com, sciencedirect.com, nature.com, thelancet.com, bmj.com, frontiersin.org, harvard.edu, medlineplus.gov). Per ciascuna: name, url."""
 
     USER_TEMPLATE = """Topic di oggi: "{topic}"
 Categoria: {category}
@@ -420,9 +408,18 @@ Genera l'articolo completo e pubblicalo usando il tool `publish_article`."""
                         "Almeno 600 parole."
                     )
                 },
-                "imagePrompt": {
-                    "type": "string",
-                    "description": "Prompt in inglese per Gemini Imagen, segue le regole A/B nel system prompt"
+                "imageKeywords": {
+                    "type": "array",
+                    "description": (
+                        "2-5 keyword IN INGLESE per cercare la foto di copertina "
+                        "su Unsplash. Devono evocare un'immagine fotografica concreta "
+                        "coerente col tema dell'articolo. Es: ['herbal tea', 'chamomile'] "
+                        "per un articolo sul sonno; ['skincare routine', 'moisturizer'] "
+                        "per un articolo sulla pelle."
+                    ),
+                    "items": {"type": "string"},
+                    "minItems": 2,
+                    "maxItems": 5
                 },
                 "products": {
                     "type": "array",
@@ -464,7 +461,7 @@ Genera l'articolo completo e pubblicalo usando il tool `publish_article`."""
                     "maxItems": 4
                 }
             },
-            "required": ["title", "excerpt", "content", "imagePrompt", "products", "sources"]
+            "required": ["title", "excerpt", "content", "imageKeywords", "products", "sources"]
         }
     }
 
@@ -511,126 +508,129 @@ Genera l'articolo completo e pubblicalo usando il tool `publish_article`."""
 
 
 # ============================================================================
-# 4. IMAGE GENERATOR (Pollinations.ai con modello Flux)
+# 4. IMAGE GENERATOR (Unsplash API — foto stock professionali)
 # ============================================================================
 
 class ImageGenerator:
-    """Genera l'immagine di copertina via Pollinations.ai (Flux).
+    """Cerca un'immagine di copertina su Unsplash basandosi su keyword.
 
-    Pollinations è un servizio gratuito che proxa modelli image-gen open source
-    (Flux di Black Forest Labs in questo caso). Niente API key, niente billing,
-    niente quota giornaliera per uso modesto. Endpoint REST semplicissimo.
-    Trade-off: occasionali downtime, latenza variabile (3-15s).
+    Strategia: combina le keyword fornite da Claude in una query, cerca su
+    Unsplash, prende la foto con più download (proxy della qualità), scarica
+    la versione regular (1080px wide), salva in locale. Rispetta i terms of
+    use Unsplash chiamando l'endpoint di "track download" come da policy.
 
-    Se Pollinations non risponde, fallback a SVG placeholder.
+    Fallback se Unsplash è giù o non trova foto: SVG placeholder.
+
+    Documentazione API: https://unsplash.com/documentation
+    Rate limit free tier: 50 richieste/ora — sovrabbondante per 1 articolo/giorno.
     """
 
-    POLLINATIONS_BASE = "https://image.pollinations.ai/prompt"
-
-    # Style suffix calibrato per Flux: il modello risponde meglio a prompt
-    # fotografici con dettagli tecnici di camera/obiettivo (a differenza di
-    # Gemini che preferiva descrizioni più narrative).
-    STYLE_SUFFIX = (
-        ". Editorial photography style, shot on Hasselblad H6D medium format, "
-        "85mm lens, f/2.8 shallow depth of field, soft natural window light. "
-        "Premium Italian pharmacy and wellness brand aesthetic. "
-        "Color palette: powder blue, dusty pink, sage green, warm white, oak wood. "
-        "Composition: 16:9 horizontal frame, clean minimal, generous negative space. "
-        "If a person appears, they MUST be anonymous: no recognizable face in focus, "
-        "shown only through hands, silhouette, profile, or back view, "
-        "generic Mediterranean features. "
-        "No text overlay, no logos, no brand names, no celebrities, no children. "
-        "Hyper-realistic, magazine quality, professional retouching."
-    )
-
-    # Dimensioni 16:9 ideali per cover da blog su index.html
-    IMAGE_WIDTH = 1280
-    IMAGE_HEIGHT = 720
-
-    # Timeout generoso: Flux può prendersela comoda nei picchi
-    TIMEOUT = 90
-    MAX_ATTEMPTS = 3
+    SEARCH_URL = "https://api.unsplash.com/search/photos"
+    DOWNLOAD_TRIGGER_URL = "https://api.unsplash.com/photos/{id}/download"
+    TIMEOUT = 30
+    PER_PAGE = 15  # Quanti risultati chiedere a Unsplash per ogni search
 
     def __init__(self, api_key: str | None, output_dir: Path):
-        # api_key è ignorato (Pollinations è gratuito) ma manteniamo la
-        # firma del costruttore per non rompere chi orchestra l'agente.
+        self.access_key = api_key  # Unsplash Access Key
         self.output_dir = output_dir
         self.output_dir.mkdir(parents=True, exist_ok=True)
 
-    def generate(self, prompt: str, slug: str) -> tuple[str, Path | None]:
-        """Genera l'immagine.
+    def generate(self, keywords: list[str], slug: str) -> tuple[str, Path | None]:
+        """Cerca, scarica e salva un'immagine da Unsplash.
 
-        Restituisce (path_per_json, path_locale_o_None).
-        Il path_per_json è quello che finisce in articles.json (relativo).
-        Il path_locale serve al publisher per uploadare il file binario.
+        Args:
+            keywords: lista di parole chiave in inglese (es. ["herbal tea", "chamomile"]).
+            slug: identificatore univoco per il filename.
+
+        Returns:
+            Tupla (path_per_json, path_locale_o_None). Se fallisce, ritorna
+            (placeholder_svg_data_uri, None) come fallback.
         """
-        full_prompt = (prompt or "").strip() + self.STYLE_SUFFIX
-        log.info("Generazione immagine (Pollinations/Flux), prompt[..80]=%s",
-                 full_prompt[:80])
+        if not self.access_key:
+            log.error("UNSPLASH_ACCESS_KEY mancante — uso placeholder SVG")
+            return self._placeholder_svg(slug), None
 
-        # Costruisci URL: prompt va URL-encoded, parametri di query in chiaro.
-        # `nologo=true` rimuove il watermark Pollinations.
-        # `enhance=false` evita che il servizio "migliori" il prompt cambiandolo.
-        # `seed` random previene caching di prompt simili e garantisce variety.
-        from urllib.parse import quote
+        if not keywords:
+            log.warning("Nessuna keyword fornita — uso placeholder SVG")
+            return self._placeholder_svg(slug), None
 
-        seed = random.randint(1, 10_000_000)
-        url = (
-            f"{self.POLLINATIONS_BASE}/{quote(full_prompt)}"
-            f"?width={self.IMAGE_WIDTH}"
-            f"&height={self.IMAGE_HEIGHT}"
-            f"&model=flux"
-            f"&nologo=true"
-            f"&enhance=false"
-            f"&seed={seed}"
-        )
+        query = " ".join(keywords).strip()
+        log.info("Ricerca Unsplash: %r", query)
 
-        # Retry con backoff esponenziale (Pollinations può essere lento sotto carico)
-        last_exc: Exception | None = None
-        for attempt in range(1, self.MAX_ATTEMPTS + 1):
+        try:
+            # 1. Search
+            r = requests.get(
+                self.SEARCH_URL,
+                params={
+                    "query": query,
+                    "per_page": self.PER_PAGE,
+                    "orientation": "landscape",
+                    "content_filter": "high",  # Filtro contenuti sicuri
+                },
+                headers={
+                    "Authorization": f"Client-ID {self.access_key}",
+                    "Accept-Version": "v1",
+                },
+                timeout=self.TIMEOUT,
+            )
+            r.raise_for_status()
+            results = r.json().get("results", [])
+
+            if not results:
+                # Fallback: prova con la prima keyword soltanto
+                if len(keywords) > 1:
+                    log.info("Zero risultati per '%s', riprovo con '%s'",
+                             query, keywords[0])
+                    return self.generate([keywords[0]], slug)
+                log.warning("Unsplash: nessuna foto trovata per %r", query)
+                return self._placeholder_svg(slug), None
+
+            # 2. Scegli la "migliore": quella con più likes tra le prime 5
+            # (le prime 5 sono le più rilevanti; tra queste, ordino per qualità)
+            top_candidates = results[:5]
+            chosen = max(top_candidates, key=lambda p: p.get("likes", 0))
+
+            photo_id = chosen["id"]
+            image_url = chosen["urls"]["regular"]  # ~1080px wide, ottimo per cover
+            attribution = (
+                chosen.get("user", {}).get("name", "Anonymous"),
+                chosen.get("user", {}).get("links", {}).get("html", "")
+            )
+            log.info("Scelta foto Unsplash id=%s di %s (%d likes)",
+                     photo_id, attribution[0], chosen.get("likes", 0))
+
+            # 3. Trigger download endpoint (richiesto dai T&C Unsplash)
             try:
-                log.info("Pollinations attempt %d/%d (seed=%d)",
-                         attempt, self.MAX_ATTEMPTS, seed)
-                r = requests.get(
-                    url,
-                    timeout=self.TIMEOUT,
-                    headers={"Accept": "image/png,image/jpeg,image/*"},
+                requests.get(
+                    self.DOWNLOAD_TRIGGER_URL.format(id=photo_id),
+                    headers={
+                        "Authorization": f"Client-ID {self.access_key}",
+                        "Accept-Version": "v1",
+                    },
+                    timeout=10,
                 )
-                r.raise_for_status()
-
-                ctype = r.headers.get("Content-Type", "")
-                if not ctype.startswith("image/"):
-                    raise RuntimeError(
-                        f"Pollinations ha risposto con content-type non immagine: "
-                        f"{ctype}. Body[:200]={r.content[:200]!r}"
-                    )
-
-                image_bytes = r.content
-                # Pollinations restituisce di solito JPEG, ma talvolta PNG.
-                # Salviamo sempre con estensione coerente al magic number.
-                ext = "png" if image_bytes[:8].startswith(b"\x89PNG") else "jpg"
-                filename = f"{slug}.{ext}"
-                out_path = self.output_dir / filename
-                out_path.write_bytes(image_bytes)
-                log.info("Immagine salvata: %s (%d KB)",
-                         out_path, len(image_bytes) // 1024)
-                return f"./assets/blog/{filename}", out_path
-
             except Exception as exc:
-                last_exc = exc
-                log.warning("Pollinations attempt %d fallito: %s", attempt, exc)
-                if attempt < self.MAX_ATTEMPTS:
-                    import time
-                    backoff = 2 ** attempt  # 2s, 4s, 8s
-                    time.sleep(backoff)
+                log.warning("Trigger download Unsplash fallito (non bloccante): %s", exc)
 
-        log.error("Pollinations ha fallito %d volte: %s — uso placeholder SVG",
-                  self.MAX_ATTEMPTS, last_exc)
-        return self._placeholder_svg(slug), None
+            # 4. Scarica l'immagine vera
+            img_resp = requests.get(image_url, timeout=self.TIMEOUT, stream=True)
+            img_resp.raise_for_status()
+            image_bytes = img_resp.content
+
+            filename = f"{slug}.jpg"
+            out_path = self.output_dir / filename
+            out_path.write_bytes(image_bytes)
+            log.info("Immagine salvata: %s (%d KB) — foto di %s",
+                     out_path, len(image_bytes) // 1024, attribution[0])
+            return f"./assets/blog/{filename}", out_path
+
+        except Exception as exc:
+            log.error("Unsplash error: %s — uso placeholder SVG", exc)
+            return self._placeholder_svg(slug), None
 
     @staticmethod
     def _placeholder_svg(slug: str) -> str:
-        """Fallback: SVG decorativo se Pollinations è giù."""
+        """Fallback: SVG decorativo se Unsplash è giù o non trova foto."""
         return (
             "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' "
             "viewBox='0 0 800 600'><defs><linearGradient id='g' x1='0%' y1='0%' "
@@ -747,21 +747,18 @@ class BlogAgent:
 
     def __init__(self) -> None:
         self.anthropic_key = self._require_env("ANTHROPIC_API_KEY")
+        self.unsplash_key = self._require_env("UNSPLASH_ACCESS_KEY")
         self.github_token = self._require_env("GITHUB_TOKEN")
         self.github_repo = self._require_env("GITHUB_REPO")
         self.github_branch = os.getenv("GITHUB_BRANCH", "main")
         self.brave_key = os.getenv("BRAVE_SEARCH_API_KEY")
-        # GEMINI_API_KEY è opzionale e attualmente ignorata
-        # (immagini servite da Pollinations.ai). Mantenuta per backward
-        # compat con setup Railway/Actions già configurati.
-        self.gemini_key = os.getenv("GEMINI_API_KEY")
 
         self.assets_dir = Path("./assets/blog")
 
         self.discoverer = TopicDiscoverer()
         self.source_finder = SourceFinder(self.brave_key)
         self.generator = ArticleGenerator(self.anthropic_key)
-        self.image_gen = ImageGenerator(self.gemini_key, self.assets_dir)
+        self.image_gen = ImageGenerator(self.unsplash_key, self.assets_dir)
         self.publisher = GitPublisher(self.github_token, self.github_repo, self.github_branch)
 
     @staticmethod
@@ -805,7 +802,7 @@ class BlogAgent:
             article_id = f"{today_str}-{slug[:40]}"
 
             image_path_rel, local_image = self.image_gen.generate(
-                data["imagePrompt"], article_id
+                data.get("imageKeywords", []), article_id
             )
 
             # 5. Crea Article object
