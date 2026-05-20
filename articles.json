@@ -1,0 +1,22 @@
+{
+  "$schema": "https://parafarmacia-viale-umberto.it/blog/schema.json",
+  "lastUpdated": "2026-05-17T10:00:00+02:00",
+  "version": "1.0",
+  "_comment": "File generato e aggiornato automaticamente dall'agente blog_agent.py ogni mattina alle 10:00. NON modificare manualmente, le modifiche andranno perse al prossimo run.",
+  "articles": [
+    {
+      "id": "init-2026-05-17",
+      "slug": "benvenuti-sul-blog-della-parafarmacia",
+      "title": "Benvenuti sul <em>blog della parafarmacia</em>",
+      "category": "naturopatia",
+      "categoryLabel": "Naturopatia",
+      "excerpt": "Da oggi ogni mattina alle 10 trovi qui un articolo nuovo. Domande vere, fonti autorevoli, soluzioni concrete. Un piccolo rituale quotidiano per chi ama capire prima di agire.",
+      "content": "<p>Questo è il primo articolo del nostro nuovo diario. Dalla prossima settimana, ogni mattina troverai qui un contenuto nuovo dedicato a un problema specifico — quelli veri, quelli che cerchi online alle due di notte, quelli che non sai a chi chiedere.</p><p>Naturopatia, omeopatia, erboristeria, cura del corpo: quattro mondi che si intrecciano nella nostra parafarmacia da anni, e che proveremo a raccontarti uno spunto alla volta. Ogni articolo nasce da una domanda reale, attinge a fonti autorevoli del settore, e suggerisce — quando appropriato — i prodotti che da noi selezioniamo con cura.</p><h2>Cosa NON troverai qui</h2><ul><li>Promesse miracolose. Non esistono.</li><li>Trend di TikTok presi sul serio senza verifiche.</li><li>Consigli a tappeto. Ogni persona è diversa, ogni protocollo va personalizzato.</li></ul><h2>Cosa troverai invece</h2><ul><li>Spiegazioni semplici di temi complessi.</li><li>Citazioni sempre tracciabili a studi, riviste, fonti istituzionali.</li><li>Indicazioni su prodotti reali, marche che abbiamo testato e scelto.</li></ul><blockquote>\"Voglio che il blog sia un luogo dove le persone trovano risposte oneste, non pubblicità mascherata.\" — Dottoressa Emy</blockquote><p>Iniziamo con calma. A domani.</p>",
+      "image": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600'><defs><linearGradient id='g0' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%23E4EFF7'/><stop offset='50%25' stop-color='%23C9DEEC'/><stop offset='100%25' stop-color='%239CC2DA'/></linearGradient></defs><rect width='800' height='600' fill='url(%23g0)'/><g transform='translate(400 300)' opacity='.9'><path d='M0 120 C 0 80 0 50 0 30 M0 30 C -50 25 -85 -10 -75 -50 C -50 -35 -25 -15 -5 25 C -25 -10 -25 -35 -10 -50 C 0 -30 0 -10 0 30 C 0 -10 5 -30 15 -50 C 30 -35 30 -10 10 25 C 30 -15 55 -35 80 -50 C 90 -10 55 25 0 30' stroke='%23FFFFFF' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' fill='none'/></g></svg>",
+      "date": "2026-05-17T10:00:00+02:00",
+      "readingTime": "2 min",
+      "products": [],
+      "sources": []
+    }
+  ]
+}
