@@ -339,7 +339,13 @@ class SourceFinder:
 # ============================================================================
 
 class ArticleGenerator:
-    """Genera l'articolo via Claude API con prompt strutturato."""
+    """Genera l'articolo via Claude API.
+
+    Usa il meccanismo nativo di Anthropic "tool use" per ottenere un output
+    strutturato. Il modello restituisce direttamente un dict Python validato
+    dal JSON schema dichiarato qui sotto — nessun parsing fragile, nessun
+    rischio di virgolette zoppe nell'HTML.
+    """
 
     SYSTEM_PROMPT = """Sei la voce editoriale del blog di una parafarmacia italiana di alta qualità (Parafarmacia Erboristeria Viale Umberto 1°, Reggio Emilia, di proprietà della Dottoressa Emy). La tua scrittura è:
 
@@ -349,68 +355,123 @@ class ArticleGenerator:
 - Mai promozionale o medicinale: divulgativa
 - Onesta sui limiti dei rimedi naturali (es: "non sostituisce il parere medico")
 
-Devi rispondere ESCLUSIVAMENTE con un oggetto JSON valido, senza preamboli, senza testo extra, senza backticks. Lo schema è:
+Quando ti viene fornito un topic, usa il tool `publish_article` per pubblicarlo. Il tool richiede questi campi:
 
-{
-  "title": "Titolo accattivante con tag <em>...</em> intorno al problema specifico",
-  "excerpt": "1-2 frasi che riassumono il problema e anticipano la soluzione, max 200 caratteri",
-  "content": "HTML del corpo dell'articolo (no <html>, <body>, solo i tag inline: <p>, <h2>, <h3>, <ul>, <ol>, <li>, <blockquote>, <em>, <strong>). Almeno 600 parole. Struttura: intro con dato/contesto, 2-3 sezioni con sottotitoli <h2>, una sezione 'cosa NON fare' o 'cosa fare invece', chiusura che richiama l'esperienza di acquisto in parafarmacia.",
-  "imagePrompt": "Prompt in inglese per generare l'immagine di copertina. SEGUI LE REGOLE QUI SOTTO.",
-  "products": [
-    {"brand": "<uno dei marchi della whitelist>", "name": "<nome prodotto plausibile>", "description": "<perché lo consigliamo, max 25 parole>"}
-  ],
-  "sources": [
-    {"name": "<es: Humanitas — Disturbi del sonno>", "url": "<URL solo da domini autorevoli>"}
-  ]
-}
+- title: titolo accattivante in HTML con <em>...</em> intorno al problema specifico. Usa uno dei pattern: "Hai <em>{problema}</em> e non sai come risolverlo?" / "Vuoi risolvere <em>{problema}</em>?" / "<em>{problema}</em> non ti lascia vivere serena?" / "Soffri di <em>{problema}</em>? Ecco cosa fare davvero".
+
+- excerpt: 1-2 frasi sintetiche, max 200 caratteri.
+
+- content: HTML del corpo dell'articolo. Solo tag inline (<p>, <h2>, <h3>, <ul>, <ol>, <li>, <blockquote>, <em>, <strong>). NIENTE <html>, <body>, <head>. NIENTE attributi (no class, no style, no href). Almeno 600 parole. Struttura: intro con dato/contesto, 2-3 sezioni con sottotitoli <h2>, una sezione "cosa NON fare" o "cosa fare invece", chiusura che richiama l'esperienza in parafarmacia.
+
+- imagePrompt: SEGUI LE REGOLE DETTAGLIATE QUI SOTTO.
+
+- products: 3 prodotti pertinenti dai marchi della whitelist (Solime, Lovrèn, Algàdemy, Naturalsalus, Cetilar, Esi, Biokyma, Bromatech). Per ciascuno: brand, name, description (max 25 parole).
+
+- sources: 2-3 fonti dai domini autorevoli (iss.it, salute.gov.it, aifa.gov.it, humanitas.it, fondazioneveronesi.it, ieo.it, mayoclinic.org, ncbi.nlm.nih.gov, cochranelibrary.com, who.int, examine.com, sciencedirect.com, nature.com, thelancet.com, bmj.com, frontiersin.org, harvard.edu, medlineplus.gov). Per ciascuna: name, url.
 
 REGOLE PER L'IMAGE PROMPT (importante):
 
-Decidi tu se l'immagine deve mostrare una persona o essere uno still-life, in base al topic:
+Decidi tu se l'immagine deve mostrare una persona o essere uno still-life, in base al topic.
 
-A) STILL-LIFE — usa questo formato quando il topic ruota attorno a una pianta, sostanza, rimedio, prodotto, alimento. Esempi: tisana per dormire, valeriana, magnesio, omega 3, vitamina D, melissa, echinacea, arnica, integratori. Descrivi una composizione fotografica elegante: la pianta/foglia/tisana/oggetto come protagonista, su superficie naturale (legno chiaro, lino, ceramica), con elementi coerenti (cucchiaino, tazza fumante, foglie sparse, libro aperto sfocato sullo sfondo). Vista dall'alto o tre quarti. Niente persone.
+A) STILL-LIFE — quando il topic ruota attorno a una pianta, sostanza, rimedio, prodotto, alimento (tisana, valeriana, magnesio, omega 3, vitamina D, melissa, echinacea, arnica, integratori, ecc.). Descrivi una composizione fotografica elegante: pianta/foglia/tisana/oggetto come protagonista, su superficie naturale (legno chiaro, lino, ceramica), con elementi coerenti (cucchiaino, tazza fumante, foglie sparse, libro aperto sfocato sullo sfondo). Vista dall'alto o tre quarti. NIENTE persone.
 
-B) FRAMMENTO DI PERSONA — usa questo formato quando il topic riguarda un'esperienza vissuta dal corpo (skincare, capelli, stress, sonno, postura, dolore, massaggi, menopausa, acne). MAI volti riconoscibili a fuoco, MAI primi piani di facce intere. Mostra la persona SOLO attraverso:
-  - mani che fanno qualcosa (versano la tisana, applicano una crema, sfogliano un libro, massaggiano la nuca)
-  - profilo sfocato/silhouette controluce vicino a una finestra
-  - dettaglio del corpo a contesto (spalle che escono dall'accappatoio, capelli che cadono sulla fronte vista di tre quarti, piedi nudi su un tappeto)
-  - persona vista di spalle, su sfondo morbido
-  - mezza inquadratura della parte interessata (collo per cervicale, mani per artrite, ecc.)
+B) FRAMMENTO DI PERSONA — quando il topic riguarda un'esperienza vissuta dal corpo (skincare, capelli, stress, sonno, postura, dolore, massaggi, menopausa, acne). MAI volti riconoscibili a fuoco, MAI primi piani di facce intere. Mostra la persona SOLO attraverso: mani che fanno qualcosa, profilo sfocato/silhouette controluce, dettagli del corpo a contesto, persona di spalle, mezza inquadratura della parte interessata.
 
-Specifica SEMPRE: "anonymous, no recognizable face, soft natural light, editorial photography style". Aggiungi etnia generica come "Mediterranean", "Southern European" per coerenza con il pubblico italiano.
+Specifica sempre: "anonymous, no recognizable face, soft natural light, editorial photography style". Aggiungi etnia "Mediterranean" per coerenza col pubblico italiano.
 
 Esempi di buoni image prompt:
-- Topic "valeriana": "A bunch of fresh valerian flowers and dried roots on a light oak wood table, a glass jar with herbal infusion next to it, a small ceramic spoon, soft morning light from the left, top-down view, minimal composition with negative space."
-- Topic "skincare pelle secca": "Close-up of Mediterranean woman's hands applying a dollop of cream on the back of her other hand, anonymous, no face visible, soft natural side light, white marble bathroom counter with a green leaf and a small amber glass bottle in soft focus background, editorial photography style."
-- Topic "stress lavorativo": "Mediterranean woman's silhouette from behind, sitting at a wooden desk near a sunlit window, hand resting on her forehead, laptop slightly out of focus, warm afternoon light, anonymous, no face visible, editorial photography style, calm muted palette."
+- Valeriana: "A bunch of fresh valerian flowers and dried roots on a light oak wood table, a glass jar with herbal infusion next to it, a small ceramic spoon, soft morning light from the left, top-down view, minimal composition with negative space."
+- Skincare pelle secca: "Close-up of Mediterranean woman's hands applying a dollop of cream on the back of her other hand, anonymous, no face visible, soft natural side light, white marble bathroom counter with a green leaf and a small amber glass bottle in soft focus background, editorial photography style."
+- Stress lavorativo: "Mediterranean woman's silhouette from behind, sitting at a wooden desk near a sunlit window, hand resting on her forehead, laptop slightly out of focus, warm afternoon light, anonymous, no face visible, editorial photography style, calm muted palette."
 
-In tutti i casi NIENTE testo nell'immagine, NIENTE loghi, NIENTE marchi visibili.
-
-Marchi della parafarmacia (usa SOLO questi nei products):
-Solime, Lovrèn, Algàdemy, Naturalsalus, Cetilar, Esi, Biokyma, Bromatech.
-
-Domini autorevoli per le fonti (usa SOLO questi):
-iss.it, salute.gov.it, aifa.gov.it, humanitas.it, fondazioneveronesi.it, ieo.it, mayoclinic.org, ncbi.nlm.nih.gov, cochranelibrary.com, who.int, examine.com, sciencedirect.com, nature.com, thelancet.com, bmj.com, frontiersin.org, harvard.edu, medlineplus.gov.
-
-Suggerisci 3 prodotti e 2-3 fonti."""
+In tutti i casi NIENTE testo nell'immagine, NIENTE loghi, NIENTE marchi visibili."""
 
     USER_TEMPLATE = """Topic di oggi: "{topic}"
 Categoria: {category}
 
-Genera l'articolo completo seguendo lo schema. Il TITOLO deve usare uno dei seguenti pattern (sostituisci {{problema}} con il problema specifico estratto dal topic):
+Genera l'articolo completo e pubblicalo usando il tool `publish_article`."""
 
-- "Hai <em>{{problema}}</em> e non sai come risolverlo?"
-- "Vuoi risolvere <em>{{problema}}</em>?"
-- "<em>{{problema}}</em> non ti lascia vivere serena?"
-- "Soffri di <em>{{problema}}</em>? Ecco cosa fare davvero"
-
-Scegli il pattern più adatto al tono del topic. Ricorda: solo JSON, nient'altro."""
+    # JSON schema del tool — Anthropic forza il modello a generare un output
+    # che rispetta esattamente questa struttura. Niente più parsing manuale.
+    TOOL_SCHEMA = {
+        "name": "publish_article",
+        "description": (
+            "Pubblica un articolo sul blog della parafarmacia con tutti i campi "
+            "richiesti: titolo HTML, excerpt, contenuto HTML, prompt immagine, "
+            "prodotti consigliati e fonti autorevoli."
+        ),
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string",
+                    "description": "Titolo HTML con <em>...</em> attorno al problema specifico"
+                },
+                "excerpt": {
+                    "type": "string",
+                    "description": "Sommario testuale di 1-2 frasi, max 200 caratteri"
+                },
+                "content": {
+                    "type": "string",
+                    "description": (
+                        "HTML del corpo dell'articolo. Solo tag <p>, <h2>, <h3>, "
+                        "<ul>, <ol>, <li>, <blockquote>, <em>, <strong> senza attributi. "
+                        "Almeno 600 parole."
+                    )
+                },
+                "imagePrompt": {
+                    "type": "string",
+                    "description": "Prompt in inglese per Gemini Imagen, segue le regole A/B nel system prompt"
+                },
+                "products": {
+                    "type": "array",
+                    "description": "Esattamente 3 prodotti consigliati",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "brand": {
+                                "type": "string",
+                                "enum": ["Solime", "Lovrèn", "Algàdemy", "Naturalsalus",
+                                         "Cetilar", "Esi", "Biokyma", "Bromatech"]
+                            },
+                            "name": {"type": "string"},
+                            "description": {
+                                "type": "string",
+                                "description": "Perché lo consigliamo, max 25 parole"
+                            }
+                        },
+                        "required": ["brand", "name", "description"]
+                    },
+                    "minItems": 2,
+                    "maxItems": 4
+                },
+                "sources": {
+                    "type": "array",
+                    "description": "2-3 fonti autorevoli",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": {"type": "string"},
+                            "url": {
+                                "type": "string",
+                                "description": "URL completo, deve appartenere a un dominio autorevole"
+                            }
+                        },
+                        "required": ["name", "url"]
+                    },
+                    "minItems": 1,
+                    "maxItems": 4
+                }
+            },
+            "required": ["title", "excerpt", "content", "imagePrompt", "products", "sources"]
+        }
+    }
 
     def __init__(self, api_key: str):
         self.client = Anthropic(api_key=api_key)
 
     def generate(self, topic: str, category: str, sources_hint: list[Source]) -> dict[str, Any]:
-        """Genera l'articolo strutturato. Restituisce dict pronto per Article."""
+        """Genera l'articolo strutturato via tool use. Restituisce dict pronto per Article."""
         log.info("Generazione articolo per topic: %r", topic)
 
         user_msg = self.USER_TEMPLATE.format(topic=topic, category=category)
@@ -422,21 +483,27 @@ Scegli il pattern più adatto al tono del topic. Ricorda: solo JSON, nient'altro
         try:
             response = self.client.messages.create(
                 model=CLAUDE_MODEL,
-                max_tokens=4096,
+                max_tokens=8192,
                 system=self.SYSTEM_PROMPT,
+                tools=[self.TOOL_SCHEMA],
+                tool_choice={"type": "tool", "name": "publish_article"},
                 messages=[{"role": "user", "content": user_msg}],
             )
 
-            text = response.content[0].text.strip()
-            # Rimuovi eventuali fence markdown
-            text = re.sub(r"^```(?:json)?\s*|\s*```$", "", text, flags=re.MULTILINE)
-            data = json.loads(text)
-            log.info("Articolo generato: %s", data.get("title", "")[:60])
-            return data
+            # Con tool_choice forzato, la response contiene un blocco tool_use
+            # con un dict già parsato in `input`. Niente più json.loads.
+            for block in response.content:
+                if block.type == "tool_use" and block.name == "publish_article":
+                    data = block.input
+                    log.info("Articolo generato: %s", str(data.get("title", ""))[:60])
+                    return data
 
-        except json.JSONDecodeError as exc:
-            log.error("JSON non valido dal modello: %s", exc)
-            raise
+            raise RuntimeError(
+                f"Nessun tool_use trovato nella response. "
+                f"stop_reason={response.stop_reason}, "
+                f"content_types={[b.type for b in response.content]}"
+            )
+
         except Exception as exc:
             log.error("Errore generazione articolo: %s", exc)
             raise
