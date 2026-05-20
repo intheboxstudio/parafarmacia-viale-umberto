@@ -7,17 +7,18 @@ Agente AI che ogni mattina alle 10:00 (Europe/Rome):
      naturopatia, omeopatia, erboristeria, cura del corpo.
   2. Cerca fonti autorevoli sull'argomento.
   3. Genera un articolo originale via Claude API (claude-sonnet-4-6).
-  4. Genera un'immagine coerente via Gemini 2.5 Flash Image (Nano Banana).
+  4. Genera un'immagine coerente via Pollinations.ai (modello Flux).
   5. Aggiorna articles.json e pubblica via Git push su GitHub.
 
 Variabili d'ambiente richieste:
   - ANTHROPIC_API_KEY   : chiave API Anthropic
-  - GEMINI_API_KEY      : chiave API Google AI Studio (Gemini)
   - GITHUB_TOKEN        : personal access token con permessi `repo`
   - GITHUB_REPO         : es. "intheboxstudio/parafarmacia-viale-umberto"
   - GITHUB_BRANCH       : default "main"
 
 Variabili d'ambiente opzionali:
+  - GEMINI_API_KEY       : non più usata (image-gen passata a Pollinations).
+                           Mantenuta per backward compat con setup esistenti.
   - BRAVE_SEARCH_API_KEY : per ricerca fonti autorevoli (gratis 2k/mese)
   - FORCE_RUN            : "true" per eseguire fuori orario (test manuali)
   - SKIP_TIME_CHECK      : alias di FORCE_RUN per CI/CD
@@ -43,7 +44,6 @@ from zoneinfo import ZoneInfo
 
 import requests
 from anthropic import Anthropic
-from google import genai
 
 # ============================================================================
 # CONFIGURAZIONE
@@ -136,7 +136,8 @@ WORDS_PER_MINUTE = 220
 
 # Modelli
 CLAUDE_MODEL = "claude-sonnet-4-6"
-GEMINI_IMAGE_MODEL = "gemini-2.5-flash-image"  # Nano Banana
+# L'image generation è gestita da Pollinations.ai (Flux), vedi ImageGenerator.
+# Non serve API key Gemini né nessun'altra chiave per le immagini.
 
 # Limite articoli mantenuti nel JSON (i più vecchi vengono archiviati)
 MAX_ARTICLES_IN_FEED = 30
@@ -510,27 +511,49 @@ Genera l'articolo completo e pubblicalo usando il tool `publish_article`."""
 
 
 # ============================================================================
-# 4. IMAGE GENERATOR (Gemini Nano Banana)
+# 4. IMAGE GENERATOR (Pollinations.ai con modello Flux)
 # ============================================================================
 
 class ImageGenerator:
-    """Genera l'immagine di copertina via Gemini 2.5 Flash Image."""
+    """Genera l'immagine di copertina via Pollinations.ai (Flux).
 
-    # Style suffix aggiornato: ammette persone PARZIALI (mani, silhouette,
-    # profili sfocati, dettagli del corpo). Mai facce a fuoco né celebrities.
+    Pollinations è un servizio gratuito che proxa modelli image-gen open source
+    (Flux di Black Forest Labs in questo caso). Niente API key, niente billing,
+    niente quota giornaliera per uso modesto. Endpoint REST semplicissimo.
+    Trade-off: occasionali downtime, latenza variabile (3-15s).
+
+    Se Pollinations non risponde, fallback a SVG placeholder.
+    """
+
+    POLLINATIONS_BASE = "https://image.pollinations.ai/prompt"
+
+    # Style suffix calibrato per Flux: il modello risponde meglio a prompt
+    # fotografici con dettagli tecnici di camera/obiettivo (a differenza di
+    # Gemini che preferiva descrizioni più narrative).
     STYLE_SUFFIX = (
-        " Editorial photography style, shot on medium format film, soft natural "
-        "light, shallow depth of field, premium pharmacy and wellness brand mood. "
-        "Palette: powder blue, dusty pink, sage green, warm white, oak wood. "
-        "Composition: 16:9 horizontal, clean and minimal, generous negative space. "
-        "If a person is present, they must be anonymous: no recognizable face in "
-        "focus, partial framing (hands, silhouette, profile, back), generic "
-        "Mediterranean features. No text overlay, no logos, no brand names, "
-        "no celebrities, no children. Photorealistic, magazine quality."
+        ". Editorial photography style, shot on Hasselblad H6D medium format, "
+        "85mm lens, f/2.8 shallow depth of field, soft natural window light. "
+        "Premium Italian pharmacy and wellness brand aesthetic. "
+        "Color palette: powder blue, dusty pink, sage green, warm white, oak wood. "
+        "Composition: 16:9 horizontal frame, clean minimal, generous negative space. "
+        "If a person appears, they MUST be anonymous: no recognizable face in focus, "
+        "shown only through hands, silhouette, profile, or back view, "
+        "generic Mediterranean features. "
+        "No text overlay, no logos, no brand names, no celebrities, no children. "
+        "Hyper-realistic, magazine quality, professional retouching."
     )
 
-    def __init__(self, api_key: str, output_dir: Path):
-        self.client = genai.Client(api_key=api_key)
+    # Dimensioni 16:9 ideali per cover da blog su index.html
+    IMAGE_WIDTH = 1280
+    IMAGE_HEIGHT = 720
+
+    # Timeout generoso: Flux può prendersela comoda nei picchi
+    TIMEOUT = 90
+    MAX_ATTEMPTS = 3
+
+    def __init__(self, api_key: str | None, output_dir: Path):
+        # api_key è ignorato (Pollinations è gratuito) ma manteniamo la
+        # firma del costruttore per non rompere chi orchestra l'agente.
         self.output_dir = output_dir
         self.output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -541,37 +564,73 @@ class ImageGenerator:
         Il path_per_json è quello che finisce in articles.json (relativo).
         Il path_locale serve al publisher per uploadare il file binario.
         """
-        full_prompt = prompt + self.STYLE_SUFFIX
-        log.info("Generazione immagine, prompt[..80]=%s", full_prompt[:80])
+        full_prompt = (prompt or "").strip() + self.STYLE_SUFFIX
+        log.info("Generazione immagine (Pollinations/Flux), prompt[..80]=%s",
+                 full_prompt[:80])
 
-        try:
-            response = self.client.models.generate_content(
-                model=GEMINI_IMAGE_MODEL,
-                contents=full_prompt,
-            )
+        # Costruisci URL: prompt va URL-encoded, parametri di query in chiaro.
+        # `nologo=true` rimuove il watermark Pollinations.
+        # `enhance=false` evita che il servizio "migliori" il prompt cambiandolo.
+        # `seed` random previene caching di prompt simili e garantisce variety.
+        from urllib.parse import quote
 
-            # Estrai i bytes dell'immagine dalla response
-            for part in response.candidates[0].content.parts:
-                if hasattr(part, "inline_data") and part.inline_data is not None:
-                    image_bytes = part.inline_data.data
-                    if isinstance(image_bytes, str):
-                        image_bytes = base64.b64decode(image_bytes)
+        seed = random.randint(1, 10_000_000)
+        url = (
+            f"{self.POLLINATIONS_BASE}/{quote(full_prompt)}"
+            f"?width={self.IMAGE_WIDTH}"
+            f"&height={self.IMAGE_HEIGHT}"
+            f"&model=flux"
+            f"&nologo=true"
+            f"&enhance=false"
+            f"&seed={seed}"
+        )
 
-                    filename = f"{slug}.jpg"
-                    out_path = self.output_dir / filename
-                    out_path.write_bytes(image_bytes)
-                    log.info("Immagine salvata: %s (%d KB)", out_path, len(image_bytes) // 1024)
-                    return f"./assets/blog/{filename}", out_path
+        # Retry con backoff esponenziale (Pollinations può essere lento sotto carico)
+        last_exc: Exception | None = None
+        for attempt in range(1, self.MAX_ATTEMPTS + 1):
+            try:
+                log.info("Pollinations attempt %d/%d (seed=%d)",
+                         attempt, self.MAX_ATTEMPTS, seed)
+                r = requests.get(
+                    url,
+                    timeout=self.TIMEOUT,
+                    headers={"Accept": "image/png,image/jpeg,image/*"},
+                )
+                r.raise_for_status()
 
-            raise RuntimeError("Nessuna immagine nella risposta Gemini")
+                ctype = r.headers.get("Content-Type", "")
+                if not ctype.startswith("image/"):
+                    raise RuntimeError(
+                        f"Pollinations ha risposto con content-type non immagine: "
+                        f"{ctype}. Body[:200]={r.content[:200]!r}"
+                    )
 
-        except Exception as exc:
-            log.error("Errore generazione immagine: %s — uso placeholder", exc)
-            return self._placeholder_svg(slug), None
+                image_bytes = r.content
+                # Pollinations restituisce di solito JPEG, ma talvolta PNG.
+                # Salviamo sempre con estensione coerente al magic number.
+                ext = "png" if image_bytes[:8].startswith(b"\x89PNG") else "jpg"
+                filename = f"{slug}.{ext}"
+                out_path = self.output_dir / filename
+                out_path.write_bytes(image_bytes)
+                log.info("Immagine salvata: %s (%d KB)",
+                         out_path, len(image_bytes) // 1024)
+                return f"./assets/blog/{filename}", out_path
+
+            except Exception as exc:
+                last_exc = exc
+                log.warning("Pollinations attempt %d fallito: %s", attempt, exc)
+                if attempt < self.MAX_ATTEMPTS:
+                    import time
+                    backoff = 2 ** attempt  # 2s, 4s, 8s
+                    time.sleep(backoff)
+
+        log.error("Pollinations ha fallito %d volte: %s — uso placeholder SVG",
+                  self.MAX_ATTEMPTS, last_exc)
+        return self._placeholder_svg(slug), None
 
     @staticmethod
     def _placeholder_svg(slug: str) -> str:
-        """Fallback: SVG decorativo se Gemini fallisce."""
+        """Fallback: SVG decorativo se Pollinations è giù."""
         return (
             "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' "
             "viewBox='0 0 800 600'><defs><linearGradient id='g' x1='0%' y1='0%' "
@@ -688,11 +747,14 @@ class BlogAgent:
 
     def __init__(self) -> None:
         self.anthropic_key = self._require_env("ANTHROPIC_API_KEY")
-        self.gemini_key = self._require_env("GEMINI_API_KEY")
         self.github_token = self._require_env("GITHUB_TOKEN")
         self.github_repo = self._require_env("GITHUB_REPO")
         self.github_branch = os.getenv("GITHUB_BRANCH", "main")
         self.brave_key = os.getenv("BRAVE_SEARCH_API_KEY")
+        # GEMINI_API_KEY è opzionale e attualmente ignorata
+        # (immagini servite da Pollinations.ai). Mantenuta per backward
+        # compat con setup Railway/Actions già configurati.
+        self.gemini_key = os.getenv("GEMINI_API_KEY")
 
         self.assets_dir = Path("./assets/blog")
 
