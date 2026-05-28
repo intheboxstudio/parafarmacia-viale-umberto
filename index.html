@@ -364,15 +364,18 @@ h1, h2, h3, h4{
 .hero-visual .circle{
   position: absolute; inset: 8% 0 0 5%;
   width: 88%; aspect-ratio: 1;
-  background: var(--inchiostro);
+  background: var(--azzurro-deep);
   border-radius: 50%;
-  box-shadow: 0 30px 80px -20px rgba(0,0,0,.4);
+  box-shadow: 0 30px 80px -20px rgba(74,136,173,.45);
 }
 .hero-visual .ginkgo{
   position: absolute; inset: 0;
   display: grid; place-items: center;
   animation: floaty 8s ease-in-out infinite;
 }
+.hero-visual .ginkgo img{ width: 58%; height: auto; display: block; }
+.hero-visual .leaf-deco-1 img,
+.hero-visual .leaf-deco-2 img{ width: 100%; height: auto; display: block; }
 .hero-visual .leaf-deco-1{
   position: absolute;
   top: -8%; right: -4%;
@@ -2865,21 +2868,12 @@ footer::before{
 
       <div class="hero-visual">
         <!-- Foglia decorativa di sfondo 1 -->
-        <svg class="leaf-deco-1" viewBox="0 0 200 200" fill="none">
-          <path d="M100 180 C 100 130, 100 110, 100 100 M100 100 C 50 90, 25 60, 35 25 C 60 40, 80 60, 96 95 C 70 55, 70 30, 90 18 C 100 50, 100 75, 100 100 C 100 75, 100 50, 110 18 C 130 30, 130 55, 104 95 C 120 60, 140 40, 165 25 C 175 60, 150 90, 100 100"
-                stroke="#4A7894" stroke-width="2" stroke-linecap="round" fill="none" opacity=".7"/>
-        </svg>
-        <svg class="leaf-deco-2" viewBox="0 0 200 200" fill="none">
-          <path d="M100 180 C 100 130, 100 110, 100 100 M100 100 C 50 90, 25 60, 35 25 C 60 40, 80 60, 96 95 C 70 55, 70 30, 90 18 C 100 50, 100 75, 100 100 C 100 75, 100 50, 110 18 C 130 30, 130 55, 104 95 C 120 60, 140 40, 165 25 C 175 60, 150 90, 100 100"
-                stroke="#ECC4BC" stroke-width="2" stroke-linecap="round" fill="none"/>
-        </svg>
+        <img class="leaf-deco-1" src="assets/logo-ginkgo-azzurro.png" alt="" aria-hidden="true" />
+        <img class="leaf-deco-2" src="assets/logo-ginkgo-rosa.png" alt="" aria-hidden="true" />
 
         <div class="circle"></div>
         <div class="ginkgo">
-          <svg width="62%" viewBox="0 0 200 200" fill="none">
-            <path d="M100 175 C 100 145, 100 125, 100 110 M100 110 C 55 100, 30 70, 38 35 C 60 50, 78 65, 95 105 C 72 65, 72 38, 88 25 C 96 55, 100 80, 100 110 C 100 80, 104 55, 112 25 C 128 38, 128 65, 105 105 C 122 65, 140 50, 162 35 C 170 70, 145 100, 100 110"
-                  stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-          </svg>
+          <img src="assets/logo-ginkgo-white.png" alt="Ginkgo — Parafarmacia Viale Umberto" />
         </div>
       </div>
     </div>
@@ -3570,10 +3564,7 @@ footer::before{
           <div class="ig-avatar-ring"></div>
           <div class="ig-avatar">
             <div class="ig-avatar-inner">
-              <svg width="60" height="60" viewBox="0 0 100 100" fill="none">
-                <path d="M50 88 C 50 70, 50 60, 50 55 M50 55 C 25 50, 12 35, 18 18 C 30 25, 40 35, 48 50 C 35 30, 35 18, 45 12 C 50 28, 50 40, 50 55 C 50 40, 50 28, 55 12 C 65 18, 65 30, 52 50 C 60 35, 70 25, 82 18 C 88 35, 75 50, 50 55"
-                      stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-              </svg>
+              <img src="assets/logo-ginkgo-white.png" alt="Ginkgo" style="width:62%;height:62%;object-fit:contain;" />
             </div>
           </div>
         </div>
