@@ -127,6 +127,11 @@ h1, h2, h3, h4{
   display: grid; place-items: center;
   flex-shrink: 0;
 }
+.logo-mark .logo-leaf{
+  width: 64%; height: 64%;
+  object-fit: contain;
+  display: block;
+}
 .logo-mark .logo-text{
   font-family: var(--display);
   font-size: 15px;
@@ -193,18 +198,21 @@ h1, h2, h3, h4{
   .menu{
     position: fixed;
     top: 0; right: 0; bottom: 0; left: 0;
-    background: var(--azzurro-aria);
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    background: #F2F8FC;          /* opaco pieno: copre del tutto la pagina */
     flex-direction: column;
     align-items: stretch;
     justify-content: flex-start;
     gap: 0;
-    padding: 96px 28px 40px;
+    padding: 92px 26px 40px;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     transform: translateX(100%);
     transition: transform .35s ease;
-    z-index: 90;
-    box-shadow: -20px 0 60px rgba(31,58,77,.08);
+    z-index: 200;                 /* sopra a tutto, anche alla nav */
+    box-shadow: -20px 0 60px rgba(31,58,77,.12);
   }
   .menu.open{ transform: translateX(0); }
   .menu a{
@@ -231,7 +239,7 @@ h1, h2, h3, h4{
     font-family: var(--body);
     font-size: 14px !important;
   }
-  .burger{ display: flex; position: relative; z-index: 100; }
+  .burger{ display: flex; position: relative; z-index: 210; }
   body.menu-open{ overflow: hidden; }
 }
 
@@ -2809,11 +2817,7 @@ footer::before{
   <div class="nav-inner">
     <div class="logo-mark" data-page="home">
       <div class="logo-circle">
-        <!-- Ginkgo SVG semplificato (foglia) -->
-        <svg width="26" height="26" viewBox="0 0 100 100" fill="none">
-          <path d="M50 88 C 50 70, 50 60, 50 55 M50 55 C 25 50, 12 35, 18 18 C 30 25, 40 35, 48 50 C 35 30, 35 18, 45 12 C 50 28, 50 40, 50 55 C 50 40, 50 28, 55 12 C 65 18, 65 30, 52 50 C 60 35, 70 25, 82 18 C 88 35, 75 50, 50 55"
-                stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-        </svg>
+        <img src="assets/logo-ginkgo-white.png" alt="Ginkgo — Parafarmacia Viale Umberto" class="logo-leaf" />
       </div>
       <div class="logo-text">
         Viale Umberto<br>
@@ -2825,6 +2829,7 @@ footer::before{
       <a href="#home" data-page="home" class="active">Home</a>
       <a href="#servizi" data-page="servizi">Servizi</a>
       <a href="#tisane" data-page="tisane">Tisane</a>
+      <a href="#primus" data-page="primus">Pane Primus</a>
       <a href="#blog" data-page="blog">Blog</a>
       <a href="#instagram" data-page="instagram">Instagram</a>
       <a href="#contatti" data-page="contatti">Contatti</a>
@@ -3001,12 +3006,20 @@ footer::before{
       </div>
 
       <div class="brands-grid reveal">
+        <div class="brand-cell"><div class="brand-name">ESI</div><span class="brand-tag">Fitoterapia clinica</span></div>
         <div class="brand-cell"><div class="brand-name">Solime</div><span class="brand-tag">Apicoltura · Salute</span></div>
+        <div class="brand-cell"><div class="brand-name">Farmaderbe</div><span class="brand-tag">Integratori erboristici</span></div>
+        <div class="brand-cell"><div class="brand-name">Biosnail</div><span class="brand-tag">Bava di lumaca</span></div>
+        <div class="brand-cell"><div class="brand-name">CeraVe</div><span class="brand-tag">Dermocosmesi</span></div>
+        <div class="brand-cell"><div class="brand-name">Florinda</div><span class="brand-tag">Cosmesi naturale</span></div>
+        <div class="brand-cell"><div class="brand-name">Farmaco da banco</div><span class="brand-tag">Senza ricetta</span></div>
+        <div class="brand-cell"><div class="brand-name">Veterinaria</div><span class="brand-tag">Per i tuoi animali</span></div>
+        <div class="brand-cell"><div class="brand-name">Igiene orale</div><span class="brand-tag">Denti e gengive</span></div>
+        <div class="brand-cell"><div class="brand-name">Cosmesi</div><span class="brand-tag">Viso e corpo</span></div>
         <div class="brand-cell"><div class="brand-name">Lovrèn</div><span class="brand-tag">Cosmesi marina</span></div>
         <div class="brand-cell"><div class="brand-name">Algàdemy</div><span class="brand-tag">Skincare avanzato</span></div>
         <div class="brand-cell"><div class="brand-name">Naturalsalus</div><span class="brand-tag">Integrazione naturale</span></div>
         <div class="brand-cell"><div class="brand-name">Cetilar</div><span class="brand-tag">Performance & dolore</span></div>
-        <div class="brand-cell"><div class="brand-name">Esi</div><span class="brand-tag">Fitoterapia clinica</span></div>
         <div class="brand-cell"><div class="brand-name">Biokyma</div><span class="brand-tag">Erboristeria toscana</span></div>
         <div class="brand-cell"><div class="brand-name">Bromatech</div><span class="brand-tag">Microbiota & probiotici</span></div>
       </div>
@@ -3331,6 +3344,87 @@ footer::before{
 
 </main>
 
+
+<!-- ====================================================
+     PANE PRIMUS
+====================================================== -->
+<main class="page" id="page-primus">
+
+  <section class="page-header">
+    <div class="wrap">
+      <span class="eyebrow" style="justify-content:center; display:flex;">Punto vendita ufficiale</span>
+      <h1>Pane <em>Primus</em></h1>
+      <p class="lead">Uno dei pochi punti vendita ufficiali del Pane Primus a Reggio Emilia. Un pane diverso da tutti gli altri, che abbiamo scelto di portare da noi perché crediamo in ciò che rappresenta: il ritorno a un grano vero.</p>
+    </div>
+  </section>
+
+  <section class="primus-section" style="border-top:none;">
+    <div class="wrap">
+      <div class="primus-grid">
+        <div class="primus-image reveal">
+          <div class="primus-img-wrap">
+            <img src="assets/primus.jpg" alt="Pane Primus — Parafarmacia Viale Umberto 1°"
+                 onerror="this.style.display='none'; this.parentElement.classList.add('no-img');"
+                 loading="lazy"/>
+            <div class="primus-img-placeholder">
+              <svg viewBox="0 0 200 200" fill="none">
+                <ellipse cx="100" cy="120" rx="72" ry="42" fill="#E8C99B" opacity=".6"/>
+                <ellipse cx="100" cy="108" rx="68" ry="38" fill="#D4A574" stroke="#8B5E34" stroke-width="1.5"/>
+                <path d="M50 100 Q 100 70 150 100" stroke="#8B5E34" stroke-width="1.2" fill="none" stroke-dasharray="3 4"/>
+                <path d="M60 112 Q 100 90 140 112" stroke="#8B5E34" stroke-width="1" fill="none" stroke-dasharray="2 3" opacity=".7"/>
+                <text x="100" y="170" text-anchor="middle" font-family="Fraunces" font-size="12" font-style="italic" fill="#8B5E34">Primus</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="primus-text reveal">
+          <span class="eyebrow">Un grano antico, una scelta di valore</span>
+          <h2>Non un pane qualsiasi. Il <em>Primus</em>.</h2>
+          <p>Il Pane Primus nasce dalla farina del grano tenero <em>Primus</em>, una varietà selezionata a basso indice di glutine e ricca di fibre. La lievitazione a pasta madre, lenta e naturale per oltre 24 ore, fa il resto: un pane dal sapore deciso, dalla mollica fitta e dalla crosta croccante.</p>
+          <p>Essere uno dei pochi punti vendita ufficiali a Reggio Emilia significa garantirti il prodotto <strong>autentico</strong>, conservato e trattato come merita. Non una semplice rivendita: una scelta di cui rispondiamo in prima persona.</p>
+          <ul class="primus-features">
+            <li><strong>Grano Primus</strong> a basso indice glicemico</li>
+            <li><strong>Lievito madre</strong> e fermentazione lunga (24h+)</li>
+            <li><strong>Senza additivi</strong>, zuccheri aggiunti o grassi</li>
+            <li><strong>Alta digeribilità</strong>, anche per chi si sente spesso appesantito</li>
+            <li><strong>Resta morbido</strong> per giorni, come il pane di una volta</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRENOTAZIONE -->
+  <section class="rooms-section" style="border-top:none;">
+    <div class="wrap">
+      <div class="rooms-cta reveal" style="max-width:680px;">
+        <h3>Prenota il tuo <em>Pane Primus</em></h3>
+        <p>Il Primus va a ruba: prenotarlo è il modo migliore per averlo sicuro. Lascia i tuoi dati e la quantità che desideri — ti ricontattiamo solo se serve.</p>
+
+        <form class="rooms-form" id="primusForm" novalidate>
+          <div class="field">
+            <label for="primusName">Il tuo nome</label>
+            <input type="text" id="primusName" name="name" placeholder="Nome e cognome" required>
+          </div>
+          <div class="field">
+            <label for="primusPhone">Numero di telefono</label>
+            <input type="tel" id="primusPhone" name="phone" placeholder="Es. 333 1234567" required>
+          </div>
+          <div class="field">
+            <label for="primusMessage">Quantità e note</label>
+            <textarea id="primusMessage" name="message" rows="4" placeholder="Es. 2 pagnotte per sabato mattina. Eventuali preferenze o richieste..." required></textarea>
+          </div>
+          <div class="field-action">
+            <button type="submit" class="btn btn-primary" id="primusSubmitBtn">Invia la prenotazione <span class="arrow">&rarr;</span></button>
+            <span class="field-hint" id="primusHint">Ti basta un attimo. Pensiamo a tutto noi.</span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
 
 <!-- ====================================================
      CONTATTI
@@ -3877,7 +3971,7 @@ footer::before{
       <form class="contact-form reveal" id="contactForm" novalidate>
 
         <div class="form-success" id="formSuccess">
-          <p><strong>Perfetto.</strong> Il tuo messaggio è pronto. Ti apriamo l'email per inviarlo direttamente alla Dottoressa Emy.</p>
+          <p><strong>Perfetto.</strong> Il tuo messaggio è stato inviato direttamente alla Dottoressa Emy. Ti risponderemo al più presto.</p>
         </div>
 
         <div class="field">
@@ -3981,10 +4075,7 @@ footer::before{
       <div class="footer-brand">
         <div class="logo-mark" style="cursor: default;">
           <div class="logo-circle">
-            <svg width="26" height="26" viewBox="0 0 100 100" fill="none">
-              <path d="M50 88 C 50 70, 50 60, 50 55 M50 55 C 25 50, 12 35, 18 18 C 30 25, 40 35, 48 50 C 35 30, 35 18, 45 12 C 50 28, 50 40, 50 55 C 50 40, 50 28, 55 12 C 65 18, 65 30, 52 50 C 60 35, 70 25, 82 18 C 88 35, 75 50, 50 55"
-                    stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-            </svg>
+            <img src="assets/logo-ginkgo-white.png" alt="Ginkgo — Parafarmacia Viale Umberto" class="logo-leaf" />
           </div>
           <div class="logo-text" style="color: var(--avorio);">
             Viale Umberto<br>
@@ -4000,6 +4091,7 @@ footer::before{
           <li><a href="#home" data-page="home">Home</a></li>
           <li><a href="#servizi" data-page="servizi">Servizi</a></li>
           <li><a href="#tisane" data-page="tisane">Tisane</a></li>
+          <li><a href="#primus" data-page="primus">Pane Primus</a></li>
           <li><a href="#blog" data-page="blog">Blog</a></li>
           <li><a href="#instagram" data-page="instagram">Instagram</a></li>
           <li><a href="#contatti" data-page="contatti">Contatti</a></li>
@@ -4115,23 +4207,89 @@ document.getElementById('burger').addEventListener('click', () => {
   document.body.classList.toggle('menu-open', willOpen);
 });
 
-/* ============== ROOMS FORM (mailto) ============== */
+/* ============== INVIO FORM (FormSubmit AJAX, niente client mail) ============== */
+async function sendViaFormSubmit(payload){
+  const res = await fetch('https://formsubmit.co/ajax/parafarmaciavialeumberto@gmail.com', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify(Object.assign({ _captcha: 'false', _template: 'table' }, payload))
+  });
+  const data = await res.json();
+  return !!(data && (data.success === true || data.success === 'true'));
+}
+
 function submitRoomsForm(e){
   e.preventDefault();
   const name    = document.getElementById('roomsName').value.trim();
   const contact = document.getElementById('roomsContact').value.trim();
   const message = document.getElementById('roomsMessage').value.trim();
-  const subject = encodeURIComponent('Richiesta affitto stanza — ' + (name || 'consulenze'));
-  const body = encodeURIComponent(
-    'Buongiorno,\n\n' +
-    'sono ' + name + ' e sono interessato/a all\'affitto di una delle stanze per consulenze.\n\n' +
-    'Recapito: ' + contact + '\n\n' +
-    'Disponibilità e necessità:\n' + message + '\n\n' +
-    'Resto in attesa di un vostro riscontro.\nGrazie,\n' + name
-  );
-  window.location.href = 'mailto:parafarmaciavialeumberto@gmail.com?subject=' + subject + '&body=' + body;
+  if(!name || !contact || !message){ alert('Compila tutti i campi.'); return false; }
+
+  const btn  = e.target.querySelector('button[type="submit"]');
+  const hint = document.querySelector('#roomsForm .field-hint');
+  const original = btn.innerHTML;
+  btn.disabled = true; btn.innerHTML = 'Invio in corso…';
+
+  sendViaFormSubmit({
+    _subject: 'Richiesta affitto stanza — ' + name,
+    Tipo: 'Affitto stanza per consulenze',
+    Nome: name,
+    Recapito: contact,
+    'Disponibilita e necessita': message
+  }).then(ok => {
+    if(ok){
+      e.target.reset();
+      if(hint){ hint.textContent = '✓ Richiesta inviata! Ti rispondiamo entro 24h.'; hint.style.color = 'var(--azzurro-deep)'; }
+      btn.innerHTML = 'Inviata ✓';
+    } else {
+      if(hint){ hint.textContent = 'Invio non riuscito. Riprova o chiamaci allo 0522 081652.'; }
+      btn.disabled = false; btn.innerHTML = original;
+    }
+  }).catch(() => {
+    if(hint){ hint.textContent = 'Errore di rete. Riprova o chiamaci allo 0522 081652.'; }
+    btn.disabled = false; btn.innerHTML = original;
+  });
   return false;
 }
+
+/* ============== PRENOTAZIONE PANE PRIMUS ============== */
+(function(){
+  const pf = document.getElementById('primusForm');
+  if(!pf) return;
+  pf.addEventListener('submit', e => {
+    e.preventDefault();
+    const name = document.getElementById('primusName').value.trim();
+    const phone = document.getElementById('primusPhone').value.trim();
+    const message = document.getElementById('primusMessage').value.trim();
+    if(!name || !phone || !message){ alert('Compila tutti i campi.'); return; }
+
+    const btn  = document.getElementById('primusSubmitBtn');
+    const hint = document.getElementById('primusHint');
+    const original = btn.innerHTML;
+    btn.disabled = true; btn.innerHTML = 'Invio in corso…';
+
+    sendViaFormSubmit({
+      _subject: 'Prenotazione Pane Primus — ' + name,
+      Tipo: 'Prenotazione Pane Primus',
+      Nome: name,
+      Telefono: phone,
+      'Quantita e note': message
+    }).then(ok => {
+      if(ok){
+        pf.reset();
+        hint.textContent = '✓ Prenotazione inviata! A presto in parafarmacia.';
+        hint.style.color = 'var(--azzurro-deep)';
+        btn.innerHTML = 'Prenotato ✓';
+      } else {
+        hint.textContent = 'Invio non riuscito. Riprova o chiamaci allo 0522 081652.';
+        btn.disabled = false; btn.innerHTML = original;
+      }
+    }).catch(() => {
+      hint.textContent = 'Errore di rete. Riprova o chiamaci allo 0522 081652.';
+      btn.disabled = false; btn.innerHTML = original;
+    });
+  });
+})();
 
 /* ============== REVEAL ON SCROLL ============== */
 let observer;
@@ -4681,18 +4839,29 @@ form.addEventListener('submit', e => {
     return;
   }
 
-  // Componi mailto
-  const subject = encodeURIComponent('[Sito web] ' + titolo);
-  const body = encodeURIComponent(
-    msg + '\n\n— — — — — — — —\n' +
-    'Nome: ' + nome + '\n' +
-    'Contatto: ' + contatto
-  );
+  const btn = form.querySelector('.form-submit');
+  const original = btn.innerHTML;
+  btn.disabled = true; btn.innerHTML = 'Invio in corso…';
 
-  success.classList.add('visible');
-  setTimeout(() => {
-    window.location.href = `mailto:parafarmaciavialeumberto@gmail.com?subject=${subject}&body=${body}`;
-  }, 600);
+  sendViaFormSubmit({
+    _subject: '[Sito web] ' + titolo,
+    Oggetto: titolo,
+    Messaggio: msg,
+    Nome: nome,
+    Contatto: contatto
+  }).then(ok => {
+    if(ok){
+      form.reset();
+      success.classList.add('visible');
+      btn.innerHTML = 'Inviato ✓';
+    } else {
+      alert('Invio non riuscito. Riprova, oppure scrivici a parafarmaciavialeumberto@gmail.com');
+      btn.disabled = false; btn.innerHTML = original;
+    }
+  }).catch(() => {
+    alert('Errore di rete. Riprova o chiamaci allo 0522 081652.');
+    btn.disabled = false; btn.innerHTML = original;
+  });
 });
 </script>
 
