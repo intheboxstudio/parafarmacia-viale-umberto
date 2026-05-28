@@ -1,22 +1,33 @@
 name: Blog Agent — daily post
 
-# L'Italia usa due fusi orari nel corso dell'anno:
-#   - CET  (inverno, UTC+1) → 10:00 IT = 09:00 UTC
-#   - CEST (estate,  UTC+2) → 10:00 IT = 08:00 UTC
+# ─────────────────────────────────────────────────────────────────────────────
+# SCHEDULING
+# ─────────────────────────────────────────────────────────────────────────────
+# Pubblichiamo SOLO martedì (2), giovedì (4) e sabato (6).
 #
-# Schedulando entrambi i cron, lo script Python verifica internamente
-# che siano davvero le 10:00 italiane e abortisce silenziosamente
-# l'esecuzione "sbagliata" del giorno. Niente drift due volte l'anno.
+# L'Italia oscilla tra due fusi orari:
+#   - CEST (estate, UTC+2) → 10:00 IT = 08:00 UTC
+#   - CET  (inverno, UTC+1) → 10:00 IT = 09:00 UTC
+#
+# Schedulando entrambi i cron, copriamo automaticamente il cambio d'ora
+# legale/solare. Lo script Python ha un anti-doppione idempotente
+# (legge articles.json e abortisce se ha già pubblicato oggi), quindi
+# il run "sbagliato" del giorno termina senza fare danni.
+#
+# NOTA SUL DRIFT: GitHub Actions cron NON è preciso al minuto — può ritardare
+# anche di 30-60 min sotto carico. Per questo il check Python NON guarda
+# l'ora corrente ma controlla solo "ho già pubblicato oggi?".
+# ─────────────────────────────────────────────────────────────────────────────
 
 on:
   schedule:
-    - cron: '0 8 * * *'   # 10:00 IT durante l'ora legale (CEST)
-    - cron: '0 9 * * *'   # 10:00 IT durante l'ora solare (CET)
+    - cron: '0 8 * * 2,4,6'   # 10:00 IT (CEST) — mar/gio/sab
+    - cron: '0 9 * * 2,4,6'   # 10:00 IT (CET)  — mar/gio/sab
 
   workflow_dispatch:
     inputs:
       force_run:
-        description: 'Esegui anche se non sono le 10:00 italiane (per test)'
+        description: 'Esegui anche se non è un giorno di pubblicazione (test)'
         required: false
         type: boolean
         default: true
