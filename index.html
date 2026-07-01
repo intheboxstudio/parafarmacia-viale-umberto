@@ -720,6 +720,143 @@ h1, h2, h3, h4{
   max-width: 560px; margin: 0 auto 44px;
 }
 
+/* ===================== RECENSIONI GOOGLE ===================== */
+.reviews-section{
+  padding: 110px 0 130px;
+  background: var(--bianco);
+}
+.reviews-section .wrap > .eyebrow,
+.reviews-section .wrap > h2{
+  text-align: center;
+}
+.reviews-section .wrap > .eyebrow{ justify-content: center; display: flex; }
+.reviews-section h2{
+  font-size: clamp(34px, 5vw, 54px);
+  font-weight: 300;
+  text-align: center;
+  margin: 10px auto 20px;
+}
+.reviews-section h2 em{ color: var(--azzurro-deep); font-weight: 400; font-style: italic; }
+
+.reviews-summary{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin: 0 auto 52px;
+  flex-wrap: wrap;
+}
+.reviews-summary .stars{ display: inline-flex; gap: 2px; }
+.reviews-summary .stars svg{ width: 20px; height: 20px; }
+.reviews-summary .score{
+  font-family: var(--display);
+  font-size: 22px;
+  color: var(--inchiostro);
+}
+.reviews-summary .count{
+  font-size: 14px;
+  color: var(--grigio);
+}
+
+.reviews-grid{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+.review-card{
+  background: var(--azzurro-aria);
+  border: 1px solid rgba(46,100,137,.08);
+  border-radius: var(--r-md);
+  padding: 28px 26px;
+  display: flex;
+  flex-direction: column;
+  transition: transform .4s ease, box-shadow .4s ease;
+}
+.review-card:hover{
+  transform: translateY(-4px);
+  box-shadow: var(--ombra-card);
+}
+.review-card .review-head{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.review-card .review-avatar{
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--azzurro-soft);
+  flex-shrink: 0;
+}
+.review-card .review-avatar-fallback{
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--azzurro-medio);
+  color: var(--bianco);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--display);
+  font-size: 17px;
+  flex-shrink: 0;
+}
+.review-card .review-author{
+  font-size: 15px;
+  color: var(--inchiostro);
+  font-weight: 600;
+  line-height: 1.3;
+}
+.review-card .review-time{
+  font-size: 12px;
+  color: var(--grigio-soft);
+}
+.review-card .stars svg{ width: 15px; height: 15px; }
+.review-card .review-stars{ margin-bottom: 10px; display: inline-flex; gap: 2px; }
+.review-card .review-text{
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--testo);
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.reviews-empty{
+  text-align: center;
+  color: var(--grigio);
+  font-size: 15px;
+  padding: 30px 0 10px;
+}
+
+.reviews-footer{
+  display: flex;
+  justify-content: center;
+  margin-top: 46px;
+}
+.reviews-google-badge{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 22px;
+  border-radius: 999px;
+  border: 1px solid rgba(46,100,137,.14);
+  background: var(--bianco);
+  color: var(--testo);
+  font-size: 14px;
+  text-decoration: none;
+  transition: box-shadow .3s ease, transform .3s ease;
+}
+.reviews-google-badge:hover{
+  box-shadow: var(--ombra-luce);
+  transform: translateY(-2px);
+}
+.reviews-google-badge svg{ width: 18px; height: 18px; }
+
+@media (max-width: 880px){
+  .reviews-grid{ grid-template-columns: 1fr; }
+}
+
 /* ===================== SERVIZI ===================== */
 .page-header{
   padding: 80px 0 60px;
@@ -3098,6 +3235,27 @@ footer::before{
     </div>
   </section>
 
+  <!-- =============== RECENSIONI GOOGLE =============== -->
+  <section class="reviews-section" id="googleReviewsSection">
+    <div class="wrap">
+      <span class="eyebrow">Cosa dicono di noi</span>
+      <h2>Le parole di chi <em>ci ha scelto</em>.</h2>
+
+      <div class="reviews-summary" id="reviewsSummary"></div>
+      <div class="reviews-grid" id="reviewsGrid"></div>
+      <div class="reviews-empty" id="reviewsEmpty" style="display:none;">
+        Le recensioni sono in arrivo — torna a trovarci tra poco.
+      </div>
+
+      <div class="reviews-footer">
+        <a href="https://www.google.com/maps" target="_blank" rel="noopener" class="reviews-google-badge" id="reviewsGoogleLink">
+          <svg viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.6 6 29.6 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.7-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 15.6 18.9 13 24 13c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.6 6 29.6 4 24 4c-7.5 0-14 4.1-17.7 10.2z"/><path fill="#4CAF50" d="M24 44c5.5 0 10.4-1.9 14.3-5.1l-6.6-5.6C29.6 34.9 26.9 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.9 39.8 16.4 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.2 4.2-4.1 5.6l6.6 5.6C41.5 36 44 30.5 44 24c0-1.3-.1-2.7-.4-3.5z"/></svg>
+          Recensioni da Google
+        </a>
+      </div>
+    </div>
+  </section>
+
 </main>
 
 
@@ -3245,6 +3403,12 @@ footer::before{
             <li>Wi-Fi e clima autonomo</li>
             <li>Accesso indipendente dall'esercizio</li>
           </ul>
+          <div class="room-gallery">
+            <img src="assets/rooms/stanza-raccolta-1.jpg" alt="Tavolo e sedute nella stanza raccolta" loading="lazy">
+            <img src="assets/rooms/stanza-raccolta-2.jpg" alt="Angolo della stanza raccolta con quadro" loading="lazy">
+            <img src="assets/rooms/stanza-raccolta-3.jpg" alt="Vetrata e carrello nella stanza raccolta" loading="lazy">
+            <img src="assets/rooms/stanza-raccolta-4.jpg" alt="Dettaglio decorativo nella stanza raccolta" loading="lazy">
+          </div>
         </div>
       </div>
 
@@ -4883,6 +5047,85 @@ form.addEventListener('submit', e => {
     btn.disabled = false; btn.innerHTML = original;
   });
 });
+
+/* ============== RECENSIONI GOOGLE ============== */
+/*
+ * Carica reviews.json (popolato da reviews_agent.py una volta al giorno)
+ * e renderizza il riepilogo + le card nella sezione "Cosa dicono di noi"
+ * in fondo alla home page. Stesso pattern del blog: fetch con cache-buster,
+ * fallback silenzioso se il file non esiste ancora.
+ */
+(function initGoogleReviews(){
+  const STAR_FULL = '<svg viewBox="0 0 24 24" fill="#F5A623"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
+  const STAR_EMPTY = '<svg viewBox="0 0 24 24" fill="none" stroke="#D8C79A" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
+
+  function starsHtml(rating){
+    const r = Math.round(rating || 0);
+    let html = '';
+    for(let i = 1; i <= 5; i++) html += (i <= r ? STAR_FULL : STAR_EMPTY);
+    return html;
+  }
+
+  function escR(s){ return String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+  function reviewCard(rv){
+    const initial = escR((rv.author || '?').trim().charAt(0).toUpperCase());
+    const avatar = rv.authorPhoto
+      ? `<img class="review-avatar" src="${escR(rv.authorPhoto)}" alt="${escR(rv.author)}" loading="lazy" referrerpolicy="no-referrer">`
+      : `<div class="review-avatar-fallback">${initial}</div>`;
+    return `
+      <article class="review-card">
+        <div class="review-head">
+          ${avatar}
+          <div>
+            <div class="review-author">${escR(rv.author)}</div>
+            <div class="review-time">${escR(rv.relativeTime || '')}</div>
+          </div>
+        </div>
+        <div class="review-stars stars">${starsHtml(rv.rating)}</div>
+        <p class="review-text">${escR(rv.text)}</p>
+      </article>
+    `;
+  }
+
+  async function loadReviews(){
+    const summary = document.getElementById('reviewsSummary');
+    const grid = document.getElementById('reviewsGrid');
+    const empty = document.getElementById('reviewsEmpty');
+    const googleLink = document.getElementById('reviewsGoogleLink');
+    if(!summary || !grid) return;
+
+    try{
+      const cacheBuster = Date.now();
+      const res = await fetch('./reviews.json?_=' + cacheBuster, { cache: 'no-store' });
+      if(!res.ok) throw new Error('Fetch failed');
+      const data = await res.json();
+      const reviews = Array.isArray(data.reviews) ? data.reviews : [];
+
+      if(data.mapsUrl && googleLink) googleLink.href = data.mapsUrl;
+
+      if(reviews.length === 0){
+        empty.style.display = 'block';
+        return;
+      }
+
+      if(data.rating){
+        summary.innerHTML = `
+          <span class="stars">${starsHtml(data.rating)}</span>
+          <span class="score">${Number(data.rating).toFixed(1)}</span>
+          <span class="count">su ${escR(data.userRatingsTotal || reviews.length)} recensioni Google</span>
+        `;
+      }
+
+      grid.innerHTML = reviews.map(reviewCard).join('');
+    } catch(e){
+      console.info('[Reviews] reviews.json non ancora disponibile');
+      empty.style.display = 'block';
+    }
+  }
+
+  loadReviews();
+})();
 </script>
 
 </body>

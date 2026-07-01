@@ -1,0 +1,10 @@
+{
+  "$schema": "https://parafarmacia-viale-umberto.it/reviews/schema.json",
+  "lastUpdated": null,
+  "_comment": "File generato e aggiornato automaticamente da reviews_agent.py una volta al giorno. NON modificare manualmente, le modifiche andranno perse al prossimo run.",
+  "placeName": null,
+  "rating": null,
+  "userRatingsTotal": null,
+  "mapsUrl": null,
+  "reviews": []
+}
