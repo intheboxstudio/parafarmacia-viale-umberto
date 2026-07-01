@@ -2,7 +2,7 @@
 Blog Agent — Parafarmacia Erboristeria Viale Umberto 1°
 =========================================================
 
-Agente AI che ogni mattina alle 10:00 (Europe/Rome):
+Agente AI che il martedì, il giovedì e il sabato alle 10:00 (Europe/Rome):
   1. Scopre un argomento ricercato dalle persone nei settori
      naturopatia, omeopatia, erboristeria, cura del corpo.
   2. Cerca fonti autorevoli sull'argomento.
@@ -51,18 +51,63 @@ from anthropic import Anthropic
 ROME_TZ = ZoneInfo("Europe/Rome")
 PUBLISH_HOUR = 10  # 10:00 ora italiana
 
-# Marchi presenti in parafarmacia — il modello li conosce e li suggerisce
-# nei contenuti quando pertinente.
-PARAFARMACIA_BRANDS = [
-    "Solime",       # apicoltura, integratori naturali
-    "Lovrèn",       # cosmesi marina premium
-    "Algàdemy",     # skincare avanzato
-    "Naturalsalus", # integrazione naturale
-    "Cetilar",      # performance, dolore
-    "Esi",          # fitoterapia clinica
-    "Biokyma",      # erboristeria toscana
-    "Bromatech",    # microbiota e probiotici
-]
+# Marchi e prodotti attualmente approvati per i consigli a fine articolo.
+# IMPORTANTE: la parafarmacia NON ha tutto il catalogo di ogni marchio, quindi
+# l'agente può citare SOLO questi brand e, dove indicato, SOLO questi prodotti
+# esatti (nome invariato). Altri marchi verranno aggiunti in seguito: finché
+# non compaiono qui, non vanno mai usati.
+#
+# - "Algàdemy": None  -> l'intero catalogo Algàdemy è disponibile in negozio,
+#   quindi l'agente è libero di scegliere qualsiasi prodotto Algàdemy pertinente.
+# - Tutti gli altri brand: lista chiusa di prodotti esatti. L'agente NON può
+#   inventare varianti o nomi simili: deve usare il nome così com'è scritto qui.
+APPROVED_PRODUCTS: dict[str, list[str] | None] = {
+    "Algàdemy": None,
+    "Solime": [
+        "RELAX (Passiflora, Valeriana e Biancospino)",
+        "Colostrum Crema rigenerante pelle",
+        "Colostrum Reflugel",
+    ],
+    "Esi": [
+        "Omega3",
+    ],
+}
+
+# Marchi presenti in parafarmacia — derivato da APPROVED_PRODUCTS, tenuto
+# come lista separata solo per compatibilità con il resto del codice.
+PARAFARMACIA_BRANDS = list(APPROVED_PRODUCTS.keys())
+
+
+def sanitize_products(products: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Filtra i prodotti generati dal modello mantenendo solo quelli che
+    rispettano rigorosamente APPROVED_PRODUCTS. Per Solime ed Esi il nome
+    deve coincidere esattamente (case-insensitive); per Algàdemy qualsiasi
+    nome è ammesso. Prodotti di marchi non whitelistati vengono scartati.
+    """
+    clean: list[dict[str, Any]] = []
+    for p in products:
+        brand = str(p.get("brand", "")).strip()
+        name = str(p.get("name", "")).strip()
+
+        if brand not in APPROVED_PRODUCTS:
+            log.warning("Prodotto scartato: brand non approvato %r", brand)
+            continue
+
+        allowed_names = APPROVED_PRODUCTS[brand]
+        if allowed_names is not None:
+            match = next(
+                (n for n in allowed_names if n.lower() == name.lower()), None
+            )
+            if match is None:
+                log.warning(
+                    "Prodotto scartato: %r non è nel catalogo approvato per %s", name, brand
+                )
+                continue
+            p = {**p, "name": match}  # normalizza al nome esatto
+
+        clean.append(p)
+
+    return clean
 
 # Domini autorevoli — l'agente cita SOLO fonti da questo elenco.
 AUTHORITATIVE_DOMAINS = [
@@ -388,7 +433,11 @@ Quando ti viene fornito un topic, usa il tool `publish_article` per pubblicarlo.
   * mal di testa → ["tired woman", "headache temple", "migraine relief"]
   Mai usare nomi commerciali, mai "italian" o nomi di brand. Privilegia singoli soggetti chiari su composizioni complesse.
 
-- products: 3 prodotti pertinenti dai marchi della whitelist (Solime, Lovrèn, Algàdemy, Naturalsalus, Cetilar, Esi, Biokyma, Bromatech). Per ciascuno: brand, name, description (max 25 parole).
+- products: esattamente 3 prodotti, scelti SOLO dal catalogo chiuso qui sotto — non esistono altri marchi o prodotti in negozio, non inventare nulla:
+  * Algàdemy: catalogo completo disponibile, scegli liberamente il/i prodotto/i Algàdemy più pertinenti al topic (nome plausibile per skincare avanzato).
+  * Solime: SOLO questi prodotti, nome esatto e invariato — "RELAX (Passiflora, Valeriana e Biancospino)" (rilassante, sonno, stress), "Colostrum Crema rigenerante pelle" (pelle, rigenerazione cutanea), "Colostrum Reflugel" (reflusso gastrico).
+  * Esi: SOLO "Omega3" (nome esatto e invariato).
+  Se il topic dell'articolo non si presta a nessuno di questi prodotti, scegli comunque i 3 più vicini possibile — mai forzare marchi o nomi fuori da questa lista. Per ciascuno: brand, name (esattamente come sopra), description (max 25 parole).
 
 - sources: 2-3 fonti dai domini autorevoli (iss.it, salute.gov.it, aifa.gov.it, humanitas.it, fondazioneveronesi.it, ieo.it, mayoclinic.org, ncbi.nlm.nih.gov, cochranelibrary.com, who.int, examine.com, sciencedirect.com, nature.com, thelancet.com, bmj.com, frontiersin.org, harvard.edu, medlineplus.gov). Per ciascuna: name, url."""
 
@@ -440,14 +489,18 @@ Genera l'articolo completo e pubblicalo usando il tool `publish_article`."""
                 },
                 "products": {
                     "type": "array",
-                    "description": "Esattamente 3 prodotti consigliati",
+                    "description": (
+                        "Esattamente 3 prodotti consigliati, SOLO dal catalogo approvato: "
+                        "Algàdemy (catalogo libero), Solime (solo 'RELAX (Passiflora, "
+                        "Valeriana e Biancospino)', 'Colostrum Crema rigenerante pelle', "
+                        "'Colostrum Reflugel'), Esi (solo 'Omega3')."
+                    ),
                     "items": {
                         "type": "object",
                         "properties": {
                             "brand": {
                                 "type": "string",
-                                "enum": ["Solime", "Lovrèn", "Algàdemy", "Naturalsalus",
-                                         "Cetilar", "Esi", "Biokyma", "Bromatech"]
+                                "enum": ["Algàdemy", "Solime", "Esi"]
                             },
                             "name": {"type": "string"},
                             "description": {
@@ -510,6 +563,7 @@ Genera l'articolo completo e pubblicalo usando il tool `publish_article`."""
             for block in response.content:
                 if block.type == "tool_use" and block.name == "publish_article":
                     data = block.input
+                    data["products"] = sanitize_products(data.get("products", []))
                     log.info("Articolo generato: %s", str(data.get("title", ""))[:60])
                     return data
 

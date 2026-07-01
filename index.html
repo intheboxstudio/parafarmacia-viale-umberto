@@ -2622,6 +2622,29 @@ footer::before{
   background: var(--azzurro-deep);
 }
 
+.room-gallery{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 22px;
+}
+.room-gallery img{
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: var(--r-sm);
+  box-shadow: var(--ombra-luce);
+  display: block;
+  transition: transform .5s ease, box-shadow .5s ease;
+}
+.room-gallery img:hover{
+  transform: scale(1.03);
+  box-shadow: var(--ombra-card);
+}
+@media (max-width: 520px){
+  .room-gallery{ gap: 8px; }
+}
+
 .rooms-cta{
   background: var(--bianco);
   border-radius: var(--r-lg);
@@ -3199,11 +3222,17 @@ footer::before{
           <h3>La stanza <em>luminosa</em></h3>
           <p>Lettino professionale, scrivania, due poltrone per la consulenza. Luce naturale dalla finestra su viale Umberto, riscaldamento autonomo. Ideale per consulenze nutrizionali, naturopatiche e colloqui.</p>
           <ul>
-            <li>Circa 14 m², insonorizzata</li>
+            <li>Insonorizzata</li>
             <li>Lettino + scrivania + due poltrone</li>
             <li>Wi-Fi e accesso autonomo</li>
             <li>Sala d'attesa condivisa</li>
           </ul>
+          <div class="room-gallery">
+            <img src="assets/rooms/stanza-luminosa-1.jpg" alt="Tavolo e sedute davanti alla finestra della stanza luminosa" loading="lazy">
+            <img src="assets/rooms/stanza-luminosa-2.jpg" alt="Lettino professionale e scrivania nella stanza luminosa" loading="lazy">
+            <img src="assets/rooms/stanza-luminosa-3.jpg" alt="Dettaglio finestra e scrivania nella stanza luminosa" loading="lazy">
+            <img src="assets/rooms/stanza-luminosa-4.jpg" alt="Vista d'insieme della stanza luminosa" loading="lazy">
+          </div>
         </div>
 
         <div class="room-card reveal">
@@ -3211,7 +3240,7 @@ footer::before{
           <h3>La stanza <em>raccolta</em></h3>
           <p>Più piccola e silenziosa, perfetta per sedute one-to-one. Arredata con sobrietà — un tavolo, due sedute, una lampada calda — per chi lavora di parola, di ascolto, di tempo lento.</p>
           <ul>
-            <li>Circa 10 m², zona quiet</li>
+            <li>Zona quiet</li>
             <li>Arredo essenziale e luce calda</li>
             <li>Wi-Fi e clima autonomo</li>
             <li>Accesso indipendente dall'esercizio</li>
@@ -3875,9 +3904,9 @@ footer::before{
     <div class="wrap">
       <span class="eyebrow" style="justify-content:center; display:flex;">Il diario quotidiano</span>
       <h1>Storie, rimedi,<br><em>consigli per stare bene</em></h1>
-      <p class="lead">Un articolo nuovo ogni mattina. Domande vere, risposte fondate su fonti autorevoli, soluzioni che trovi da noi. Naturopatia, omeopatia, erboristeria e cura del corpo.</p>
+      <p class="lead">Un articolo nuovo il martedì, il giovedì e il sabato mattina. Domande vere, risposte fondate su fonti autorevoli, soluzioni che trovi da noi. Naturopatia, omeopatia, erboristeria e cura del corpo.</p>
 
-      <div class="blog-live-tag">Aggiornato ogni giorno · ore 10:00</div>
+      <div class="blog-live-tag">Aggiornato mar · gio · sab · ore 10:00</div>
 
       <div class="blog-filters">
         <button class="blog-filter active" data-cat="all">Tutti gli articoli</button>
