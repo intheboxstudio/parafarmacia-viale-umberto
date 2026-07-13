@@ -303,6 +303,7 @@ class Article:
     readingTime: str
     products: list[Product] = field(default_factory=list)
     sources: list[Source] = field(default_factory=list)
+    imageSourceId: str = ""  # id foto Unsplash — usato per non ripetere la stessa foto
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -318,6 +319,7 @@ class Article:
             "readingTime": self.readingTime,
             "products": [asdict(p) for p in self.products],
             "sources": [asdict(s) for s in self.sources],
+            "imageSourceId": self.imageSourceId,
         }
 
 
@@ -692,24 +694,29 @@ class ImageGenerator:
         self.output_dir = output_dir
         self.output_dir.mkdir(parents=True, exist_ok=True)
 
-    def generate(self, keywords: list[str], slug: str) -> tuple[str, Path | None]:
+    def generate(
+        self, keywords: list[str], slug: str, exclude_ids: set[str] | None = None
+    ) -> tuple[str, Path | None, str]:
         """Cerca, scarica e salva un'immagine da Unsplash.
 
         Args:
             keywords: lista di parole chiave in inglese (es. ["herbal tea", "chamomile"]).
             slug: identificatore univoco per il filename.
+            exclude_ids: id di foto Unsplash già usate di recente (da non ripetere).
 
         Returns:
-            Tupla (path_per_json, path_locale_o_None). Se fallisce, ritorna
-            (placeholder_svg_data_uri, None) come fallback.
+            Tupla (path_per_json, path_locale_o_None, photo_id). Se fallisce,
+            ritorna (placeholder_svg_data_uri, None, "") come fallback.
         """
+        exclude_ids = exclude_ids or set()
+
         if not self.access_key:
             log.error("UNSPLASH_ACCESS_KEY mancante — uso placeholder SVG")
-            return self._placeholder_svg(slug), None
+            return self._placeholder_svg(slug), None, ""
 
         if not keywords:
             log.warning("Nessuna keyword fornita — uso placeholder SVG")
-            return self._placeholder_svg(slug), None
+            return self._placeholder_svg(slug), None, ""
 
         query = " ".join(keywords).strip()
         log.info("Ricerca Unsplash: %r", query)
@@ -738,13 +745,22 @@ class ImageGenerator:
                 if len(keywords) > 1:
                     log.info("Zero risultati per '%s', riprovo con '%s'",
                              query, keywords[0])
-                    return self.generate([keywords[0]], slug)
+                    return self.generate([keywords[0]], slug, exclude_ids)
                 log.warning("Unsplash: nessuna foto trovata per %r", query)
-                return self._placeholder_svg(slug), None
+                return self._placeholder_svg(slug), None, ""
 
-            # 2. Scegli la "migliore": quella con più likes tra le prime 5
-            # (le prime 5 sono le più rilevanti; tra queste, ordino per qualità)
-            top_candidates = results[:5]
+            # 2. Scarta le foto già usate di recente (evita articoli duplicati
+            # con la stessa immagine di copertina), poi scegli la "migliore"
+            # tra le prime 5 rimaste per numero di likes.
+            fresh_results = [p for p in results if p.get("id") not in exclude_ids]
+            if not fresh_results:
+                log.warning(
+                    "Tutti i %d risultati per %r sono già stati usati di recente — "
+                    "uso comunque il migliore disponibile", len(results), query
+                )
+                fresh_results = results
+
+            top_candidates = fresh_results[:5]
             chosen = max(top_candidates, key=lambda p: p.get("likes", 0))
 
             photo_id = chosen["id"]
@@ -779,11 +795,11 @@ class ImageGenerator:
             out_path.write_bytes(image_bytes)
             log.info("Immagine salvata: %s (%d KB) — foto di %s",
                      out_path, len(image_bytes) // 1024, attribution[0])
-            return f"./assets/blog/{filename}", out_path
+            return f"./assets/blog/{filename}", out_path, photo_id
 
         except Exception as exc:
             log.error("Unsplash error: %s — uso placeholder SVG", exc)
-            return self._placeholder_svg(slug), None
+            return self._placeholder_svg(slug), None, ""
 
     @staticmethod
     def _placeholder_svg(slug: str) -> str:
@@ -921,6 +937,29 @@ class GitPublisher:
                 return True
         return False
 
+    def get_recent_image_ids(self, limit: int = 30) -> set[str]:
+        """Restituisce gli id delle foto Unsplash usate negli ultimi `limit`
+        articoli pubblicati, per evitare di ripetere la stessa immagine di
+        copertina su più articoli (bug osservato: due articoli diversi con
+        la stessa identica foto perché la ricerca Unsplash convergeva sempre
+        sul risultato più popolare per query simili).
+        """
+        result = self._get_file("articles.json")
+        if result is None:
+            return set()
+        content, _sha = result
+        try:
+            feed = json.loads(content)
+        except json.JSONDecodeError:
+            return set()
+
+        ids = set()
+        for art in feed.get("articles", [])[:limit]:
+            img_id = art.get("imageSourceId")
+            if img_id:
+                ids.add(img_id)
+        return ids
+
 
 # ============================================================================
 # AGENT ORCHESTRATION
@@ -989,8 +1028,9 @@ class BlogAgent:
             today_str = now.strftime("%Y-%m-%d")
             article_id = f"{today_str}-{slug[:40]}"
 
-            image_path_rel, local_image = self.image_gen.generate(
-                data.get("imageKeywords", []), article_id
+            recent_image_ids = self.publisher.get_recent_image_ids()
+            image_path_rel, local_image, image_source_id = self.image_gen.generate(
+                data.get("imageKeywords", []), article_id, exclude_ids=recent_image_ids
             )
 
             # 5. Crea Article object
@@ -1007,6 +1047,7 @@ class BlogAgent:
                 readingTime=estimate_reading_time(data["content"]),
                 products=[Product(**p) for p in data.get("products", [])],
                 sources=[Source(**s) for s in data.get("sources", [])],
+                imageSourceId=image_source_id,
             )
 
             # 6. Pubblica immagine (se generata localmente)

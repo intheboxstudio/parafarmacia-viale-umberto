@@ -2748,14 +2748,17 @@ footer::before{
   color: var(--grigio);
   margin-bottom: 22px;
   line-height: 1.65;
-  min-height: calc(1.65em * 3);
+  height: 112px;
+  overflow: hidden;
 }
 .room-card ul{
   list-style: none;
   padding: 0;
   border-top: 1px solid rgba(31,58,77,.08);
   padding-top: 20px;
-  min-height: 168px;
+  height: 190px;
+  overflow: hidden;
+  box-sizing: content-box;
 }
 .room-card ul li{
   position: relative;
@@ -2870,6 +2873,8 @@ footer::before{
   .rooms-section{ padding: 60px 0 80px; }
   .rooms-grid{ grid-template-columns: 1fr; gap: 20px; }
   .room-card{ padding: 32px 26px; }
+  .room-card p{ height: auto; }
+  .room-card ul{ height: auto; }
   .rooms-cta{ padding: 36px 24px; }
   .field-action{ flex-direction: column; align-items: stretch; gap: 12px; }
   .field-action .btn{ width: 100%; justify-content: center; }
