@@ -150,6 +150,12 @@ h1, h2, h3, h4{
   font-weight: 500;
   margin-top: 2px;
 }
+/* "Dottoressa Emy" è una parola molto più corta di "Parafarmacia · Erboristeria":
+   la stessa spaziatura assoluta (0.22em) su un testo più breve si percepisce
+   otticamente più larga. La riduciamo qui per un effetto visivo equilibrato. */
+.logo-mark .logo-text small.tight{
+  letter-spacing: 0.10em;
+}
 
 .menu{ display: flex; align-items: center; gap: 36px; }
 .menu a{
@@ -3003,7 +3009,7 @@ footer::before{
       <div class="logo-text">
         Viale Umberto 1°<br>
         <small>Parafarmacia · Erboristeria</small>
-        <small>Dottoressa Emy</small>
+        <small class="tight">Dottoressa Emy</small>
       </div>
     </div>
 
@@ -4300,7 +4306,7 @@ footer::before{
           <div class="logo-text" style="color: var(--avorio);">
             Viale Umberto 1°<br>
             <small style="color: var(--azzurro);">Parafarmacia · Erboristeria</small>
-            <small style="color: var(--azzurro);">Dottoressa Emy</small>
+            <small class="tight" style="color: var(--azzurro);">Dottoressa Emy</small>
           </div>
         </div>
         <p>Reggio Emilia — un piccolo presidio del benessere naturale, dove ogni consiglio nasce da una conversazione vera.</p>
