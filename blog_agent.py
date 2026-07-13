@@ -54,23 +54,78 @@ PUBLISH_HOUR = 10  # 10:00 ora italiana
 # Marchi e prodotti attualmente approvati per i consigli a fine articolo.
 # IMPORTANTE: la parafarmacia NON ha tutto il catalogo di ogni marchio, quindi
 # l'agente può citare SOLO questi brand e, dove indicato, SOLO questi prodotti
-# esatti (nome invariato). Altri marchi verranno aggiunti in seguito: finché
-# non compaiono qui, non vanno mai usati.
+# (o queste linee di prodotti). Altri marchi non presenti qui non vanno mai usati.
 #
-# - "Algàdemy": None  -> l'intero catalogo Algàdemy è disponibile in negozio,
-#   quindi l'agente è libero di scegliere qualsiasi prodotto Algàdemy pertinente.
-# - Tutti gli altri brand: lista chiusa di prodotti esatti. L'agente NON può
-#   inventare varianti o nomi simili: deve usare il nome così com'è scritto qui.
+# Ogni voce di APPROVED_PRODUCTS è:
+#   - None                -> l'intero catalogo del brand è disponibile in negozio,
+#                            l'agente è libero di scegliere qualsiasi prodotto pertinente.
+#   - lista di stringhe    -> whitelist chiusa. Una voce che termina con "*" indica
+#                            un'intera LINEA di prodotti (es. "No Dol*" ammette
+#                            "No Dol capsule", "No Dol crema", "No Dol cerotti", ecc.);
+#                            una voce senza "*" richiede il nome esatto (invariato).
+#
+# PRODUCT_NOTES contiene, dove utile, brevi indicazioni reali (verificate su siti
+# ufficiali/rivenditori) su cosa fa ciascun prodotto o linea, così l'agente scrive
+# consigli precisi invece di inventare funzioni plausibili ma sbagliate.
 APPROVED_PRODUCTS: dict[str, list[str] | None] = {
-    "Algàdemy": None,
+    # Reggio Emilia, integratori a base di microalghe (spirulina, chlorella).
+    # Catalogo reale (28 referenze) invece di "libero": i nomi sono poco
+    # intuitivi (es. "Timeless", "Dream"), quindi l'agente deve pescare da
+    # qui e non inventare varianti.
+    "Algàdemy": [
+        "Màgnesium ADVANCED", "Bròmelina ULTRA", "Shìne", "Mìndful", "Nàtive Skin",
+        "Tìmeless", "Flèx Care", "Dàily Nutrients", "Inner Bèauty", "Immùnity",
+        "Skìn Defence", "Lèg Relief", "Òsteo Aid", "Drèam", "Làdy", "Astàxantina",
+        "Spirulìna PRIME", "Dètox", "Klàmath Multibiotics", "Clorèlla PRIME",
+        "Rèlease", "Pòwer", "Pòwer PLUS", "Thèrmo", "Slìm", "Rèlax",
+        "Cyst Rèmedy", "Lìpid Balance (Àureum)", "Glùtatione PLUS",
+    ],
     "Solime": [
         "RELAX (Passiflora, Valeriana e Biancospino)",
-        "Colostrum Crema rigenerante pelle",
+        "Colostrum Gel",
         "Colostrum Reflugel",
+        "Gelevital",
+        "Colostrum Colluttorio",
+        "Colostrum Dentifricio",
+        "Remargin Detergente Intimo",
+        "Remargin Crema Intima Idratante",
+        "Shampoo*", "Balsamo*", "Siero Protettivo*",  # linea capelli completa
     ],
     "Esi": [
-        "Omega3",
+        "Omega 3",
+        "No Dol*",        # intera linea: dolori articolari e muscolari
+        "Le 10 Erbe*",    # intera linea: transito intestinale/digestione
+        "Propolaid*",     # intera linea: propoli, difese immunitarie, gola
     ],
+    "Farmaderbe": [
+        "Bromelina Ananas 5000",
+        "Bromelina Drenante Digestivo",
+        "Mucolid Bronc*",       # caramelle/granulare per gola e vie respiratorie
+        "Beauty Collagene*",    # stick collagene per pelle
+        "Boswellia Complex",
+    ],
+    "Biosnail": [
+        "Crema*",  # tutta la linea creme viso/corpo/mani alla bava di lumaca
+    ],
+    "CeraVe": None,  # catalogo globale noto (ceramidi, tecnologia MVE): libero
+    "Florinda Soaps": [
+        "Sapone Liquido*",  # sapone liquido mani e corpo
+    ],
+    "Pool Pharma": [
+        "MG K Vis*",  # magnesio, potassio, creatina — stanchezza fisica e mentale
+    ],
+    "Cetilar": [
+        "Cetilar*",  # linea sport: crema muscoli/articolazioni + nutrition da sforzo
+    ],
+    "Lovrén": None,  # cosmesi viso/corpo made in Italy: libero
+    "Natural Salus": [
+        "Serenis*",       # gocce rilassanti (passiflora, biancospino, melissa, rodiola)
+        "Arnica 30",      # crema-gel 30% arnica per dolori muscolari/articolari
+    ],
+    "Biokyma": [
+        "Tisana*", "Tisane*",  # tutte le tisane della linea
+    ],
+    "Bromatech": None,  # probiotici (Enterelle, Bifiselle, Ramnoselle...): libero
 }
 
 # Marchi presenti in parafarmacia — derivato da APPROVED_PRODUCTS, tenuto
@@ -78,11 +133,27 @@ APPROVED_PRODUCTS: dict[str, list[str] | None] = {
 PARAFARMACIA_BRANDS = list(APPROVED_PRODUCTS.keys())
 
 
+def _product_name_allowed(name: str, allowed_names: list[str]) -> str | None:
+    """Verifica se `name` rispetta una whitelist che può contenere sia nomi
+    esatti sia pattern-linea che terminano con "*" (prefix match). Restituisce
+    il nome normalizzato (quello in whitelist) se valido, altrimenti None.
+    """
+    name_norm = name.strip().lower()
+    for allowed in allowed_names:
+        if allowed.endswith("*"):
+            prefix = allowed[:-1].strip().lower()
+            if name_norm.startswith(prefix):
+                return name.strip()  # linea libera: teniamo il nome generato
+        elif allowed.lower() == name_norm:
+            return allowed  # nome esatto: normalizziamo alla forma canonica
+    return None
+
+
 def sanitize_products(products: list[dict[str, Any]]) -> list[dict[str, Any]]:
     """Filtra i prodotti generati dal modello mantenendo solo quelli che
-    rispettano rigorosamente APPROVED_PRODUCTS. Per Solime ed Esi il nome
-    deve coincidere esattamente (case-insensitive); per Algàdemy qualsiasi
-    nome è ammesso. Prodotti di marchi non whitelistati vengono scartati.
+    rispettano rigorosamente APPROVED_PRODUCTS (nomi esatti o pattern-linea
+    con "*"). Brand con valore None sono a catalogo libero. Prodotti di
+    brand non whitelistati, o nomi fuori whitelist, vengono scartati.
     """
     clean: list[dict[str, Any]] = []
     for p in products:
@@ -95,19 +166,18 @@ def sanitize_products(products: list[dict[str, Any]]) -> list[dict[str, Any]]:
 
         allowed_names = APPROVED_PRODUCTS[brand]
         if allowed_names is not None:
-            match = next(
-                (n for n in allowed_names if n.lower() == name.lower()), None
-            )
+            match = _product_name_allowed(name, allowed_names)
             if match is None:
                 log.warning(
                     "Prodotto scartato: %r non è nel catalogo approvato per %s", name, brand
                 )
                 continue
-            p = {**p, "name": match}  # normalizza al nome esatto
+            p = {**p, "name": match}
 
         clean.append(p)
 
     return clean
+
 
 # Domini autorevoli — l'agente cita SOLO fonti da questo elenco.
 AUTHORITATIVE_DOMAINS = [
@@ -433,11 +503,23 @@ Quando ti viene fornito un topic, usa il tool `publish_article` per pubblicarlo.
   * mal di testa → ["tired woman", "headache temple", "migraine relief"]
   Mai usare nomi commerciali, mai "italian" o nomi di brand. Privilegia singoli soggetti chiari su composizioni complesse.
 
-- products: esattamente 3 prodotti, scelti SOLO dal catalogo chiuso qui sotto — non esistono altri marchi o prodotti in negozio, non inventare nulla:
-  * Algàdemy: catalogo completo disponibile, scegli liberamente il/i prodotto/i Algàdemy più pertinenti al topic (nome plausibile per skincare avanzato).
-  * Solime: SOLO questi prodotti, nome esatto e invariato — "RELAX (Passiflora, Valeriana e Biancospino)" (rilassante, sonno, stress), "Colostrum Crema rigenerante pelle" (pelle, rigenerazione cutanea), "Colostrum Reflugel" (reflusso gastrico).
-  * Esi: SOLO "Omega3" (nome esatto e invariato).
-  Se il topic dell'articolo non si presta a nessuno di questi prodotti, scegli comunque i 3 più vicini possibile — mai forzare marchi o nomi fuori da questa lista. Per ciascuno: brand, name (esattamente come sopra), description (max 25 parole).
+- products: esattamente 3 prodotti, scelti SOLO dal catalogo chiuso qui sotto — non esistono altri marchi o prodotti in negozio, non inventare nulla. Preferisci prodotti realmente pertinenti al topic dell'articolo; se più marchi sono ugualmente pertinenti, varia nella misura del possibile invece di ripetere sempre gli stessi.
+
+  * Algàdemy (Reggio Emilia, integratori a base di microalghe): scegli SOLO tra questi nomi esatti, in base a cosa fanno davvero — Màgnesium ADVANCED (magnesio, stanchezza), Bròmelina ULTRA (drenante, digestione), Shìne (bellezza capelli/pelle/unghie), Mìndful (stress, concentrazione), Nàtive Skin (pelle), Tìmeless (anti-age pelle), Flèx Care (articolazioni), Dàily Nutrients (multivitaminico quotidiano), Inner Bèauty (bellezza dall'interno), Immùnity (difese immunitarie), Skìn Defence (protezione pelle), Lèg Relief (circolazione gambe pesanti), Òsteo Aid (ossa e articolazioni), Drèam (sonno), Làdy (benessere femminile), Astàxantina (antiossidante), Spirulìna PRIME (energia, ricostituente), Dètox (depurativo), Klàmath Multibiotics (probiotici), Clorèlla PRIME (depurativo), Rèlease (tensione, relax muscolare), Pòwer / Pòwer PLUS (energia, sportivi), Thèrmo (metabolismo, termogenico), Slìm (controllo peso), Rèlax (relax, sonno), Cyst Rèmedy (ciclo, ormonale femminile), Lìpid Balance (Àureum) (omega3 vegano, colesterolo), Glùtatione PLUS (antiossidante).
+  * Solime: SOLO questi prodotti, nome esatto e invariato — "RELAX (Passiflora, Valeriana e Biancospino)" (rilassante, sonno, stress), "Colostrum Gel" (pelle irritata/danneggiata, herpes, piccole scottature), "Colostrum Reflugel" (reflusso gastrico, bruciore), "Gelevital" (multivitaminico naturale), "Colostrum Colluttorio" (igiene orale), "Colostrum Dentifricio" (igiene orale), "Remargin Detergente Intimo" (igiene intima quotidiana), "Remargin Crema Intima Idratante" (secchezza intima), e la linea Shampoo/Balsamo/Siero Protettivo per capelli (qualsiasi prodotto di questa linea capelli, es. "Shampoo equilibrante Rosmarino e Menta").
+  * Esi: "Omega 3" (nome esatto), oppure qualsiasi prodotto delle linee No Dol (dolori articolari e muscolari), Le 10 Erbe (transito intestinale, digestione), Propolaid (propoli, difese immunitarie, gola e vie respiratorie) — per queste tre linee puoi scegliere liberamente il prodotto specifico purché il nome inizi con "No Dol", "Le 10 Erbe" o "Propolaid".
+  * Farmaderbe: SOLO questi prodotti, nome esatto e invariato — "Bromelina Ananas 5000" (drenante, digestione, gambe pesanti), "Bromelina Drenante Digestivo" (drenante, gonfiore), "Mucolid Bronc" o varianti (gola, vie respiratorie), "Beauty Collagene" o varianti (collagene per la pelle), "Boswellia Complex" (infiammazione, articolazioni).
+  * Biosnail: qualsiasi crema della linea (bava di lumaca — anti-age, idratante, rigenerante, cicatrizzante; viso, corpo o mani), il nome deve iniziare con "Crema".
+  * CeraVe: catalogo completo disponibile (ceramidi, tecnologia MVE) — scegli liberamente il prodotto CeraVe più pertinente (es. Crema Idratante, Lozione Idratante, Detergente Idratante, Schiuma Detergente, linea SA, Crema Contorno Occhi, Crema Mani, linea solare).
+  * Florinda Soaps: solo il sapone liquido mani e corpo, il nome deve iniziare con "Sapone Liquido".
+  * Pool Pharma: solo MG K Vis (magnesio, potassio, creatina — stanchezza fisica e mentale, sudorazione, sport), il nome deve iniziare con "MG K Vis".
+  * Cetilar: linea sportivi — crema per muscoli/articolazioni/tendini o prodotti Cetilar Nutrition per lo sforzo fisico, il nome deve iniziare con "Cetilar".
+  * Lovrén: catalogo completo disponibile (cosmesi viso/corpo made in Italy) — scegli liberamente il prodotto più pertinente.
+  * Natural Salus: solo "Serenis" (gocce rilassanti, ansia, stress — nome deve iniziare con "Serenis") oppure "Arnica 30" (crema-gel 30% arnica, dolori muscolari e articolari, nome esatto).
+  * Biokyma: qualsiasi tisana della linea, il nome deve iniziare con "Tisana" o "Tisane".
+  * Bromatech: catalogo completo disponibile (probiotici mirati, es. Enterelle, Bifiselle, Ramnoselle) — scegli liberamente il prodotto più pertinente al topic (equilibrio intestinale, difese immunitarie, benessere del microbiota).
+
+  Se il topic dell'articolo non si presta bene a nessuno di questi prodotti, scegli comunque i 3 più vicini possibile — mai forzare marchi o nomi fuori da questa lista. Per ciascuno: brand, name (nel formato indicato sopra), description (max 25 parole, basata su cosa fa davvero il prodotto).
 
 - sources: 2-3 fonti dai domini autorevoli (iss.it, salute.gov.it, aifa.gov.it, humanitas.it, fondazioneveronesi.it, ieo.it, mayoclinic.org, ncbi.nlm.nih.gov, cochranelibrary.com, who.int, examine.com, sciencedirect.com, nature.com, thelancet.com, bmj.com, frontiersin.org, harvard.edu, medlineplus.gov). Per ciascuna: name, url."""
 
@@ -490,17 +572,21 @@ Genera l'articolo completo e pubblicalo usando il tool `publish_article`."""
                 "products": {
                     "type": "array",
                     "description": (
-                        "Esattamente 3 prodotti consigliati, SOLO dal catalogo approvato: "
-                        "Algàdemy (catalogo libero), Solime (solo 'RELAX (Passiflora, "
-                        "Valeriana e Biancospino)', 'Colostrum Crema rigenerante pelle', "
-                        "'Colostrum Reflugel'), Esi (solo 'Omega3')."
+                        "Esattamente 3 prodotti consigliati, SOLO dal catalogo approvato "
+                        "descritto sopra nel system prompt (dettagli per marchio e prodotti "
+                        "esatti/linee ammesse). Non citare mai marchi o prodotti fuori da "
+                        "questo elenco."
                     ),
                     "items": {
                         "type": "object",
                         "properties": {
                             "brand": {
                                 "type": "string",
-                                "enum": ["Algàdemy", "Solime", "Esi"]
+                                "enum": [
+                                    "Algàdemy", "Solime", "Esi", "Farmaderbe", "Biosnail",
+                                    "CeraVe", "Florinda Soaps", "Pool Pharma", "Cetilar",
+                                    "Lovrén", "Natural Salus", "Biokyma", "Bromatech"
+                                ]
                             },
                             "name": {"type": "string"},
                             "description": {

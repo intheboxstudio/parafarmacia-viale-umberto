@@ -1027,16 +1027,26 @@ h1, h2, h3, h4{
 }
 .herb{
   background: var(--bianco);
-  padding: 30px 22px;
+  padding: 22px 20px 26px;
   border-radius: var(--r-md);
   text-align: center;
   border: 1px solid rgba(31,58,77,.06);
   transition: all .35s;
+  cursor: pointer;
 }
 .herb:hover{
   background: var(--azzurro-luce);
   transform: translateY(-4px);
+  box-shadow: var(--ombra-luce);
 }
+.herb-thumb{
+  width: 64px; height: 64px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--azzurro-luce);
+}
+.herb-thumb img{ width: 100%; height: 100%; object-fit: cover; display: block; }
 .herb-name{
   font-family: var(--display);
   font-size: 19px;
@@ -2730,6 +2740,7 @@ footer::before{
   font-size: clamp(26px, 3.5vw, 34px);
   font-weight: 300;
   margin-bottom: 16px;
+  min-height: 1.3em;
 }
 .room-card h3 em{ color: var(--azzurro-deep); font-weight: 400; }
 .room-card p{
@@ -2737,12 +2748,14 @@ footer::before{
   color: var(--grigio);
   margin-bottom: 22px;
   line-height: 1.65;
+  min-height: calc(1.65em * 3);
 }
 .room-card ul{
   list-style: none;
   padding: 0;
   border-top: 1px solid rgba(31,58,77,.08);
   padding-top: 20px;
+  min-height: 168px;
 }
 .room-card ul li{
   position: relative;
@@ -2983,8 +2996,9 @@ footer::before{
         <img src="assets/logo-ginkgo-white.png" alt="Ginkgo — Parafarmacia Viale Umberto" class="logo-leaf" />
       </div>
       <div class="logo-text">
-        Viale Umberto<br>
+        Viale Umberto 1°<br>
         <small>Parafarmacia · Erboristeria</small>
+        <small>Dottoressa Emy</small>
       </div>
     </div>
 
@@ -3396,7 +3410,7 @@ footer::before{
         <div class="room-card reveal">
           <div class="room-num">STANZA 02</div>
           <h3>La stanza <em>raccolta</em></h3>
-          <p>Più piccola e silenziosa, perfetta per sedute one-to-one. Arredata con sobrietà — un tavolo, due sedute, una lampada calda — per chi lavora di parola, di ascolto, di tempo lento.</p>
+          <p>Più piccola e silenziosa, pensata per sedute one-to-one. Arredo essenziale — un tavolo, due sedute, una lampada calda — per chi lavora di parola, di ascolto, di tempo lento.</p>
           <ul>
             <li>Zona quiet</li>
             <li>Arredo essenziale e luce calda</li>
@@ -3492,16 +3506,25 @@ footer::before{
         <p>Ogni materia prima che entra nelle nostre miscele viene valutata personalmente. Provenienza italiana o europea, taglio tisana corretto, integrità degli oli essenziali, profumo netto. Niente polveri stanche, niente residui, niente fondi di magazzino spacciati per "rimedi naturali".</p>
         <p>È un lavoro lento. Costoso. Ma chi sceglie le nostre tisane porta a casa qualcosa che funziona davvero — non un sapore vago di "qualcosa che fa bene".</p>
 
-        <div class="herbs-grid">
-          <div class="herb"><div class="herb-name">Camomilla</div><div class="herb-action">Calmante</div></div>
-          <div class="herb"><div class="herb-name">Melissa</div><div class="herb-action">Rilassante</div></div>
-          <div class="herb"><div class="herb-name">Tiglio</div><div class="herb-action">Sedativo</div></div>
-          <div class="herb"><div class="herb-name">Valeriana</div><div class="herb-action">Notturna</div></div>
-          <div class="herb"><div class="herb-name">Finocchio</div><div class="herb-action">Digestivo</div></div>
-          <div class="herb"><div class="herb-name">Menta</div><div class="herb-action">Tonificante</div></div>
-          <div class="herb"><div class="herb-name">Zenzero</div><div class="herb-action">Riscaldante</div></div>
-          <div class="herb"><div class="herb-name">Curcuma</div><div class="herb-action">Antiossidante</div></div>
+        <div class="herbs-grid" id="herbsGrid">
+          <div class="herb" data-slug="camomilla"><div class="herb-thumb"><img src="assets/tisane/camomilla.svg" alt="Camomilla" loading="lazy"></div><div class="herb-name">Camomilla</div><div class="herb-action">Calmante</div></div>
+          <div class="herb" data-slug="melissa"><div class="herb-thumb"><img src="assets/tisane/melissa.svg" alt="Melissa" loading="lazy"></div><div class="herb-name">Melissa</div><div class="herb-action">Rilassante</div></div>
+          <div class="herb" data-slug="tiglio"><div class="herb-thumb"><img src="assets/tisane/tiglio.svg" alt="Tiglio" loading="lazy"></div><div class="herb-name">Tiglio</div><div class="herb-action">Sedativo</div></div>
+          <div class="herb" data-slug="valeriana"><div class="herb-thumb"><img src="assets/tisane/valeriana.svg" alt="Valeriana" loading="lazy"></div><div class="herb-name">Valeriana</div><div class="herb-action">Notturna</div></div>
+          <div class="herb" data-slug="finocchio"><div class="herb-thumb"><img src="assets/tisane/finocchio.svg" alt="Finocchio" loading="lazy"></div><div class="herb-name">Finocchio</div><div class="herb-action">Digestivo</div></div>
+          <div class="herb" data-slug="menta"><div class="herb-thumb"><img src="assets/tisane/menta.svg" alt="Menta" loading="lazy"></div><div class="herb-name">Menta</div><div class="herb-action">Tonificante</div></div>
+          <div class="herb" data-slug="zenzero"><div class="herb-thumb"><img src="assets/tisane/zenzero.svg" alt="Zenzero" loading="lazy"></div><div class="herb-name">Zenzero</div><div class="herb-action">Riscaldante</div></div>
+          <div class="herb" data-slug="curcuma"><div class="herb-thumb"><img src="assets/tisane/curcuma.svg" alt="Curcuma" loading="lazy"></div><div class="herb-name">Curcuma</div><div class="herb-action">Antiossidante</div></div>
+          <div class="herb" data-slug="passiflora"><div class="herb-thumb"><img src="assets/tisane/passiflora.svg" alt="Passiflora" loading="lazy"></div><div class="herb-name">Passiflora</div><div class="herb-action">Ansiolitica</div></div>
+          <div class="herb" data-slug="biancospino"><div class="herb-thumb"><img src="assets/tisane/biancospino.svg" alt="Biancospino" loading="lazy"></div><div class="herb-name">Biancospino</div><div class="herb-action">Cardiotonico</div></div>
+          <div class="herb" data-slug="liquirizia"><div class="herb-thumb"><img src="assets/tisane/liquirizia.svg" alt="Liquirizia" loading="lazy"></div><div class="herb-name">Liquirizia</div><div class="herb-action">Lenitiva</div></div>
+          <div class="herb" data-slug="rosa-canina"><div class="herb-thumb"><img src="assets/tisane/rosa-canina.svg" alt="Rosa Canina" loading="lazy"></div><div class="herb-name">Rosa Canina</div><div class="herb-action">Rinforzante</div></div>
+          <div class="herb" data-slug="ortica"><div class="herb-thumb"><img src="assets/tisane/ortica.svg" alt="Ortica" loading="lazy"></div><div class="herb-name">Ortica</div><div class="herb-action">Depurativa</div></div>
+          <div class="herb" data-slug="tarassaco"><div class="herb-thumb"><img src="assets/tisane/tarassaco.svg" alt="Tarassaco" loading="lazy"></div><div class="herb-name">Tarassaco</div><div class="herb-action">Depurativa</div></div>
+          <div class="herb" data-slug="malva"><div class="herb-thumb"><img src="assets/tisane/malva.svg" alt="Malva" loading="lazy"></div><div class="herb-name">Malva</div><div class="herb-action">Emolliente</div></div>
+          <div class="herb" data-slug="lavanda"><div class="herb-thumb"><img src="assets/tisane/lavanda.svg" alt="Lavanda" loading="lazy"></div><div class="herb-name">Lavanda</div><div class="herb-action">Rilassante</div></div>
         </div>
+        <p style="text-align:center; font-size:13px; color:var(--grigio); letter-spacing:0.04em; margin-top:-30px;">Clicca su un ingrediente per scoprirne origine, coltivazione e proprietà</p>
       </div>
 
       <div class="tisane-divider">❋ &nbsp; ❋ &nbsp; ❋</div>
@@ -3529,6 +3552,14 @@ footer::before{
     </div>
   </section>
 
+</main>
+
+
+<!-- ====================================================
+     DETTAGLIO INGREDIENTE TISANA
+====================================================== -->
+<main class="page" id="page-ingredient">
+  <div id="ingredientContainer"></div>
 </main>
 
 
@@ -4262,8 +4293,9 @@ footer::before{
             <img src="assets/logo-ginkgo-white.png" alt="Ginkgo — Parafarmacia Viale Umberto" class="logo-leaf" />
           </div>
           <div class="logo-text" style="color: var(--avorio);">
-            Viale Umberto<br>
+            Viale Umberto 1°<br>
             <small style="color: var(--azzurro);">Parafarmacia · Erboristeria</small>
+            <small style="color: var(--azzurro);">Dottoressa Emy</small>
           </div>
         </div>
         <p>Reggio Emilia — un piccolo presidio del benessere naturale, dove ogni consiglio nasce da una conversazione vera.</p>
@@ -4317,6 +4349,221 @@ footer::before{
 
 
 <script>
+/* ============== DATI INGREDIENTI TISANE ============== */
+const INGREDIENTS_DATA = [
+  {
+    slug: "camomilla",
+    name: "Camomilla",
+    action: "Calmante",
+    img: "assets/tisane/camomilla.svg",
+    intro: "Il fiore più familiare dell'erboristeria, e anche il più sottovalutato.",
+    content: `
+      <p>La camomilla (<em>Matricaria chamomilla</em>) è probabilmente la pianta officinale più riconoscibile al mondo: piccoli capolini bianchi con il cuore giallo, un profumo dolce che ricorda la mela — non a caso il nome greco "chamaimelon" significa proprio "mela di terra". Dietro questa apparente semplicità si nasconde una delle piante più studiate della farmacognosia moderna.</p>
+      <p>Il fiore concentra oli essenziali (in particolare bisabololo e camazulene), flavonoidi e cumarine. È questa combinazione a darle un'azione calmante sul sistema nervoso e, allo stesso tempo, antinfiammatoria e antispasmodica sull'apparato digerente. Una tazza serale aiuta a rilassarsi prima del sonno; la stessa infusione, bevuta dopo un pasto pesante, allevia gonfiore e crampi addominali. È anche il rimedio più comune contro l'irritabilità intestinale nei bambini piccoli.</p>
+      <p>Cresce spontanea in tutta Europa, sui bordi dei campi e nei terreni incolti, ma per un'infusione di qualità serve una coltivazione controllata: la matricaria selvatica si confonde facilmente con specie simili ma meno attive (o addirittura con la camomilla romana, botanicamente diversa). Le migliori coltivazioni italiane si trovano tra Toscana, Umbria e Abruzzo.</p>
+      <p>La raccolta avviene rigorosamente a mano o con pettini raccoglitori, nelle prime ore del mattino quando il capolino è aperto ma la rugiada già asciutta, per non disperdere l'olio essenziale. L'essiccazione è delicata: temperature basse (sotto i 40°C) e circolazione d'aria continua, altrimenti i fiori perdono colore e principio attivo. Un buon lotto si riconosce subito dal profumo intenso e dal colore giallo acceso del disco centrale.</p>
+    `
+  },
+  {
+    slug: "melissa",
+    name: "Melissa",
+    action: "Rilassante",
+    img: "assets/tisane/melissa.svg",
+    intro: "La \"erba delle api\": rilassante per il sistema nervoso, alleata dello stomaco.",
+    content: `
+      <p>La melissa (<em>Melissa officinalis</em>), detta anche cedronella o erba limoncina, appartiene alla famiglia della menta ma ha un profumo completamente diverso: agrumato, fresco, quasi di limone. Il nome deriva dal greco "melissa", ape, perché le api sono letteralmente attratte dai suoi fiori — un tempo le foglie venivano strofinate sulle arnie per richiamare gli sciami.</p>
+      <p>Il suo principio attivo principale, l'acido rosmarinico, insieme agli oli essenziali (citrale, citronellale) le conferisce una duplice azione: calmante sul sistema nervoso centrale e antispasmodica sull'apparato digerente. È la pianta d'elezione per chi soffre di ansia con componente gastrica — quel nodo allo stomaco tipico dei periodi di stress — e per chi fatica a "staccare la testa" la sera.</p>
+      <p>Si coltiva facilmente in tutta Italia, predilige terreni freschi e posizioni semi-ombreggiate; è una pianta perenne che tende a espandersi con vigore, tanto da essere considerata quasi infestante negli orti di campagna. Le coltivazioni destinate all'erboristeria si trovano soprattutto in Toscana ed Emilia-Romagna.</p>
+      <p>Si raccolgono le foglie prima della fioritura, quando la concentrazione di olio essenziale è al massimo, e si essiccano rapidamente all'ombra: la luce diretta degrada il citrale e con esso buona parte del profumo caratteristico. Una melissa essiccata bene mantiene la nota di limone anche a distanza di mesi; se sa solo di "fieno", ha perso gran parte delle sue proprietà.</p>
+    `
+  },
+  {
+    slug: "tiglio",
+    name: "Tiglio",
+    action: "Sedativo",
+    img: "assets/tisane/tiglio.svg",
+    intro: "L'albero dei viali cittadini nasconde uno dei sedativi vegetali più delicati.",
+    content: `
+      <p>Il tiglio (<em>Tilia cordata</em> e <em>Tilia platyphyllos</em>) è l'albero che profuma i viali di mezza Europa a giugno, quando fiorisce con quei grappoli color crema attaccati a una caratteristica brattea alata. In erboristeria si usa proprio il fiore, spesso raccolto insieme alla brattea che lo sostiene.</p>
+      <p>Contiene flavonoidi, mucillagini e un olio essenziale ricco di farnesolo, che gli conferiscono un'azione sedativa lieve ma efficace, oltre a proprietà emollienti sulle vie respiratorie. È il rimedio classico per l'insonnia occasionale legata a stress o cambio di stagione, e per la tosse secca e irritativa: le mucillagini lenisco le mucose della gola, mentre l'azione rilassante calma il riflesso della tosse notturna.</p>
+      <p>In Italia cresce spontaneo lungo i corsi d'acqua e nei boschi collinari, dal Piemonte alla Calabria; le coltivazioni per uso erboristico si concentrano soprattutto nell'Italia centrale, dove il clima favorisce una fioritura ricca di principio attivo. È una pianta longeva — alcuni esemplari secolari superano i 500 anni di vita.</p>
+      <p>La raccolta richiede tempismo: i fiori vanno colti appena sbocciati, in una finestra di pochi giorni a inizio estate, altrimenti perdono profumo e principio attivo. L'essiccazione avviene su graticci, in strati sottili e ben areati, lontano dal sole diretto. Un tiglio essiccato correttamente conserva la brattea intatta e un colore verde-crema, mai bruno.</p>
+    `
+  },
+  {
+    slug: "valeriana",
+    name: "Valeriana",
+    action: "Notturna",
+    img: "assets/tisane/valeriana.svg",
+    intro: "La radice che profuma di poco e agisce parecchio: il classico rimedio per dormire.",
+    content: `
+      <p>Della valeriana (<em>Valeriana officinalis</em>) si usa la radice — un rizoma nodoso dall'odore intenso, quasi pungente, che molti trovano sgradevole ma che è proprio il segno di un buon principio attivo. È una delle piante sedative più studiate dalla ricerca scientifica moderna.</p>
+      <p>Deve la sua azione agli acidi valerenici e agli iridoidi (valepotriati), che agiscono sui recettori GABA del sistema nervoso centrale — lo stesso meccanismo su cui intervengono alcuni farmaci ansiolitici, ma con un'intensità molto più contenuta. È indicata per l'insonnia da addormentamento, per i risvegli notturni legati a tensione nervosa, e come coadiuvante nei periodi di ansia lieve. A differenza di molti sedativi di sintesi, non lascia sensazione di torpore al risveglio se assunta correttamente.</p>
+      <p>Cresce spontanea nei prati umidi e lungo i fossi di tutta Europa, dalla pianura fino ai 1500 metri di quota. Le coltivazioni italiane per uso erboristico sono concentrate soprattutto nell'arco alpino e prealpino, dove il rizoma si sviluppa più ricco di principio attivo grazie agli sbalzi termici.</p>
+      <p>Il rizoma si raccoglie in autunno, al secondo anno di vita della pianta, quando la concentrazione di acidi valerenici è massima. Viene lavato, tagliato e essiccato a bassa temperatura: un'essiccazione troppo rapida o troppo calda disperde l'olio essenziale e indebolisce l'effetto. L'odore forte e "di stalla" che si sviluppa durante l'essiccazione è normale, ed è proprio il segno che i principi attivi si stanno concentrando correttamente.</p>
+    `
+  },
+  {
+    slug: "finocchio",
+    name: "Finocchio",
+    action: "Digestivo",
+    img: "assets/tisane/finocchio.svg",
+    intro: "Semi piccoli, azione grande: il classico dopo pasto delle nonne aveva ragione.",
+    content: `
+      <p>Del finocchio (<em>Foeniculum vulgare</em>) l'erboristeria usa il frutto — chiamato comunemente "seme" — piccolo, striato, dal profumo dolce e anisato inconfondibile. È una delle piante digestive più antiche conosciute, già citata da Ippocrate e Plinio il Vecchio.</p>
+      <p>Il suo olio essenziale, ricco di anetolo, ha un'azione carminativa (favorisce l'espulsione dei gas intestinali), antispasmodica e leggermente galattogena. È il rimedio d'elezione contro gonfiore addominale, coliche del lattante (in forma di infusione molto diluita) e la classica "pesantezza" dopo un pasto abbondante — da qui l'abitudine, tutta italiana, del finocchietto masticato a fine cena.</p>
+      <p>È una pianta mediterranea per eccellenza: cresce spontanea lungo le coste e le zone collinari di tutta Italia, con varietà selvatiche particolarmente aromatiche in Sicilia e Puglia. Le coltivazioni per uso erboristico prediligono terreni calcarei e ben drenati, esposti in pieno sole.</p>
+      <p>I semi si raccolgono a fine estate, quando le ombrelle si sono seccate sulla pianta ma prima che si aprano disperdendo il contenuto. Dopo la trebbiatura vengono essiccati al sole per pochi giorni, giusto il tempo di stabilizzare l'umidità residua senza far evaporare l'olio essenziale. Un buon finocchio si riconosce annusandolo: deve sprigionare subito la nota anisata, segno che l'anetolo è ancora intatto.</p>
+    `
+  },
+  {
+    slug: "menta",
+    name: "Menta",
+    action: "Tonificante",
+    img: "assets/tisane/menta.svg",
+    intro: "Fresca, pungente, energizzante: la pianta che sveglia i sensi e calma lo stomaco.",
+    content: `
+      <p>La menta piperita (<em>Mentha × piperita</em>) è un ibrido naturale tra menta acquatica e menta verde, nato spontaneamente in Inghilterra nel Seicento e da allora diffuso in tutto il mondo per l'intensità del suo aroma. La foglia, ricca di ghiandole oleifere visibili in controluce, è la parte utilizzata.</p>
+      <p>Il mentolo, principale componente dell'olio essenziale, ha un'azione antispasmodica sulla muscolatura liscia del tratto digerente e un effetto rinfrescante e lievemente tonificante sul sistema nervoso — capace di schiarire la mente senza l'effetto eccitante della caffeina. È utile contro gonfiore, difficoltà digestive e la sensazione di testa "pesante" dei pomeriggi afosi; l'infuso freddo, in estate, è anche un ottimo dissetante naturale.</p>
+      <p>Si coltiva con facilità in tutta Italia — è una pianta rustica, che si propaga rapidamente per rizoma e tende a colonizzare l'orto se non contenuta. Le coltivazioni professionali più rinomate si trovano in Emilia-Romagna e Piemonte, dove il clima temperato-umido favorisce una resa elevata di olio essenziale.</p>
+      <p>Le foglie si raccolgono poco prima della fioritura, quando la concentrazione di mentolo è al massimo, preferibilmente al mattino dopo che la rugiada è evaporata. L'essiccazione avviene rapidamente e all'ombra, per preservare il colore verde intenso e l'aroma pungente: una menta essiccata male vira al bruno e perde gran parte della nota fresca che la caratterizza.</p>
+    `
+  },
+  {
+    slug: "zenzero",
+    name: "Zenzero",
+    action: "Riscaldante",
+    img: "assets/tisane/zenzero.svg",
+    intro: "Un rizoma tropicale diventato di casa in ogni tisaneria: piccante, caldo, energico.",
+    content: `
+      <p>Lo zenzero (<em>Zingiber officinale</em>) è il rizoma di una pianta erbacea originaria del sud-est asiatico, oggi coltivata in tutte le fasce tropicali del pianeta. In erboristeria si utilizza fresco o essiccato, a seconda dell'intensità di azione desiderata.</p>
+      <p>Deve la sua caratteristica piccantezza a gingeroli e shogaoli, composti con una spiccata azione antinausea, digestiva e circolatoria. È il rimedio naturale più studiato contro nausea da viaggio e nausea gravidica lieve; favorisce inoltre la digestione dei grassi e dà una sensazione di calore percepibile già pochi minuti dopo l'assunzione — da cui il suo uso tradizionale nei mesi freddi, per stimolare la circolazione periferica.</p>
+      <p>Le principali aree di coltivazione restano India, Cina e Nigeria, dove il clima caldo-umido e i terreni sciolti e ricchi di sostanza organica permettono al rizoma di svilupparsi in profondità. Le piante di qualità superiore vengono coltivate in policoltura, spesso all'ombra di alberi da frutto.</p>
+      <p>Il rizoma si raccoglie 8-10 mesi dopo la semina, quando ha raggiunto piena maturazione. Per lo zenzero essiccato, dopo la raccolta viene lavato, spesso pelato a mano, tagliato a fette sottili ed essiccato al sole o in essiccatoi a bassa temperatura per alcuni giorni: un'essiccazione corretta concentra gli oli essenziali rendendo il piccante più intenso rispetto al rizoma fresco.</p>
+    `
+  },
+  {
+    slug: "curcuma",
+    name: "Curcuma",
+    action: "Antiossidante",
+    img: "assets/tisane/curcuma.svg",
+    intro: "Il rizoma color oro che l'Ayurveda usa da millenni, oggi al centro della ricerca sull'infiammazione.",
+    content: `
+      <p>La curcuma (<em>Curcuma longa</em>) è un rizoma della famiglia dello zenzero, originario dell'Asia meridionale, riconoscibile dal caratteristico colore arancio-oro intenso che tinge tutto ciò che tocca — è la stessa sostanza che dà colore al curry.</p>
+      <p>Il principio attivo principale è la curcumina, un polifenolo con una potente azione antiossidante e antinfiammatoria, oggetto di centinaia di studi scientifici negli ultimi vent'anni. È utile come coadiuvante nel benessere articolare, nella funzionalità epatica e digestiva, e come supporto generale contro lo stress ossidativo. Un dettaglio importante: la curcumina da sola è scarsamente assorbita dall'intestino, per questo in erboristeria viene spesso abbinata a piperina (dal pepe nero), che ne aumenta la biodisponibilità fino a venti volte.</p>
+      <p>Si coltiva prevalentemente in India — che da sola produce circa l'80% della curcuma mondiale — oltre che in Indonesia, Cina e in alcune aree tropicali dell'Africa. Predilige climi caldo-umidi, piogge abbondanti e terreni ben drenati; ogni pianta produce un cespo di rizomi che si moltiplica di anno in anno.</p>
+      <p>La raccolta avviene 8-9 mesi dopo la semina. I rizomi vengono bolliti brevemente per stabilizzare il colore e facilitare l'essiccazione, poi essiccati al sole per una decina di giorni fino a diventare duri e friabili. Solo a questo punto vengono macinati in polvere fine: una curcuma di qualità ha un colore intenso e uniforme, mai spento o polveroso.</p>
+    `
+  },
+  {
+    slug: "passiflora",
+    name: "Passiflora",
+    action: "Ansiolitica",
+    img: "assets/tisane/passiflora.svg",
+    intro: "Il fiore più scenografico dell'erboristeria è anche uno dei rilassanti vegetali più efficaci.",
+    content: `
+      <p>La passiflora (<em>Passiflora incarnata</em>), o fiore della passione, è una liana rampicante dal fiore straordinario — una corona di filamenti violacei attorno a una struttura che i missionari gesuiti in Sudamerica interpretarono come simbolo della Passione di Cristo, da cui il nome. In erboristeria si usa la parte aerea fiorita.</p>
+      <p>Contiene flavonoidi (in particolare vitexina) e tracce di alcaloidi indolici, con un'azione ansiolitica e sedativa lieve, priva dell'effetto "narcotico" che si associa spesso ai sedativi. È tra le piante più utilizzate per l'ansia generalizzata, l'irrequietezza nervosa e l'insonnia da iperattività mentale — quella sensazione di pensieri che non si fermano quando si va a letto. Spesso viene abbinata a biancospino e valeriana proprio per questa sua capacità di "spegnere il rumore di fondo" senza appesantire.</p>
+      <p>Originaria del sud-est degli Stati Uniti e del Sudamerica, oggi si coltiva anche in Europa meridionale, Italia compresa, in particolare in aree dal clima mite e temperato dove la pianta può svilupparsi come rampicante perenne su tutori o pergolati.</p>
+      <p>La parte aerea fiorita si raccoglie durante la piena fioritura estiva, quando la concentrazione di flavonoidi è massima. Si essicca rapidamente, in strati sottili e ben ventilati, lontano dal sole diretto per non degradare i principi attivi fotosensibili. Un buon lotto mantiene un colore verde-violaceo vivo, segno che fiori e foglie non hanno subito surriscaldamento.</p>
+    `
+  },
+  {
+    slug: "biancospino",
+    name: "Biancospino",
+    action: "Cardiotonico",
+    img: "assets/tisane/biancospino.svg",
+    intro: "Piccoli fiori bianchi e bacche rosse per il cuore e per i nervi: una pianta doppia.",
+    content: `
+      <p>Il biancospino (<em>Crataegus monogyna</em> e <em>Crataegus oxyacantha</em>) è un arbusto spinoso comunissimo nelle siepi campestri italiane, riconoscibile in primavera per i suoi piccoli fiori bianchi riuniti a mazzetti e in autunno per le bacche rosse (le "azzeruole" minori). In erboristeria si usano fiori, foglie e, in alcuni preparati, le bacche.</p>
+      <p>Contiene flavonoidi e procianidine oligomeriche che agiscono in modo delicato ma specifico sul sistema cardiovascolare: favoriscono la funzionalità cardiaca, aiutano a regolare la frequenza dei battiti nei momenti di ansia e sostengono la circolazione periferica. È per questo che viene definito "l'ansiolitico del cuore" — utile in chi somatizza lo stress con palpitazioni o tachicardia emotiva, sempre accanto (mai in sostituzione) a un controllo medico se i sintomi sono frequenti.</p>
+      <p>Cresce spontaneo in tutta Italia, dalla pianura fino alla media montagna, ai margini dei boschi e lungo le siepi; è una pianta estremamente rustica che non richiede coltivazioni intensive — buona parte del biancospino erboristico italiano viene ancora raccolto da piante spontanee selezionate.</p>
+      <p>I fiori si raccolgono appena sbocciati, in una finestra molto breve a fine primavera, perché appassiscono rapidamente sulla pianta. L'essiccazione è delicata, all'ombra e a bassa temperatura, per mantenere intatto il colore bianco-crema: un biancospino ingiallito o bruno ha perso gran parte della sua carica di flavonoidi.</p>
+    `
+  },
+  {
+    slug: "liquirizia",
+    name: "Liquirizia",
+    action: "Lenitiva",
+    img: "assets/tisane/liquirizia.svg",
+    intro: "Dolce di natura, la radice più golosa dell'erboristeria protegge stomaco e gola.",
+    content: `
+      <p>La liquirizia (<em>Glycyrrhiza glabra</em>) è una pianta leguminosa il cui rizoma e la cui radice contengono glicirrizina, una sostanza dolcificante circa 50 volte più intensa dello zucchero — da cui il nome scientifico, che in greco significa letteralmente "radice dolce".</p>
+      <p>La glicirrizina, insieme a flavonoidi come la liquiritina, conferisce alla radice un'azione lenitiva sulle mucose gastriche e antinfiammatoria sulle prime vie respiratorie: è utile in caso di gastrite lieve, bruciore di stomaco occasionale, tosse e mal di gola, oltre ad avere una blanda azione espettorante. Va usata con attenzione da chi soffre di ipertensione, perché in dosi elevate e prolungate la glicirrizina può favorire la ritenzione di sodio — un motivo in più per farsi consigliare la posologia corretta in parafarmacia.</p>
+      <p>Cresce nelle regioni a clima mediterraneo e continentale caldo; in Italia le coltivazioni storiche più importanti si trovano in Calabria, dove la liquirizia di Rossano ha ottenuto anche il marchio di Indicazione Geografica Protetta, considerata tra le più pregiate al mondo per il contenuto di glicirrizina.</p>
+      <p>Le radici si estraggono dal terreno dopo almeno 3-4 anni di crescita, quando hanno accumulato una quantità sufficiente di principio attivo. Vengono lavate, tagliate in pezzi o bastoncini ed essiccate lentamente all'aria; per alcuni preparati vengono anche torrefatte leggermente, un passaggio che ne accentua la nota dolce e aromatica tipica della radice pronta per l'infusione.</p>
+    `
+  },
+  {
+    slug: "rosa-canina",
+    name: "Rosa Canina",
+    action: "Rinforzante",
+    img: "assets/tisane/rosa-canina.svg",
+    intro: "Il frutto selvatico più ricco di vitamina C che la natura abbia da offrire.",
+    content: `
+      <p>La rosa canina (<em>Rosa canina</em>) è un arbusto spinoso spontaneo, progenitrice selvatica di molte rose da giardino. Il suo frutto, il cinorrodo — chiamato comunemente "bacca" anche se botanicamente è un falso frutto — matura in autunno assumendo un colore rosso-arancio brillante.</p>
+      <p>È tra le fonti vegetali più concentrate di vitamina C in natura, insieme a bioflavonoidi, carotenoidi e tannini che ne completano l'azione antiossidante. Viene tradizionalmente usata come rinforzante generale nei cambi di stagione, per sostenere le naturali difese dell'organismo nei mesi freddi e come coadiuvante contro stanchezza e affaticamento. Il sapore leggermente acidulo e fruttato la rende anche una delle tisane più gradevoli da proporre a chi non ama i sapori amari.</p>
+      <p>Cresce spontanea in tutta Europa, comprese le zone collinari e submontane italiane, ai margini di boschi e siepi; le raccolte erboristiche di qualità privilegiano le zone d'alta collina, dove gli sbalzi termici concentrano maggiormente la vitamina C nel frutto.</p>
+      <p>I cinorrodi si raccolgono in autunno inoltrato, dopo le prime leggere gelate che ne ammorbidiscono la polpa e ne esaltano il sapore. Vanno privati con cura dei semi interni e dei piccoli peli urticanti che li circondano — un passaggio manuale delicato — prima di essere tagliati ed essiccati a bassa temperatura, condizione indispensabile per non degradare la vitamina C, che è molto sensibile al calore.</p>
+    `
+  },
+  {
+    slug: "ortica",
+    name: "Ortica",
+    action: "Depurativa",
+    img: "assets/tisane/ortica.svg",
+    intro: "Pizzica al tatto, ma è una delle piante più complete e mineralizzanti che esistano.",
+    content: `
+      <p>L'ortica (<em>Urtica dioica</em>) è nota a tutti per i peli urticanti che ricoprono foglie e fusto — un meccanismo di difesa che, una volta essiccata o cotta, perde completamente la sua capacità irritante, lasciando spazio a una delle piante più ricche di nutrienti dell'erboristeria europea.</p>
+      <p>Le foglie contengono un profilo minerale eccezionale (ferro, calcio, magnesio, silicio), clorofilla, flavonoidi e acido ascorbico, che le conferiscono un'azione depurativa, rimineralizzante e leggermente diuretica. È tradizionalmente consigliata nei cambi di stagione come tonico generale, in caso di stanchezza e carenze marziali lievi, e come supporto drenante per l'organismo — un vero "multivitaminico verde" ante litteram, usato da secoli nella tradizione contadina europea.</p>
+      <p>Cresce spontanea e infestante in tutta Italia, dalla pianura alla montagna, prediligendo terreni ricchi di azoto: non a caso si trova spesso vicino a case coloniche, letamai e margini di orti, segno indiretto della fertilità del suolo.</p>
+      <p>Le foglie si raccolgono in primavera, quando sono giovani e più ricche di clorofilla e minerali, indossando sempre guanti protettivi. L'essiccazione avviene rapidamente all'ombra, in strati sottili: il calore del sole diretto degraderebbe la clorofilla facendo virare le foglie a un verde spento. Una volta essiccata, l'ortica perde completamente il potere urticante e può essere maneggiata e infusa senza alcun rischio.</p>
+    `
+  },
+  {
+    slug: "tarassaco",
+    name: "Tarassaco",
+    action: "Depurativa",
+    img: "assets/tisane/tarassaco.svg",
+    intro: "Il \"dente di leone\" dei prati è uno dei migliori amici del fegato.",
+    content: `
+      <p>Il tarassaco (<em>Taraxacum officinale</em>), conosciuto anche come dente di leone o soffione, è la pianta spontanea più comune dei prati italiani — quella dai fiori gialli e dai frutti a paracadute che tutti da bambini abbiamo soffiato via. In erboristeria si utilizzano sia la radice sia le foglie.</p>
+      <p>La radice è ricca di inulina, acidi fenolici e principi amari (tarassacina) che stimolano la funzionalità epatica e biliare, favorendo la digestione dei grassi; le foglie hanno invece un'azione più marcatamente diuretica, ricca di potassio — una caratteristica rara tra i diuretici vegetali, che spesso impoveriscono l'organismo di questo minerale. Insieme, radice e foglia lo rendono uno dei depurativi più completi ed equilibrati per il sostegno di fegato e reni nei cambi di stagione.</p>
+      <p>Cresce spontaneo ovunque in Italia, dal livello del mare fino a oltre 2000 metri di quota, adattandosi a qualunque tipo di terreno: è una delle piante più resilienti che esistano, ed è proprio questa diffusione capillare a renderla una risorsa erboristica facilmente accessibile e sostenibile.</p>
+      <p>Le radici si raccolgono in autunno o a inizio primavera, quando la pianta concentra le riserve nutritive nel sottosuolo; le foglie si colgono invece in primavera, prima della fioritura, quando sono più tenere e meno amare. Entrambe le parti vengono lavate ed essiccate a bassa temperatura, in strati sottili, fino a diventare friabili al tatto.</p>
+    `
+  },
+  {
+    slug: "malva",
+    name: "Malva",
+    action: "Emolliente",
+    img: "assets/tisane/malva.svg",
+    intro: "Fiori color lilla per lenire dalla gola all'intestino: la pianta \"morbida\" per eccellenza.",
+    content: `
+      <p>La malva (<em>Malva sylvestris</em>) è una pianta erbacea comunissima nei prati incolti e ai bordi delle strade di campagna, riconoscibile per i suoi fiori a cinque petali striati, dal rosa al violetto. In erboristeria si usano sia i fiori sia le foglie.</p>
+      <p>Deve le sue proprietà principalmente alle mucillagini, sostanze vegetali che a contatto con l'acqua formano un gel viscoso capace di rivestire e proteggere le mucose irritate. Questo le conferisce un'azione emolliente e lenitiva su gola infiammata, tosse secca, mucosa gastrica irritata e, per uso esterno, pelle arrossata. È uno dei rimedi vegetali più delicati che esistano, adatto anche a bambini e persone con stomaco sensibile, ed è tradizionalmente associata al finocchio per calmare le coliche dei più piccoli.</p>
+      <p>Cresce spontanea in tutta Italia, dalla pianura alla collina, prediligendo terreni incolti, muretti a secco e margini di sentieri; si adatta con grande facilità anche ai terreni poveri, ed è una delle piante spontanee più semplici da riconoscere e raccogliere responsabilmente.</p>
+      <p>Fiori e foglie si raccolgono in piena estate, quando la fioritura è più abbondante, preferibilmente al mattino. L'essiccazione deve essere rapida e all'ombra: le mucillagini sono sensibili al calore eccessivo, e un'essiccazione troppo lenta rischia di far ammuffire i fiori più delicati. Un buon lotto di malva mantiene il colore violaceo vivo dei petali, segno che la lavorazione è stata corretta.</p>
+    `
+  },
+  {
+    slug: "lavanda",
+    name: "Lavanda",
+    action: "Rilassante",
+    img: "assets/tisane/lavanda.svg",
+    intro: "Il profumo più riconoscibile della Provenza è anche un potente alleato del sonno.",
+    content: `
+      <p>La lavanda (<em>Lavandula angustifolia</em>, o lavanda vera) è un arbusto sempreverde dai caratteristici fiori violetti riuniti in spighe, coltivato in tutto il bacino del Mediterraneo tanto per uso erboristico quanto per la profumeria. In tisana si utilizzano i fiori essiccati.</p>
+      <p>L'olio essenziale, ricco di linalolo e acetato di linalile, ha un'azione rilassante sul sistema nervoso centrale documentata da numerosi studi: favorisce l'addormentamento, riduce l'agitazione nervosa e ha un lieve effetto antispasmodico anche a livello digestivo. Bevuta la sera, la tisana di lavanda è tra i rimedi più delicati per chi soffre di sonno leggero o si sveglia facilmente durante la notte, e il solo profumo, prima ancora dell'infusione, ha un effetto calmante misurabile sull'umore.</p>
+      <p>In Italia la coltivazione più rinomata è quella dell'Appennino, in particolare in Piemonte, Liguria e Toscana, dove il clima secco e ventilato dell'entroterra collinare favorisce una concentrazione di olio essenziale molto elevata — non a caso paragonabile, per qualità, alla celebre lavanda della Provenza.</p>
+      <p>La spiga si raccoglie in piena estate, quando circa metà dei fiori è ancora chiusa: è il momento in cui la concentrazione di olio essenziale nei calici è massima. Dopo il taglio, i mazzetti vengono essiccati appesi a testa in giù, in un luogo buio e ben ventilato, per preservare sia il colore violetto sia il profumo — la luce diretta scolorisce rapidamente i fiori e ne disperde l'aroma.</p>
+    `
+  },
+];
+
+</script>
+
+<script>
 /* ============== ROUTING SPA ============== */
 const pages = document.querySelectorAll('.page');
 const menuLinks = document.querySelectorAll('[data-page]');
@@ -4326,6 +4573,13 @@ function navigate(pageName){
   if(pageName && pageName.startsWith('blog/')){
     const slug = pageName.substring(5);
     renderArticleRoute(slug);
+    return;
+  }
+
+  // Routing ingredienti tisane: #tisane/slug-ingrediente → scheda ingrediente
+  if(pageName && pageName.startsWith('tisane/')){
+    const slug = pageName.substring(7);
+    renderIngredientRoute(slug);
     return;
   }
 
@@ -4976,6 +5230,84 @@ function renderArticleRoute(slug){
   blogState.currentSlug = slug;
   renderSingleArticle(slug);
 }
+
+/* ============== SCHEDA INGREDIENTE TISANA ============== */
+
+function renderIngredientRoute(slug){
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-ingredient').classList.add('active');
+  document.querySelectorAll('.menu a').forEach(a => a.classList.remove('active'));
+  document.querySelector('.menu a[data-page="tisane"]')?.classList.add('active');
+  renderSingleIngredient(slug);
+  window.scrollTo({ top: 0, behavior: 'instant' });
+}
+
+function renderSingleIngredient(slug){
+  const container = document.getElementById('ingredientContainer');
+  const ing = (typeof INGREDIENTS_DATA !== 'undefined' ? INGREDIENTS_DATA : []).find(i => i.slug === slug);
+
+  if(!ing){
+    container.innerHTML = `
+      <section class="article-hero">
+        <div class="wrap">
+          <a class="article-back" data-page="tisane" href="#tisane">Torna alle tisane</a>
+          <h1 class="article-title">Ingrediente non trovato</h1>
+        </div>
+      </section>
+      <div class="wrap"><div class="article-content"><p>Prova a tornare alla pagina delle tisane e scegliere un ingrediente dalla griglia.</p></div></div>
+    `;
+    bindMenuLinks();
+    return;
+  }
+
+  container.innerHTML = `
+    <section class="article-hero">
+      <div class="wrap">
+        <a class="article-back" data-page="tisane" href="#tisane">Torna alle tisane</a>
+        <div class="article-meta-row">
+          <span>Ingredienti delle nostre tisane</span>
+          <span class="dot"></span>
+          <span>${esc(ing.action)}</span>
+        </div>
+        <h1 class="article-title">${esc(ing.name)}</h1>
+        <div class="article-hero-img" style="background:var(--azzurro-luce); display:flex; align-items:center; justify-content:center;">
+          <img src="${escAttr(ing.img)}" alt="${escAttr(ing.name)}" style="width:auto; height:100%; max-height:340px; object-fit:contain;"/>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap">
+      <div class="article-content">
+        <div class="excerpt-lead">${esc(ing.intro)}</div>
+        ${ing.content}
+      </div>
+
+      <div class="article-disclaimer">
+        <strong>Una nota importante.</strong> Le informazioni di questa scheda hanno carattere divulgativo e non sostituiscono il parere del tuo medico o farmacista di fiducia, specialmente in caso di terapie in corso, gravidanza o allattamento.
+      </div>
+
+      <div class="article-cta">
+        <span class="eyebrow" style="justify-content:center; display:flex;">Vuoi assaggiarla?</span>
+        <h3>Vieni a scoprirla in <em>parafarmacia</em></h3>
+        <p>La Dottoressa Emy può consigliarti la miscela giusta in cui trovi questo ingrediente, su misura per te.</p>
+        <a href="#contatti" data-page="contatti" class="btn btn-primary">Come trovarci →</a>
+      </div>
+    </div>
+  `;
+
+  bindMenuLinks();
+}
+
+// Click sugli ingredienti nella griglia della pagina Tisane
+document.getElementById('herbsGrid')?.addEventListener('click', e => {
+  const card = e.target.closest('.herb');
+  if(!card) return;
+  const slug = card.dataset.slug;
+  if(slug){
+    history.pushState({}, '', `#tisane/${slug}`);
+    renderIngredientRoute(slug);
+  }
+});
 
 // Re-bind dei link menu in contenuti generati dinamicamente
 function bindMenuLinks(){
