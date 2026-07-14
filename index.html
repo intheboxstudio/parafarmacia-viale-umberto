@@ -6,59 +6,9 @@
 <meta name="description" content="Parafarmacia Erboristeria Viale Umberto 1° – Reggio Emilia. Fitoterapia, erboristeria, cosmesi, omeopatia. Tisane artigianali, consulenze nutrizionali, naturopatia, farmacista cosmetologa, punto vendita Pane Primus e stanze per consulenze su appuntamento." />
 <title>Parafarmacia Erboristeria Viale Umberto 1° — Reggio Emilia</title>
 
-<!-- ===== FAVICON & PWA ===== -->
-<link rel="icon" type="image/png" sizes="48x48" href="assets/favicon.png">
-<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-<meta name="theme-color" content="#4A88AD">
-
-<!-- ===== SEO / SOCIAL — SWITCH-DOMAIN: quando attivi www.parafarmaciaemy.it
-     sostituisci in TUTTO il file la stringa
-     https://intheboxstudio.github.io/parafarmacia-viale-umberto
-     con https://www.parafarmaciaemy.it ===== -->
-<link rel="canonical" href="https://intheboxstudio.github.io/parafarmacia-viale-umberto/">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Parafarmacia Erboristeria Viale Umberto 1°">
-<meta property="og:title" content="Parafarmacia Erboristeria Viale Umberto 1° — Reggio Emilia">
-<meta property="og:description" content="Fitoterapia, erboristeria, cosmesi naturale, omeopatia e tisane artigianali. Consulenze nutrizionali, naturopatia e farmacista cosmetologa su appuntamento, nel cuore di Reggio Emilia.">
-<meta property="og:image" content="https://intheboxstudio.github.io/parafarmacia-viale-umberto/assets/primus.webp">
-<meta property="og:url" content="https://intheboxstudio.github.io/parafarmacia-viale-umberto/">
-<meta property="og:locale" content="it_IT">
-<meta name="twitter:card" content="summary_large_image">
-
-<!-- ===== DATI STRUTTURATI (Local SEO) ===== -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Pharmacy",
-  "name": "Parafarmacia Erboristeria Viale Umberto 1°",
-  "alternateName": "Parafarmacia Dottoressa Emy",
-  "url": "https://intheboxstudio.github.io/parafarmacia-viale-umberto/",
-  "image": "https://intheboxstudio.github.io/parafarmacia-viale-umberto/assets/primus.webp",
-  "logo": "https://intheboxstudio.github.io/parafarmacia-viale-umberto/assets/logo-ginkgo-azzurro.png",
-  "telephone": "+390522081652",
-  "email": "parafarmaciavialeumberto@gmail.com",
-  "priceRange": "€€",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "Viale Umberto 1°, 17/D",
-    "addressLocality": "Reggio Emilia",
-    "addressRegion": "RE",
-    "postalCode": "42121",
-    "addressCountry": "IT"
-  },
-  "openingHoursSpecification": [
-    {"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Friday","Saturday"], "opens": "09:00", "closes": "13:00"},
-    {"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Friday","Saturday"], "opens": "15:30", "closes": "19:30"},
-    {"@type": "OpeningHoursSpecification", "dayOfWeek": "Thursday", "opens": "09:00", "closes": "13:00"}
-  ],
-  "sameAs": ["https://www.instagram.com/parafarmacia.viale.umberto/"]
-}
-</script>
-
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,400&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 :root{
@@ -172,13 +122,12 @@ h1, h2, h3, h4{
 }
 .logo-mark .logo-circle{
   width: 46px; height: 46px;
-  background: var(--inchiostro);
   border-radius: 50%;
   display: grid; place-items: center;
   flex-shrink: 0;
 }
 .logo-mark .logo-leaf{
-  width: 64%; height: 64%;
+  width: 100%; height: 100%;
   object-fit: contain;
   display: block;
 }
@@ -922,12 +871,12 @@ h1, h2, h3, h4{
     radial-gradient(ellipse 500px 400px at 20% 80%, var(--rosa-soft) 0%, transparent 65%),
     linear-gradient(180deg, var(--azzurro-luce) 0%, var(--azzurro-aria) 100%);
 }
-.page-header h2{
+.page-header h1{
   font-size: clamp(48px, 7vw, 92px);
   font-weight: 300;
   margin-top: 20px;
 }
-.page-header h2 em{ color: var(--azzurro-deep); font-weight: 400; }
+.page-header h1 em{ color: var(--azzurro-deep); font-weight: 400; }
 .page-header .lead{
   margin-top: 24px;
   color: var(--grigio);
@@ -1016,12 +965,12 @@ h1, h2, h3, h4{
   position: relative;
   overflow: hidden;
 }
-.tisane-hero h2{
+.tisane-hero h1{
   font-size: clamp(50px, 8vw, 110px);
   font-weight: 300;
   font-style: italic;
 }
-.tisane-hero h2 em{
+.tisane-hero h1 em{
   font-style: normal;
   font-weight: 400;
   color: var(--azzurro-deep);
@@ -1446,12 +1395,12 @@ h1, h2, h3, h4{
   text-align: center;
   position: relative;
 }
-.ig-hero h2{
+.ig-hero h1{
   font-size: clamp(44px, 6vw, 80px);
   font-weight: 300;
   margin-top: 18px;
 }
-.ig-hero h2 em{ color: var(--azzurro-deep); font-weight: 400; }
+.ig-hero h1 em{ color: var(--azzurro-deep); font-weight: 400; }
 
 /* Profile card */
 .ig-profile-card{
@@ -1507,7 +1456,6 @@ h1, h2, h3, h4{
 }
 .ig-avatar-inner{
   width: 100%; height: 100%;
-  background: var(--inchiostro);
   border-radius: 50%;
   display: grid; place-items: center;
 }
@@ -1606,7 +1554,7 @@ h1, h2, h3, h4{
 
 @media (max-width: 540px){
   .ig-hero{ padding: 40px 0 30px; }
-  .ig-hero h2{ font-size: clamp(36px, 9vw, 50px); }
+  .ig-hero h1{ font-size: clamp(36px, 9vw, 50px); }
 
   .ig-profile-card{
     padding: 32px 20px;
@@ -1910,12 +1858,12 @@ h1, h2, h3, h4{
   position: relative;
   overflow: hidden;
 }
-.blog-header h2{
+.blog-header h1{
   font-size: clamp(46px, 7vw, 88px);
   font-weight: 300;
   margin-top: 18px;
 }
-.blog-header h2 em{ color: var(--azzurro-deep); font-weight: 400; }
+.blog-header h1 em{ color: var(--azzurro-deep); font-weight: 400; }
 .blog-header .lead{
   margin-top: 24px;
   color: var(--grigio);
@@ -2519,7 +2467,7 @@ h1, h2, h3, h4{
 
 @media (max-width: 540px){
   .blog-header{ padding: 40px 0 30px; }
-  .blog-header h2{ font-size: clamp(36px, 9vw, 50px); }
+  .blog-header h1{ font-size: clamp(36px, 9vw, 50px); }
   .blog-header .lead{ font-size: 15px; }
   .blog-filters{ margin-top: 28px; gap: 8px; }
   .blog-filter{ padding: 9px 16px; font-size: 12px; }
@@ -2662,7 +2610,7 @@ footer::before{
   }
 
   .page-header{ padding: 50px 0 40px; }
-  .page-header h2{ font-size: clamp(38px, 10vw, 60px); }
+  .page-header h1{ font-size: clamp(38px, 10vw, 60px); }
   .page-header .lead{ font-size: 16px; }
 
   .service-num{ font-size: 15px; }
@@ -3045,16 +2993,6 @@ footer::before{
   .primus-cta-row .btn{ width: 100%; justify-content: center; }
 }
 
-
-/* ===== ACCESSIBILITÀ: rispetta chi disattiva le animazioni ===== */
-@media (prefers-reduced-motion: reduce){
-  *, *::before, *::after{
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
 </style>
 </head>
 <body>
@@ -3063,8 +3001,8 @@ footer::before{
 <nav class="nav" id="nav">
   <div class="nav-inner">
     <div class="logo-mark" data-page="home">
-      <div class="logo-circle" style="background:#fff; overflow:hidden;">
-        <img src="assets/logo-tondo.png" alt="Parafarmacia Erboristeria Viale Umberto" class="logo-leaf" style="width:100%; height:100%; border-radius:50%;" />
+      <div class="logo-circle">
+        <img src="assets/logo-badge.png" alt="Parafarmacia Erboristeria Viale Umberto" class="logo-leaf" />
       </div>
       <div class="logo-text">
         Viale Umberto 1°<br>
@@ -3128,7 +3066,7 @@ footer::before{
   <section class="marquee-section">
     <div class="marquee">
       <span>Fitoterapia</span><span>Erboristeria</span><span>Cosmesi naturale</span><span>Omeopatia</span><span>Tisane artigianali</span><span>Naturopatia</span><span>Cosmetologia</span><span>Pane Primus</span>
-      <span aria-hidden="true">Fitoterapia</span><span aria-hidden="true">Erboristeria</span><span aria-hidden="true">Cosmesi naturale</span><span aria-hidden="true">Omeopatia</span><span aria-hidden="true">Tisane artigianali</span><span aria-hidden="true">Naturopatia</span><span aria-hidden="true">Cosmetologia</span><span aria-hidden="true">Pane Primus</span>
+      <span>Fitoterapia</span><span>Erboristeria</span><span>Cosmesi naturale</span><span>Omeopatia</span><span>Tisane artigianali</span><span>Naturopatia</span><span>Cosmetologia</span><span>Pane Primus</span>
     </div>
   </section>
 
@@ -3150,8 +3088,8 @@ footer::before{
               <div class="stat-label">Referenze fitoterapiche</div>
             </div>
             <div>
-              <div class="stat-num">12</div>
-              <div class="stat-label">Brand selezionati</div>
+              <div class="stat-num">8</div>
+              <div class="stat-label">Brand d'eccellenza</div>
             </div>
             <div>
               <div class="stat-num">∞</div>
@@ -3272,7 +3210,7 @@ footer::before{
         <div class="primus-image reveal">
           <div class="primus-img-wrap">
             <!-- Sostituisci src con assets/primus.jpg quando hai la foto -->
-            <img src="assets/primus.webp" alt="Pane Primus — Parafarmacia Viale Umberto 1°"
+            <img src="assets/primus.jpg" alt="Pane Primus — Parafarmacia Viale Umberto 1°"
                  onerror="this.style.display='none'; this.parentElement.classList.add('no-img');"
                  loading="lazy"/>
             <div class="primus-img-placeholder">
@@ -3290,10 +3228,10 @@ footer::before{
         <div class="primus-text reveal">
           <span class="eyebrow">Punto vendita autorizzato</span>
           <h2>Il <em>Pane Primus</em>. Un grano antico, una digestione leggera.</h2>
-          <p>Da noi trovi il <strong>Pane Primus</strong>: nato da un impasto di grani antichi integrali e proteine vegetali di cereali e legumi, lievitato naturalmente a pasta madre per oltre 24 ore — una fermentazione lunga che trasforma e riduce gran parte del glutine.</p>
+          <p>Da noi trovi il <strong>Pane Primus</strong>: prodotto con la farina del grano tenero <em>Primus</em>, una varietà a basso indice di glutine e ricca di fibre, lievitata naturalmente a pasta madre per oltre 24 ore.</p>
           <p>Sapore deciso, mollica fitta, crosta croccante. Non è un pane "light" — è un pane <em>vero</em>, fatto come una volta, che resta morbido per giorni e si digerisce con leggerezza anche per chi tende a sentirsi appesantito dopo i pasti.</p>
           <ul class="primus-features">
-            <li><strong>Grani antichi integrali</strong> e basso impatto glicemico</li>
+            <li><strong>Farina di grano Primus</strong> a basso indice glicemico</li>
             <li><strong>Lievito madre</strong> e fermentazione lunga (24h+)</li>
             <li><strong>Senza additivi</strong>, senza zuccheri aggiunti, senza grassi</li>
             <li><strong>Consigliato</strong> a chi cerca digeribilità senza rinunciare al gusto</li>
@@ -3352,7 +3290,7 @@ footer::before{
   <section class="page-header">
     <div class="wrap">
       <span class="eyebrow" style="justify-content:center; display:flex;">Oltre il banco — Una cura completa</span>
-      <h2>I nostri <em>servizi</em></h2>
+      <h1>I nostri <em>servizi</em></h1>
       <p class="lead">Tre percorsi pensati per accompagnarti nel quotidiano: corpo, mente, energia. Ognuno con la sua professionista dedicata, ognuno su appuntamento.</p>
     </div>
   </section>
@@ -3471,10 +3409,10 @@ footer::before{
             <li>Sala d'attesa condivisa</li>
           </ul>
           <div class="room-gallery">
-            <img src="assets/rooms/stanza-luminosa-1.webp" alt="Tavolo e sedute davanti alla finestra della stanza luminosa" loading="lazy">
-            <img src="assets/rooms/stanza-luminosa-2.webp" alt="Lettino professionale e scrivania nella stanza luminosa" loading="lazy">
-            <img src="assets/rooms/stanza-luminosa-3.webp" alt="Dettaglio finestra e scrivania nella stanza luminosa" loading="lazy">
-            <img src="assets/rooms/stanza-luminosa-4.webp" alt="Vista d'insieme della stanza luminosa" loading="lazy">
+            <img src="assets/rooms/stanza-luminosa-1.jpg" alt="Tavolo e sedute davanti alla finestra della stanza luminosa" loading="lazy">
+            <img src="assets/rooms/stanza-luminosa-2.jpg" alt="Lettino professionale e scrivania nella stanza luminosa" loading="lazy">
+            <img src="assets/rooms/stanza-luminosa-3.jpg" alt="Dettaglio finestra e scrivania nella stanza luminosa" loading="lazy">
+            <img src="assets/rooms/stanza-luminosa-4.jpg" alt="Vista d'insieme della stanza luminosa" loading="lazy">
           </div>
         </div>
 
@@ -3489,10 +3427,10 @@ footer::before{
             <li>Accesso indipendente dall'esercizio</li>
           </ul>
           <div class="room-gallery">
-            <img src="assets/rooms/stanza-raccolta-1.webp" alt="Tavolo e sedute nella stanza raccolta" loading="lazy">
-            <img src="assets/rooms/stanza-raccolta-2.webp" alt="Angolo della stanza raccolta con quadro" loading="lazy">
-            <img src="assets/rooms/stanza-raccolta-3.webp" alt="Vetrata e carrello nella stanza raccolta" loading="lazy">
-            <img src="assets/rooms/stanza-raccolta-4.webp" alt="Dettaglio decorativo nella stanza raccolta" loading="lazy">
+            <img src="assets/rooms/stanza-raccolta-1.jpg" alt="Tavolo e sedute nella stanza raccolta" loading="lazy">
+            <img src="assets/rooms/stanza-raccolta-2.jpg" alt="Angolo della stanza raccolta con quadro" loading="lazy">
+            <img src="assets/rooms/stanza-raccolta-3.jpg" alt="Vetrata e carrello nella stanza raccolta" loading="lazy">
+            <img src="assets/rooms/stanza-raccolta-4.jpg" alt="Dettaglio decorativo nella stanza raccolta" loading="lazy">
           </div>
         </div>
       </div>
@@ -3514,13 +3452,9 @@ footer::before{
             <label for="roomsMessage">Quando ti servirebbe?</label>
             <textarea id="roomsMessage" name="message" rows="4" placeholder="Indicativamente: giorni della settimana, fasce orarie, una stanza o entrambe..." required></textarea>
           </div>
-          <div class="field" style="display:flex; gap:10px; align-items:flex-start;">
-            <input type="checkbox" id="roomsPrivacy" required style="margin-top:4px; width:auto;">
-            <label for="roomsPrivacy" style="font-size:13px; line-height:1.5; font-weight:400;">Ho letto l'<a href="#privacy" data-page="privacy">informativa sulla privacy</a> e acconsento al trattamento dei miei dati per essere ricontattato.</label>
-          </div>
           <div class="field-action">
             <button type="submit" class="btn btn-primary">Invia la richiesta <span class="arrow">→</span></button>
-            <span class="field-hint">Invio diretto dal sito. Ti rispondiamo entro 24 ore.</span>
+            <span class="field-hint">Aprirà la tua app email con tutto pronto.</span>
           </div>
         </form>
       </div>
@@ -3550,7 +3484,7 @@ footer::before{
   <section class="tisane-hero">
     <div class="wrap">
       <span class="eyebrow" style="justify-content:center; display:flex;">Una linea che è una storia</span>
-      <h2>Le <em>Tisane</em><br>della Dottoressa Emy</h2>
+      <h1>Le <em>Tisane</em><br>della Dottoressa Emy</h1>
     </div>
   </section>
 
@@ -3584,14 +3518,14 @@ footer::before{
         <div class="herbs-grid" id="herbsGrid">
           <div class="herb" data-slug="camomilla"><div class="herb-thumb"><img src="assets/tisane/camomilla.svg" alt="Camomilla" loading="lazy"></div><div class="herb-name">Camomilla</div><div class="herb-action">Calmante</div></div>
           <div class="herb" data-slug="melissa"><div class="herb-thumb"><img src="assets/tisane/melissa.svg" alt="Melissa" loading="lazy"></div><div class="herb-name">Melissa</div><div class="herb-action">Rilassante</div></div>
-          <div class="herb" data-slug="tiglio"><div class="herb-thumb"><img src="assets/tisane/tiglio.svg" alt="Tiglio" loading="lazy"></div><div class="herb-name">Tiglio</div><div class="herb-action">Riposo</div></div>
+          <div class="herb" data-slug="tiglio"><div class="herb-thumb"><img src="assets/tisane/tiglio.svg" alt="Tiglio" loading="lazy"></div><div class="herb-name">Tiglio</div><div class="herb-action">Sedativo</div></div>
           <div class="herb" data-slug="valeriana"><div class="herb-thumb"><img src="assets/tisane/valeriana.svg" alt="Valeriana" loading="lazy"></div><div class="herb-name">Valeriana</div><div class="herb-action">Notturna</div></div>
           <div class="herb" data-slug="finocchio"><div class="herb-thumb"><img src="assets/tisane/finocchio.svg" alt="Finocchio" loading="lazy"></div><div class="herb-name">Finocchio</div><div class="herb-action">Digestivo</div></div>
           <div class="herb" data-slug="menta"><div class="herb-thumb"><img src="assets/tisane/menta.svg" alt="Menta" loading="lazy"></div><div class="herb-name">Menta</div><div class="herb-action">Tonificante</div></div>
           <div class="herb" data-slug="zenzero"><div class="herb-thumb"><img src="assets/tisane/zenzero.svg" alt="Zenzero" loading="lazy"></div><div class="herb-name">Zenzero</div><div class="herb-action">Riscaldante</div></div>
           <div class="herb" data-slug="curcuma"><div class="herb-thumb"><img src="assets/tisane/curcuma.svg" alt="Curcuma" loading="lazy"></div><div class="herb-name">Curcuma</div><div class="herb-action">Antiossidante</div></div>
-          <div class="herb" data-slug="passiflora"><div class="herb-thumb"><img src="assets/tisane/passiflora.svg" alt="Passiflora" loading="lazy"></div><div class="herb-name">Passiflora</div><div class="herb-action">Relax</div></div>
-          <div class="herb" data-slug="biancospino"><div class="herb-thumb"><img src="assets/tisane/biancospino.svg" alt="Biancospino" loading="lazy"></div><div class="herb-name">Biancospino</div><div class="herb-action">Benessere del cuore</div></div>
+          <div class="herb" data-slug="passiflora"><div class="herb-thumb"><img src="assets/tisane/passiflora.svg" alt="Passiflora" loading="lazy"></div><div class="herb-name">Passiflora</div><div class="herb-action">Ansiolitica</div></div>
+          <div class="herb" data-slug="biancospino"><div class="herb-thumb"><img src="assets/tisane/biancospino.svg" alt="Biancospino" loading="lazy"></div><div class="herb-name">Biancospino</div><div class="herb-action">Cardiotonico</div></div>
           <div class="herb" data-slug="liquirizia"><div class="herb-thumb"><img src="assets/tisane/liquirizia.svg" alt="Liquirizia" loading="lazy"></div><div class="herb-name">Liquirizia</div><div class="herb-action">Lenitiva</div></div>
           <div class="herb" data-slug="rosa-canina"><div class="herb-thumb"><img src="assets/tisane/rosa-canina.svg" alt="Rosa Canina" loading="lazy"></div><div class="herb-name">Rosa Canina</div><div class="herb-action">Rinforzante</div></div>
           <div class="herb" data-slug="ortica"><div class="herb-thumb"><img src="assets/tisane/ortica.svg" alt="Ortica" loading="lazy"></div><div class="herb-name">Ortica</div><div class="herb-action">Depurativa</div></div>
@@ -3646,7 +3580,7 @@ footer::before{
   <section class="page-header">
     <div class="wrap">
       <span class="eyebrow" style="justify-content:center; display:flex;">Punto vendita ufficiale</span>
-      <h2>Pane <em>Primus</em></h2>
+      <h1>Pane <em>Primus</em></h1>
       <p class="lead">Uno dei pochi punti vendita ufficiali del Pane Primus a Reggio Emilia. Un pane diverso da tutti gli altri, che abbiamo scelto di portare da noi perché crediamo in ciò che rappresenta: il ritorno a un grano vero.</p>
     </div>
   </section>
@@ -3656,7 +3590,7 @@ footer::before{
       <div class="primus-grid">
         <div class="primus-image reveal">
           <div class="primus-img-wrap">
-            <img src="assets/primus.webp" alt="Pane Primus — Parafarmacia Viale Umberto 1°"
+            <img src="assets/primus.jpg" alt="Pane Primus — Parafarmacia Viale Umberto 1°"
                  onerror="this.style.display='none'; this.parentElement.classList.add('no-img');"
                  loading="lazy"/>
             <div class="primus-img-placeholder">
@@ -3674,10 +3608,10 @@ footer::before{
         <div class="primus-text reveal">
           <span class="eyebrow">Un grano antico, una scelta di valore</span>
           <h2>Non un pane qualsiasi. Il <em>Primus</em>.</h2>
-          <p>Il Pane Primus nasce da grani antichi integrali e da un mix di proteine vegetali di cereali e legumi. La lievitazione a pasta madre, lenta e naturale per oltre 24 ore, trasforma gran parte del glutine e fa il resto: un pane dal sapore deciso, dalla mollica fitta e dalla crosta croccante.</p>
+          <p>Il Pane Primus nasce dalla farina del grano tenero <em>Primus</em>, una varietà selezionata a basso indice di glutine e ricca di fibre. La lievitazione a pasta madre, lenta e naturale per oltre 24 ore, fa il resto: un pane dal sapore deciso, dalla mollica fitta e dalla crosta croccante.</p>
           <p>Essere uno dei pochi punti vendita ufficiali a Reggio Emilia significa garantirti il prodotto <strong>autentico</strong>, conservato e trattato come merita. Non una semplice rivendita: una scelta di cui rispondiamo in prima persona.</p>
           <ul class="primus-features">
-            <li><strong>Basso impatto glicemico</strong>, ricco di fibre e proteine</li>
+            <li><strong>Grano Primus</strong> a basso indice glicemico</li>
             <li><strong>Lievito madre</strong> e fermentazione lunga (24h+)</li>
             <li><strong>Senza additivi</strong>, zuccheri aggiunti o grassi</li>
             <li><strong>Alta digeribilità</strong>, anche per chi si sente spesso appesantito</li>
@@ -3708,10 +3642,6 @@ footer::before{
             <label for="primusMessage">Quantità e note</label>
             <textarea id="primusMessage" name="message" rows="4" placeholder="Es. 2 pagnotte per sabato mattina. Eventuali preferenze o richieste..." required></textarea>
           </div>
-          <div class="field" style="display:flex; gap:10px; align-items:flex-start;">
-            <input type="checkbox" id="primusPrivacy" required style="margin-top:4px; width:auto;">
-            <label for="primusPrivacy" style="font-size:13px; line-height:1.5; font-weight:400;">Ho letto l'<a href="#privacy" data-page="privacy">informativa sulla privacy</a> e acconsento al trattamento dei miei dati per essere ricontattato.</label>
-          </div>
           <div class="field-action">
             <button type="submit" class="btn btn-primary" id="primusSubmitBtn">Invia la prenotazione <span class="arrow">&rarr;</span></button>
             <span class="field-hint" id="primusHint">Ti basta un attimo. Pensiamo a tutto noi.</span>
@@ -3731,7 +3661,7 @@ footer::before{
   <section class="page-header">
     <div class="wrap">
       <span class="eyebrow" style="justify-content:center; display:flex;">Vieni, chiama, scrivici</span>
-      <h2>Dove <em>trovarci</em></h2>
+      <h1>Dove <em>trovarci</em></h1>
       <p class="lead">In viale Umberto a Reggio Emilia, dal lunedì al sabato. Con un sorriso pronto e una panchina libera per chi vuole due chiacchiere prima del consiglio.</p>
     </div>
   </section>
@@ -3858,7 +3788,7 @@ footer::before{
   <section class="ig-hero">
     <div class="wrap ig-hero-inner">
       <span class="eyebrow" style="justify-content:center; display:flex;">Seguici sul nostro profilo</span>
-      <h2>La parafarmacia,<br>su <em>Instagram</em></h2>
+      <h1>La parafarmacia,<br>su <em>Instagram</em></h1>
     </div>
 
     <div class="wrap">
@@ -3867,7 +3797,7 @@ footer::before{
           <div class="ig-avatar-ring"></div>
           <div class="ig-avatar">
             <div class="ig-avatar-inner">
-              <img src="assets/logo-ginkgo-white.png" alt="Ginkgo" style="width:62%;height:62%;object-fit:contain;" />
+              <img src="assets/logo-badge.png" alt="Parafarmacia Erboristeria Viale Umberto" style="width:100%;height:100%;object-fit:contain;" />
             </div>
           </div>
         </div>
@@ -3910,7 +3840,7 @@ footer::before{
     <div class="wrap">
       <div class="ig-feed-header">
         <h2>I nostri ultimi <em>post</em></h2>
-        <div class="ig-feed-tag">Seguici per gli aggiornamenti</div>
+        <div class="ig-feed-tag">Aggiornato dal profilo</div>
       </div>
 
       <!-- ============================================================
@@ -3961,7 +3891,7 @@ footer::before{
                 <circle cx="12" cy="12" r="4" stroke="white" stroke-width="1.8"/>
                 <circle cx="17.5" cy="6.5" r="1" fill="white"/>
               </svg>
-              <div class="ig-hover-label">Apri il profilo</div>
+              <div class="ig-hover-label">Vai al post</div>
             </div>
           </div>
         </a>
@@ -3984,7 +3914,7 @@ footer::before{
                 <circle cx="12" cy="12" r="4" stroke="white" stroke-width="1.8"/>
                 <circle cx="17.5" cy="6.5" r="1" fill="white"/>
               </svg>
-              <div class="ig-hover-label">Apri il profilo</div>
+              <div class="ig-hover-label">Vai al post</div>
             </div>
           </div>
         </a>
@@ -4007,7 +3937,7 @@ footer::before{
                 <circle cx="12" cy="12" r="4" stroke="white" stroke-width="1.8"/>
                 <circle cx="17.5" cy="6.5" r="1" fill="white"/>
               </svg>
-              <div class="ig-hover-label">Apri il profilo</div>
+              <div class="ig-hover-label">Vai al post</div>
             </div>
           </div>
         </a>
@@ -4029,7 +3959,7 @@ footer::before{
                 <circle cx="12" cy="12" r="4" stroke="white" stroke-width="1.8"/>
                 <circle cx="17.5" cy="6.5" r="1" fill="white"/>
               </svg>
-              <div class="ig-hover-label">Apri il profilo</div>
+              <div class="ig-hover-label">Vai al post</div>
             </div>
           </div>
         </a>
@@ -4049,7 +3979,7 @@ footer::before{
                 <circle cx="12" cy="12" r="4" stroke="white" stroke-width="1.8"/>
                 <circle cx="17.5" cy="6.5" r="1" fill="white"/>
               </svg>
-              <div class="ig-hover-label">Apri il profilo</div>
+              <div class="ig-hover-label">Vai al post</div>
             </div>
           </div>
         </a>
@@ -4070,7 +4000,7 @@ footer::before{
                 <circle cx="12" cy="12" r="4" stroke="white" stroke-width="1.8"/>
                 <circle cx="17.5" cy="6.5" r="1" fill="white"/>
               </svg>
-              <div class="ig-hover-label">Apri il profilo</div>
+              <div class="ig-hover-label">Vai al post</div>
             </div>
           </div>
         </a>
@@ -4094,7 +4024,7 @@ footer::before{
                 <circle cx="12" cy="12" r="4" stroke="white" stroke-width="1.8"/>
                 <circle cx="17.5" cy="6.5" r="1" fill="white"/>
               </svg>
-              <div class="ig-hover-label">Apri il profilo</div>
+              <div class="ig-hover-label">Vai al post</div>
             </div>
           </div>
         </a>
@@ -4118,7 +4048,7 @@ footer::before{
                 <circle cx="12" cy="12" r="4" stroke="white" stroke-width="1.8"/>
                 <circle cx="17.5" cy="6.5" r="1" fill="white"/>
               </svg>
-              <div class="ig-hover-label">Apri il profilo</div>
+              <div class="ig-hover-label">Vai al post</div>
             </div>
           </div>
         </a>
@@ -4141,7 +4071,7 @@ footer::before{
                 <circle cx="12" cy="12" r="4" stroke="white" stroke-width="1.8"/>
                 <circle cx="17.5" cy="6.5" r="1" fill="white"/>
               </svg>
-              <div class="ig-hover-label">Apri il profilo</div>
+              <div class="ig-hover-label">Vai al post</div>
             </div>
           </div>
         </a>
@@ -4177,7 +4107,7 @@ footer::before{
   <section class="blog-header">
     <div class="wrap">
       <span class="eyebrow" style="justify-content:center; display:flex;">Il diario quotidiano</span>
-      <h2>Storie, rimedi,<br><em>consigli per stare bene</em></h2>
+      <h1>Storie, rimedi,<br><em>consigli per stare bene</em></h1>
       <p class="lead">Un articolo nuovo il martedì, il giovedì e il sabato mattina. Domande vere, risposte fondate su fonti autorevoli, soluzioni che trovi da noi. Naturopatia, omeopatia, erboristeria e cura del corpo.</p>
 
       <div class="blog-live-tag">Aggiornato mar · gio · sab · ore 10:00</div>
@@ -4241,7 +4171,7 @@ footer::before{
   <section class="page-header">
     <div class="wrap">
       <span class="eyebrow" style="justify-content:center; display:flex;">Scrivici un messaggio</span>
-      <h2><em>Raccontaci</em> di cosa hai bisogno</h2>
+      <h1><em>Raccontaci</em> di cosa hai bisogno</h1>
       <p class="lead">Compila il modulo qui sotto. Ti rispondiamo entro 24 ore (esclusa la domenica) sul canale che preferisci — email o telefono.</p>
     </div>
   </section>
@@ -4257,7 +4187,7 @@ footer::before{
         <ul class="form-perks">
           <li>Risposta personale in 24h</li>
           <li>Nessuna newsletter automatica</li>
-          <li>I tuoi dati, usati solo per risponderti</li>
+          <li>I tuoi dati restano qui, da noi</li>
           <li>Risposta su email o telefono, come preferisci</li>
         </ul>
       </div>
@@ -4313,7 +4243,7 @@ footer::before{
   <section class="page-header">
     <div class="wrap">
       <span class="eyebrow" style="justify-content:center; display:flex;">Informativa sul trattamento dei dati</span>
-      <h2>Privacy &amp; <em>Cookie</em></h2>
+      <h1>Privacy &amp; <em>Cookie</em></h1>
       <p class="lead">Ai sensi del Regolamento (UE) 2016/679 (GDPR) e della normativa italiana vigente.</p>
     </div>
   </section>
@@ -4325,7 +4255,7 @@ footer::before{
       <p>Il titolare del trattamento dei dati personali è <strong>Parafarmacia Erboristeria Viale Umberto 1°</strong> di <strong>Met-Hasani Eminalda</strong>, con sede in Viale Umberto 1°, 17/D – 42121 Reggio Emilia (RE) – Partita IVA 02853350359.</p>
 
       <h2>2. Tipologia di dati trattati</h2>
-      <p>Trattiamo esclusivamente i dati che ci fornisci volontariamente attraverso il modulo di contatto (nome, email, recapito telefonico, oggetto e contenuto del messaggio). Non utilizziamo strumenti di profilazione automatica. I messaggi inviati tramite i moduli del sito vengono recapitati alla nostra casella di posta attraverso il servizio tecnico FormSubmit (formsubmit.co), che agisce da semplice tramite per la consegna e non conserva i dati oltre il tempo tecnico necessario.</p>
+      <p>Trattiamo esclusivamente i dati che ci fornisci volontariamente attraverso il modulo di contatto (nome, email, recapito telefonico, oggetto e contenuto del messaggio). Non utilizziamo strumenti di profilazione automatica.</p>
 
       <h2>3. Finalità del trattamento</h2>
       <ul>
@@ -4369,7 +4299,7 @@ footer::before{
       <div class="footer-brand">
         <div class="logo-mark" style="cursor: default;">
           <div class="logo-circle">
-            <img src="assets/logo-ginkgo-white.png" alt="Ginkgo — Parafarmacia Viale Umberto" class="logo-leaf" />
+            <img src="assets/logo-badge.png" alt="Parafarmacia Erboristeria Viale Umberto" class="logo-leaf" />
           </div>
           <div class="logo-text" style="color: var(--avorio);">
             Viale Umberto 1°<br>
@@ -4459,7 +4389,7 @@ const INGREDIENTS_DATA = [
   {
     slug: "tiglio",
     name: "Tiglio",
-    action: "Riposo",
+    action: "Sedativo",
     img: "assets/tisane/tiglio.svg",
     intro: "L'albero dei viali cittadini nasconde uno dei sedativi vegetali più delicati.",
     content: `
@@ -4537,7 +4467,7 @@ const INGREDIENTS_DATA = [
   {
     slug: "passiflora",
     name: "Passiflora",
-    action: "Relax",
+    action: "Ansiolitica",
     img: "assets/tisane/passiflora.svg",
     intro: "Il fiore più scenografico dell'erboristeria è anche uno dei rilassanti vegetali più efficaci.",
     content: `
@@ -4550,7 +4480,7 @@ const INGREDIENTS_DATA = [
   {
     slug: "biancospino",
     name: "Biancospino",
-    action: "Benessere del cuore",
+    action: "Cardiotonico",
     img: "assets/tisane/biancospino.svg",
     intro: "Piccoli fiori bianchi e bacche rosse per il cuore e per i nervi: una pianta doppia.",
     content: `
@@ -4729,7 +4659,7 @@ async function sendViaFormSubmit(payload){
   const res = await fetch('https://formsubmit.co/ajax/parafarmaciavialeumberto@gmail.com', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-    body: JSON.stringify(Object.assign({ _captcha: 'false', _honey: '', _template: 'table' }, payload))
+    body: JSON.stringify(Object.assign({ _captcha: 'false', _template: 'table' }, payload))
   });
   const data = await res.json();
   return !!(data && (data.success === true || data.success === 'true'));
@@ -5220,7 +5150,7 @@ async function renderSingleArticle(slug){
           <span class="dot"></span>
           <span>${esc(article.readingTime)} di lettura</span>
         </div>
-        <h2 class="article-title">${article.title}</h2>
+        <h1 class="article-title">${article.title}</h1>
         <div class="article-hero-img">
           <img src="${escAttr(article.image)}" alt="${escAttr(article.title.replace(/<[^>]*>/g,''))}"/>
         </div>
@@ -5330,7 +5260,7 @@ function renderSingleIngredient(slug){
       <section class="article-hero">
         <div class="wrap">
           <a class="article-back" data-page="tisane" href="#tisane">Torna alle tisane</a>
-          <h2 class="article-title">Ingrediente non trovato</h2>
+          <h1 class="article-title">Ingrediente non trovato</h1>
         </div>
       </section>
       <div class="wrap"><div class="article-content"><p>Prova a tornare alla pagina delle tisane e scegliere un ingrediente dalla griglia.</p></div></div>
@@ -5348,7 +5278,7 @@ function renderSingleIngredient(slug){
           <span class="dot"></span>
           <span>${esc(ing.action)}</span>
         </div>
-        <h2 class="article-title">${esc(ing.name)}</h2>
+        <h1 class="article-title">${esc(ing.name)}</h1>
         <div class="article-hero-img" style="background:var(--azzurro-luce); display:flex; align-items:center; justify-content:center;">
           <img src="${escAttr(ing.img)}" alt="${escAttr(ing.name)}" style="width:auto; height:100%; max-height:340px; object-fit:contain;"/>
         </div>
@@ -5516,8 +5446,7 @@ form.addEventListener('submit', e => {
       if(data.mapsUrl && googleLink) googleLink.href = data.mapsUrl;
 
       if(reviews.length === 0){
-        const sec = summary.closest('section');
-        if(sec) sec.style.display = 'none';
+        empty.style.display = 'block';
         return;
       }
 
@@ -5532,8 +5461,7 @@ form.addEventListener('submit', e => {
       grid.innerHTML = reviews.map(reviewCard).join('');
     } catch(e){
       console.info('[Reviews] reviews.json non ancora disponibile');
-      const sec = summary.closest('section');
-      if(sec) sec.style.display = 'none';
+      empty.style.display = 'block';
     }
   }
 
