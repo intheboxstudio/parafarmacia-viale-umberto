@@ -1,10 +1,56 @@
 {
   "$schema": "https://parafarmacia-viale-umberto.it/reviews/schema.json",
-  "lastUpdated": null,
+  "lastUpdated": "2026-07-14T19:48:28.594829+02:00",
   "_comment": "File generato e aggiornato automaticamente da reviews_agent.py una volta al giorno. NON modificare manualmente, le modifiche andranno perse al prossimo run.",
-  "placeName": null,
-  "rating": null,
-  "userRatingsTotal": null,
-  "mapsUrl": null,
-  "reviews": []
+  "placeName": "Parafarmacia Erboristeria viale Umberto",
+  "rating": 4.9,
+  "userRatingsTotal": 19,
+  "mapsUrl": "https://maps.google.com/?cid=4939926296830573758",
+  "reviews": [
+    {
+      "author": "Maryjane Molteni",
+      "authorPhoto": "https://lh3.googleusercontent.com/a-/ALV-UjU5DVyFCPNqK-vPvqQ6rI3wHwCn1e5t-JlV_8Y2YVKUJvzmC4c=s128-c0x00000000-cc-rp-mo",
+      "authorUrl": "https://www.google.com/maps/contrib/109213596841486673776/reviews",
+      "rating": 5,
+      "relativeTime": "8 mesi fa",
+      "text": "Questo è un ottimo posto per chi cerca prodotti a base di erbe e naturali di qualità. La gamma ha tutto ciò di cui hai bisogno, dai cosmetici per il corpo e il viso ai rimedi omeopatici. E ciò che è particolarmente bello, tutti i prodotti sono di alta qualità. Trovo sempre quello che cerco qui a prezzi ragionevoli.",
+      "time": 1762349836
+    },
+    {
+      "author": "M C",
+      "authorPhoto": "https://lh3.googleusercontent.com/a/ACg8ocIVPGRiA4PmJGgtftHul63NJpIzW4lSWvtQpMaGOqcLtg6Pfg=s128-c0x00000000-cc-rp-mo-ba2",
+      "authorUrl": "https://www.google.com/maps/contrib/114309214374850127924/reviews",
+      "rating": 5,
+      "relativeTime": "9 mesi fa",
+      "text": "Molto rifornita, personale davvero gentile e attento alla cura del cliente.",
+      "time": 1758140247
+    },
+    {
+      "author": "Montanari Lavinia",
+      "authorPhoto": "https://lh3.googleusercontent.com/a-/ALV-UjXAfGh1pbZ9JQcGLY__5BYKh_alZ1-Kq6IQwt_VWcsDAbDBXZmO=s128-c0x00000000-cc-rp-mo-ba2",
+      "authorUrl": "https://www.google.com/maps/contrib/112510482726931132766/reviews",
+      "rating": 5,
+      "relativeTime": "un anno fa",
+      "text": "La mia esperienza è ormai \" lunga\" di qualche anno\nDalla sua apertura\nLe persone fanno la differenza e la titolare la fa in positivo su tutto\nProfessionalità\nGentilezza\nDisponibilità\nGrazie Emily",
+      "time": 1746449117
+    },
+    {
+      "author": "FRANCESCA TORLAI",
+      "authorPhoto": "https://lh3.googleusercontent.com/a-/ALV-UjVbBW1difHxTuweKBdM927qy3oRzTnBWUXnqPJf3PfbEcTxkVo2=s128-c0x00000000-cc-rp-mo",
+      "authorUrl": "https://www.google.com/maps/contrib/101902647802885378167/reviews",
+      "rating": 5,
+      "relativeTime": "3 anni fa",
+      "text": "La Parafarmacia di Viale Umberto è un ottimo punto di riferimento per me,  massima professionalità, efficenza ed attenzione alle mie richieste, vasta gamma di prodotti disponibili, soprattutto Emi, la titolare si contraddistingue per il suo grande spirito di accoglienza e per le sua innata gentilezza, highly reccomended!",
+      "time": 1675098273
+    },
+    {
+      "author": "Romina Korany",
+      "authorPhoto": "https://lh3.googleusercontent.com/a/ACg8ocLFM8de05OkhnglDSveTaNybnz7y1o5o6xOFwocezdbfa9d8w=s128-c0x00000000-cc-rp-mo",
+      "authorUrl": "https://www.google.com/maps/contrib/107696952494189548945/reviews",
+      "rating": 5,
+      "relativeTime": "4 anni fa",
+      "text": "Emy è una farmacista molto professionale, grande assortimento di prodotti. Hanno anche le stanze per trattamenti viso e corpo, con ragazze molto preparate.",
+      "time": 1651774125
+    }
+  ]
 }
