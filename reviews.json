@@ -1,6 +1,6 @@
 {
   "$schema": "https://parafarmacia-viale-umberto.it/reviews/schema.json",
-  "lastUpdated": "2026-07-14T19:48:28.594829+02:00",
+  "lastUpdated": "2026-07-15T09:28:08.562739+02:00",
   "_comment": "File generato e aggiornato automaticamente da reviews_agent.py una volta al giorno. NON modificare manualmente, le modifiche andranno perse al prossimo run.",
   "placeName": "Parafarmacia Erboristeria viale Umberto",
   "rating": 4.9,
@@ -21,7 +21,7 @@
       "authorPhoto": "https://lh3.googleusercontent.com/a/ACg8ocIVPGRiA4PmJGgtftHul63NJpIzW4lSWvtQpMaGOqcLtg6Pfg=s128-c0x00000000-cc-rp-mo-ba2",
       "authorUrl": "https://www.google.com/maps/contrib/114309214374850127924/reviews",
       "rating": 5,
-      "relativeTime": "9 mesi fa",
+      "relativeTime": "10 mesi fa",
       "text": "Molto rifornita, personale davvero gentile e attento alla cura del cliente.",
       "time": 1758140247
     },
