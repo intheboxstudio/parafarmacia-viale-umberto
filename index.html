@@ -5469,5 +5469,236 @@ form.addEventListener('submit', e => {
 })();
 </script>
 
+
+<!-- ============ FARFALLA ORIGAMI — In The Box Studio ============ -->
+<!-- ========== FARFALLA ORIGAMI v3 — azzurro → fucsia, carta pura ========== -->
+<div id="farfalla-layer" aria-hidden="true">
+  <svg id="farfalla-stage" viewBox="0 0 100 100" preserveAspectRatio="none">
+    <path id="farfalla-path"
+          d="M 92 6
+             C 70 18, 38 20, 30 34
+             S 78 48, 72 62
+             S 28 74, 10 92"
+          fill="none" stroke="none"/>
+  </svg>
+
+  <div id="farfalla">
+    <div class="farfalla-bob">
+      <svg viewBox="0 0 140 120" width="92" height="79">
+        <defs>
+          <!-- grana della carta: puntinatura scura leggerissima dentro le forme -->
+          <filter id="carta-grain" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="1" result="noise"/>
+            <feColorMatrix in="noise" type="matrix"
+              values="0 0 0 0 0.18  0 0 0 0 0.10  0 0 0 0 0.25  0 0 0 0.9 0" result="tinta"/>
+            <feComponentTransfer in="tinta" result="dots">
+              <feFuncA type="linear" slope="0.10" intercept="0"/>
+            </feComponentTransfer>
+            <feComposite in="dots" in2="SourceGraphic" operator="in" result="grain"/>
+            <feMerge>
+              <feMergeNode in="SourceGraphic"/>
+              <feMergeNode in="grain"/>
+            </feMerge>
+          </filter>
+        </defs>
+
+        <!-- ===== coriandoli di carta che fluttuano attorno ===== -->
+        <g class="coriandoli">
+          <polygon class="cor cor-1" points="18,4 25,8 19,12"    fill="#8AD4F2" opacity=".6"/>
+          <polygon class="cor cor-2" points="124,14 130,20 122,21" fill="#F2549E" opacity=".55"/>
+          <polygon class="cor cor-3" points="12,96 19,99 13,104"  fill="#7A9BE8" opacity=".55"/>
+          <polygon class="cor cor-4" points="120,98 127,101 121,107" fill="#DC3C8B" opacity=".5"/>
+        </g>
+
+        <!-- ===================== ALA SINISTRA ===================== -->
+        <g class="ala ala-sx">
+          <g filter="url(#carta-grain)">
+            <!-- ala anteriore: 4 facce, rampa azzurro → pervinca -->
+            <polygon points="70,50 40,18 14,10"  fill="#A9E6FA"/>
+            <polygon points="70,50 14,10 6,34"   fill="#6FC4EC"/>
+            <polygon points="70,50 6,34  22,48"  fill="#4FA9DE"/>
+            <polygon points="70,50 22,48 46,55"  fill="#7A9BE8"/>
+            <!-- ala posteriore: 3 facce + coda di rondine, rampa fucsia -->
+            <polygon points="70,58 44,62 26,74"  fill="#F2549E"/>
+            <polygon points="70,58 26,74 34,92"  fill="#DC3C8B"/>
+            <polygon points="70,58 34,92 56,86"  fill="#C02F79"/>
+            <polygon points="34,92 44,104 52,88" fill="#A82868"/>
+          </g>
+          <!-- silhouette: bordo sottile che definisce la sagoma -->
+          <polygon points="70,50 40,18 14,10 6,34 22,48 46,55"
+                   fill="none" stroke="rgba(53,48,94,.28)" stroke-width=".8" stroke-linejoin="round"/>
+          <polygon points="70,58 44,62 26,74 34,92 44,104 54,87"
+                   fill="none" stroke="rgba(53,48,94,.28)" stroke-width=".8" stroke-linejoin="round"/>
+          <!-- cordonature: pieghe bianche principali -->
+          <g stroke="rgba(255,255,255,.75)" stroke-width=".9" stroke-linecap="round">
+            <line x1="70" y1="50" x2="14" y2="10"/>
+            <line x1="70" y1="50" x2="6"  y2="34"/>
+            <line x1="70" y1="50" x2="22" y2="48"/>
+            <line x1="70" y1="58" x2="26" y2="74"/>
+            <line x1="70" y1="58" x2="34" y2="92"/>
+          </g>
+        </g>
+
+        <!-- ===================== ALA DESTRA (speculare) ===================== -->
+        <g class="ala ala-dx">
+          <g filter="url(#carta-grain)">
+            <polygon points="70,50 100,18 126,10" fill="#A9E6FA"/>
+            <polygon points="70,50 126,10 134,34" fill="#6FC4EC"/>
+            <polygon points="70,50 134,34 118,48" fill="#4FA9DE"/>
+            <polygon points="70,50 118,48 94,55"  fill="#7A9BE8"/>
+            <polygon points="70,58 96,62 114,74"  fill="#F2549E"/>
+            <polygon points="70,58 114,74 106,92" fill="#DC3C8B"/>
+            <polygon points="70,58 106,92 84,86"  fill="#C02F79"/>
+            <polygon points="106,92 96,104 88,88" fill="#A82868"/>
+          </g>
+          <polygon points="70,50 100,18 126,10 134,34 118,48 94,55"
+                   fill="none" stroke="rgba(53,48,94,.28)" stroke-width=".8" stroke-linejoin="round"/>
+          <polygon points="70,58 96,62 114,74 106,92 96,104 86,87"
+                   fill="none" stroke="rgba(53,48,94,.28)" stroke-width=".8" stroke-linejoin="round"/>
+          <g stroke="rgba(255,255,255,.75)" stroke-width=".9" stroke-linecap="round">
+            <line x1="70" y1="50" x2="126" y2="10"/>
+            <line x1="70" y1="50" x2="134" y2="34"/>
+            <line x1="70" y1="50" x2="118" y2="48"/>
+            <line x1="70" y1="58" x2="114" y2="74"/>
+            <line x1="70" y1="58" x2="106" y2="92"/>
+          </g>
+        </g>
+
+        <!-- ===================== CORPO ===================== -->
+        <g class="corpo" filter="url(#carta-grain)">
+          <polygon points="70,26 74,50 70,78 66,50" fill="#35305E"/>
+          <line x1="70" y1="26" x2="70" y2="78" stroke="rgba(255,255,255,.4)" stroke-width=".8"/>
+          <polygon points="70,18 75,26 70,32 65,26" fill="#453D75"/>
+          <path d="M67 20 L56 8 M73 20 L84 8"
+                stroke="#35305E" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<style>
+/* ---- Farfalla origami v3 — CSS completo ---- */
+#farfalla-layer{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:60;
+  overflow:hidden;
+}
+#farfalla-stage{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+}
+#farfalla{
+  position:fixed;
+  top:0;
+  left:0;
+  will-change:transform;
+}
+.farfalla-bob{
+  animation:farfalla-bob 1.6s ease-in-out infinite alternate;
+  filter:drop-shadow(0 5px 6px rgba(53,48,94,.20));   /* ombra opaca, da carta */
+}
+@keyframes farfalla-bob{
+  from{transform:translateY(-5px)}
+  to  {transform:translateY(5px)}
+}
+#farfalla svg{overflow:visible;perspective:340px}
+#farfalla .ala{
+  transform-box:view-box;
+  transform-origin:50% 50%;
+  animation:farfalla-flap .55s ease-in-out infinite alternate;
+}
+#farfalla .ala-dx{animation-name:farfalla-flap-dx}
+@keyframes farfalla-flap{
+  from{transform:rotateY(6deg)}
+  to  {transform:rotateY(60deg)}
+}
+@keyframes farfalla-flap-dx{
+  from{transform:rotateY(-6deg)}
+  to  {transform:rotateY(-60deg)}
+}
+/* coriandoli: fluttuano e ruotano piano, ognuno col suo ritmo */
+.cor{
+  transform-box:fill-box;
+  transform-origin:center;
+}
+.cor-1{animation:cor-float 2.4s ease-in-out infinite alternate}
+.cor-2{animation:cor-float 3.1s ease-in-out infinite alternate-reverse}
+.cor-3{animation:cor-float 2.8s ease-in-out infinite alternate}
+.cor-4{animation:cor-float 3.5s ease-in-out infinite alternate-reverse}
+@keyframes cor-float{
+  from{transform:translateY(-4px) rotate(0deg)}
+  to  {transform:translateY(4px)  rotate(160deg)}
+}
+@media (max-width:700px){
+  #farfalla svg{width:60px;height:51px}
+}
+</style>
+
+<script>
+(function(){
+  'use strict';
+  var farfalla = document.getElementById('farfalla');
+  var path     = document.getElementById('farfalla-path');
+  if (!farfalla || !path) return;
+
+  var lunghezza = path.getTotalLength();
+  var posX = 0, posY = 0, angolo = 0;
+  var primoFrame = true;
+
+  function progressoScroll(){
+    var sc  = document.scrollingElement || document.documentElement;
+    var max = sc.scrollHeight - window.innerHeight;
+    if (max <= 0) return 0;
+    var p = sc.scrollTop / max;
+    return Math.min(1, Math.max(0, p));
+  }
+
+  function puntoInPixel(distanza){
+    var pt = path.getPointAtLength(distanza);
+    return {
+      x: pt.x / 100 * window.innerWidth,
+      y: pt.y / 100 * window.innerHeight
+    };
+  }
+
+  function frame(){
+    var d      = progressoScroll() * lunghezza;
+    var qui    = puntoInPixel(d);
+    var avanti = puntoInPixel(Math.min(lunghezza, d + 1));
+    var target = Math.atan2(avanti.y - qui.y, avanti.x - qui.x) * 180 / Math.PI + 90;
+
+    if (primoFrame){
+      posX = qui.x; posY = qui.y; angolo = target; primoFrame = false;
+    } else {
+      posX += (qui.x - posX) * 0.075;
+      posY += (qui.y - posY) * 0.075;
+      var diff = target - angolo;
+      while (diff >  180) diff -= 360;
+      while (diff < -180) diff += 360;
+      angolo += diff * 0.075;
+    }
+
+    farfalla.style.transform =
+      'translate(' + (posX - 46) + 'px,' + (posY - 39.5) + 'px) rotate(' + angolo + 'deg)';
+
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  window.addEventListener('load', function(){
+    var sc = document.scrollingElement || document.documentElement;
+    if (sc.scrollHeight - window.innerHeight <= 0){
+      console.warn('[farfalla] La pagina non è scrollabile: la farfalla resta ferma al punto di partenza.');
+    }
+  });
+})();
+</script>
+<!-- ============ FINE FARFALLA ORIGAMI ============ -->
+
 </body>
 </html>
