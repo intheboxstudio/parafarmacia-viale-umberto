@@ -1,12 +1,21 @@
 {
   "$schema": "https://parafarmacia-viale-umberto.it/reviews/schema.json",
-  "lastUpdated": "2026-07-18T09:13:37.295184+02:00",
+  "lastUpdated": "2026-07-19T09:39:06.759222+02:00",
   "_comment": "File generato e aggiornato automaticamente da reviews_agent.py una volta al giorno. NON modificare manualmente, le modifiche andranno perse al prossimo run.",
   "placeName": "Parafarmacia Erboristeria viale Umberto",
   "rating": 4.9,
   "userRatingsTotal": 19,
   "mapsUrl": "https://maps.google.com/?cid=4939926296830573758",
   "reviews": [
+    {
+      "author": "Rezin Derka",
+      "authorPhoto": "https://lh3.googleusercontent.com/a-/ALV-UjVSAzNojGnhrTOkBqkDHbpNqffRVuRFJRw0cnA2DIQdpmz2n5A=s128-c0x00000000-cc-rp-mo",
+      "authorUrl": "https://www.google.com/maps/contrib/114358800466823207646/reviews",
+      "rating": 5,
+      "relativeTime": "2 settimane fa",
+      "text": "Sei molto gentilissima cone clienti😊",
+      "time": 1782886605
+    },
     {
       "author": "Maryjane Molteni",
       "authorPhoto": "https://lh3.googleusercontent.com/a-/ALV-UjU5DVyFCPNqK-vPvqQ6rI3wHwCn1e5t-JlV_8Y2YVKUJvzmC4c=s128-c0x00000000-cc-rp-mo",
@@ -42,15 +51,6 @@
       "relativeTime": "3 anni fa",
       "text": "La Parafarmacia di Viale Umberto è un ottimo punto di riferimento per me,  massima professionalità, efficenza ed attenzione alle mie richieste, vasta gamma di prodotti disponibili, soprattutto Emi, la titolare si contraddistingue per il suo grande spirito di accoglienza e per le sua innata gentilezza, highly reccomended!",
       "time": 1675098273
-    },
-    {
-      "author": "Romina Korany",
-      "authorPhoto": "https://lh3.googleusercontent.com/a/ACg8ocLFM8de05OkhnglDSveTaNybnz7y1o5o6xOFwocezdbfa9d8w=s128-c0x00000000-cc-rp-mo",
-      "authorUrl": "https://www.google.com/maps/contrib/107696952494189548945/reviews",
-      "rating": 5,
-      "relativeTime": "4 anni fa",
-      "text": "Emy è una farmacista molto professionale, grande assortimento di prodotti. Hanno anche le stanze per trattamenti viso e corpo, con ragazze molto preparate.",
-      "time": 1651774125
     }
   ]
 }
