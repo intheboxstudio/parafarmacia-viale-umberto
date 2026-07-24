@@ -960,6 +960,22 @@ class GitPublisher:
                 ids.add(img_id)
         return ids
 
+    def get_existing_slugs(self) -> set[str]:
+        """Restituisce gli slug di tutti gli articoli attualmente nel feed,
+        per evitare di generare due volte lo stesso identico articolo
+        (bug osservato: la discovery è casuale e non teneva conto di cosa
+        fosse già stato pubblicato, producendo titoli/slug identici).
+        """
+        result = self._get_file("articles.json")
+        if result is None:
+            return set()
+        content, _sha = result
+        try:
+            feed = json.loads(content)
+        except json.JSONDecodeError:
+            return set()
+        return {a.get("slug") for a in feed.get("articles", []) if a.get("slug")}
+
 
 # ============================================================================
 # AGENT ORCHESTRATION
@@ -1014,17 +1030,30 @@ class BlogAgent:
             return
 
         try:
-            # 1. Discovery
-            category, topic = self.discoverer.discover()
-
-            # 2. Sources
-            sources_hint = self.source_finder.find(topic)
-
-            # 3. Genera articolo
-            data = self.generator.generate(topic, category, sources_hint)
+            # 1-3. Discovery + generazione, con retry se lo slug risultante
+            # è già stato pubblicato di recente (evita articoli duplicati).
+            existing_slugs = self.publisher.get_existing_slugs()
+            MAX_TOPIC_ATTEMPTS = 5
+            data = slug = None
+            for attempt in range(1, MAX_TOPIC_ATTEMPTS + 1):
+                category, topic = self.discoverer.discover()
+                sources_hint = self.source_finder.find(topic)
+                data = self.generator.generate(topic, category, sources_hint)
+                slug = slugify(re.sub(r"<[^>]+>", "", data["title"]))
+                if slug not in existing_slugs:
+                    break
+                log.warning(
+                    "Articolo duplicato (slug già pubblicato, tentativo %d/%d): %s",
+                    attempt, MAX_TOPIC_ATTEMPTS, slug,
+                )
+            else:
+                log.error(
+                    "Non sono riuscito a generare un articolo con slug univoco dopo %d tentativi. Abort.",
+                    MAX_TOPIC_ATTEMPTS,
+                )
+                sys.exit(1)
 
             # 4. Genera immagine
-            slug = slugify(re.sub(r"<[^>]+>", "", data["title"]))
             today_str = now.strftime("%Y-%m-%d")
             article_id = f"{today_str}-{slug[:40]}"
 
