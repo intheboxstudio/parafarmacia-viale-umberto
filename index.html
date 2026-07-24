@@ -590,6 +590,20 @@ h1, h2, h3, h4{
   color: var(--grigio);
   position: relative; z-index: 1;
 }
+.pillar{ display: block; }
+.pillar-link{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 18px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--azzurro-deep);
+  position: relative;
+  z-index: 1;
+}
+.pillar-link .arrow{ transition: transform .3s ease; }
+.pillar:hover .pillar-link .arrow{ transform: translateX(4px); }
 @media (max-width: 980px){ .pillars{ grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 540px){ .pillars{ grid-template-columns: 1fr; } }
 
@@ -3111,7 +3125,7 @@ footer::before{
       </div>
 
       <div class="pillars">
-        <div class="pillar reveal">
+        <a href="#fitoterapia" data-page="fitoterapia" class="pillar reveal">
           <div class="pillar-icon">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
               <path d="M12 2C12 2 6 6 6 12C6 16 8.5 19 12 19C15.5 19 18 16 18 12C18 6 12 2 12 2Z" stroke="#FBF8F4" stroke-width="1.5" stroke-linecap="round"/>
@@ -3120,9 +3134,10 @@ footer::before{
           </div>
           <h3>Fitoterapia</h3>
           <p>Il sapere antico delle piante, validato dalla scienza moderna. Estratti titolati, gemmoderivati, oli essenziali puri.</p>
-        </div>
+          <span class="pillar-link">Scopri di più <span class="arrow">→</span></span>
+        </a>
 
-        <div class="pillar reveal">
+        <a href="#erboristeria" data-page="erboristeria" class="pillar reveal">
           <div class="pillar-icon">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
               <path d="M3 12C3 7 7 3 12 3C17 3 21 7 21 12" stroke="#FBF8F4" stroke-width="1.5" stroke-linecap="round"/>
@@ -3132,9 +3147,10 @@ footer::before{
           </div>
           <h3>Erboristeria</h3>
           <p>Tisane d'autore, infusi su misura, polveri e radici da tutto il mondo. La nostra firma: ogni miscela, una storia.</p>
-        </div>
+          <span class="pillar-link">Scopri di più <span class="arrow">→</span></span>
+        </a>
 
-        <div class="pillar reveal">
+        <a href="#cosmesi" data-page="cosmesi" class="pillar reveal">
           <div class="pillar-icon">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
               <circle cx="12" cy="12" r="9" stroke="#FBF8F4" stroke-width="1.5"/>
@@ -3145,9 +3161,10 @@ footer::before{
           </div>
           <h3>Cosmesi</h3>
           <p>Pelle, capelli, gesti quotidiani: formulazioni dermocompatibili, ingredienti tracciati, performance reali.</p>
-        </div>
+          <span class="pillar-link">Scopri di più <span class="arrow">→</span></span>
+        </a>
 
-        <div class="pillar reveal">
+        <a href="#omeopatia" data-page="omeopatia" class="pillar reveal">
           <div class="pillar-icon">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
               <circle cx="12" cy="12" r="9" stroke="#FBF8F4" stroke-width="1.5"/>
@@ -3157,7 +3174,8 @@ footer::before{
           </div>
           <h3>Omeopatia</h3>
           <p>Granuli, tubi, monodose. Tutto il rigore della tradizione omeopatica, con la disponibilità di chi sa ascoltare.</p>
-        </div>
+          <span class="pillar-link">Scopri di più <span class="arrow">→</span></span>
+        </a>
       </div>
     </div>
   </section>
@@ -3569,6 +3587,282 @@ footer::before{
 ====================================================== -->
 <main class="page" id="page-ingredient">
   <div id="ingredientContainer"></div>
+</main>
+
+
+<!-- ====================================================
+     FITOTERAPIA
+====================================================== -->
+<main class="page" id="page-fitoterapia">
+
+  <section class="page-header">
+    <div class="wrap">
+      <a class="article-back" data-page="home" href="#home">Torna alla home</a>
+      <span class="eyebrow" style="justify-content:center; display:flex;">Il sapere delle piante, con metodo</span>
+      <h1>Fitoterapia</h1>
+      <p class="lead">Dalle prime farmacopee vegetali alla ricerca clinica di oggi: come le piante diventano cura, con lo stesso rigore che chiediamo a qualsiasi altro rimedio.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="article-content">
+        <div class="excerpt-lead">La fitoterapia non è un'alternativa romantica alla medicina: è una disciplina che studia, isola e standardizza ciò che le piante hanno da offrire, per usarlo in modo sicuro ed efficace.</div>
+
+        <p>Con il termine <strong>fitoterapia</strong> (dal greco <em>phytón</em>, pianta, e <em>therapeía</em>, cura) si intende l'uso terapeutico di piante e loro derivati per prevenire, alleviare o accompagnare il trattamento di disturbi e condizioni. A differenza dell'erboristeria tradizionale, che privilegia tisane e preparazioni artigianali, la fitoterapia moderna lavora con estratti standardizzati, dosaggi definiti e — sempre più spesso — prove cliniche a supporto.</p>
+
+        <h2>Le origini, tra tavolette di argilla e papiri</h2>
+        <p>Le prime testimonianze scritte sull'uso terapeutico delle piante risalgono a oltre 4000 anni fa: tavolette cuneiformi sumere elencano rimedi a base di mirto, timo e papavero. Il <strong>Papiro di Ebers</strong> egizio (circa 1550 a.C.) raccoglie più di 700 formule vegetali. Ma è con <strong>Dioscoride</strong>, medico greco al servizio dell'esercito romano nel I secolo d.C., che nasce il testo di riferimento del sapere fitoterapico occidentale: il <em>De Materia Medica</em>, un catalogo di oltre 600 piante che rimarrà il manuale principale della farmacologia europea per oltre 1500 anni, copiato e commentato fino al Rinascimento.</p>
+        <p>Nel Medioevo furono i monasteri benedettini a custodire questo sapere, coltivando gli <em>horti sanitatis</em> — i giardini dei semplici — e ricopiando i manoscritti antichi. Un punto di svolta arriva nel XVI secolo con <strong>Paracelso</strong>, che sposta l'attenzione dalla pianta intera al principio attivo, affermando che "è la dose che fa il veleno" — un'intuizione che anticipa di secoli la farmacologia moderna.</p>
+
+        <h2>Dalla pianta al principio attivo: la nascita della fitoterapia scientifica</h2>
+        <p>Il passaggio decisivo avviene nell'Ottocento, quando la chimica inizia a isolare le molecole responsabili dell'effetto terapeutico delle piante. Nel 1804 il farmacista tedesco Friedrich Sertürner isola la <strong>morfina</strong> dall'oppio; nel 1820 viene isolato il <strong>chinino</strong> dalla corteccia di china; e alla fine del secolo, dalla corteccia di salice — usata fin dall'antichità contro febbre e dolore — nasce l'<strong>acido acetilsalicilico</strong>, commercializzato nel 1897 come aspirina. Già nel 1785 il medico inglese William Withering aveva codificato l'uso della digitale (dalla pianta <em>Digitalis purpurea</em>) per l'insufficienza cardiaca, ancora oggi principio alla base di farmaci cardiologici. È questo il ponte tra l'erboristeria tradizionale e la fitoterapia clinica contemporanea.</p>
+
+        <h2>Il fitocomplesso: perché la pianta intera conta ancora</h2>
+        <p>Un principio cardine della fitoterapia moderna è quello di <strong>fitocomplesso</strong>: l'insieme di sostanze presenti in una pianta agisce spesso in sinergia, con un effetto diverso — e talvolta più equilibrato — rispetto alla singola molecola isolata. È il caso, ad esempio, della valeriana, il cui effetto rilassante non è attribuibile a un solo composto ma alla combinazione di più principi attivi. Per questo la fitoterapia seria non rinuncia alla complessità della pianta, ma la <strong>standardizza</strong>: gli estratti secchi titolati garantiscono una percentuale definita del componente marker, mantenendo però l'intero fitocomplesso.</p>
+
+        <h2>Le forme in cui si presenta</h2>
+        <ul>
+          <li><strong>Tintura madre (TM)</strong>: macerato idroalcolico della pianta fresca, forma liquida tradizionale.</li>
+          <li><strong>Estratto secco titolato</strong>: polvere concentrata e standardizzata, in capsule o compresse — la forma più utilizzata in ambito clinico.</li>
+          <li><strong>Estratto fluido</strong>: forma liquida concentrata, dosaggio preciso in gocce.</li>
+          <li><strong>Gemmoderivato</strong>: macerato di gemme e tessuti embrionali, sviluppato come metodo dal medico belga Pol Henry a metà Novecento (gemmoterapia).</li>
+          <li><strong>Olio essenziale</strong>: componenti volatili estratti per distillazione, usati in aromaterapia e per uso topico, sempre diluiti.</li>
+        </ul>
+
+        <h2>Cosa dice la ricerca, con onestà</h2>
+        <p>Alcuni fitoterapici hanno alle spalle una letteratura scientifica solida: l'iperico per la sintomatologia depressiva lieve-moderata, il ginkgo biloba per la circolazione, la boswellia per l'infiammazione articolare sono tra gli esempi più studiati. Altri hanno evidenze più deboli o preliminari. Ed è fondamentale un punto: <em>naturale non significa innocuo</em>. L'iperico, ad esempio, riduce l'efficacia della pillola anticoncezionale e interagisce con numerosi farmaci attraverso l'induzione degli enzimi epatici; molte piante interferiscono con anticoagulanti come il warfarin. Va sempre segnalato al medico o al farmacista ogni integratore fitoterapico assunto, specialmente in presenza di altre terapie.</p>
+
+        <h2>Cosa NON fare</h2>
+        <ul>
+          <li>Non sostituire una terapia farmacologica prescritta con un fitoterapico, senza parere medico.</li>
+          <li>Non assumere prodotti fitoterapici "a caso", ignorando le possibili interazioni con farmaci in corso.</li>
+          <li>Non affidarsi a preparati non titolati o non standardizzati per condizioni che richiedono un dosaggio preciso.</li>
+          <li>Non applicare oli essenziali puri, non diluiti, direttamente su pelle o mucose.</li>
+        </ul>
+
+        <blockquote>La pianta giusta, alla dose giusta, per la persona giusta: è questo — non il "naturale a prescindere" — il cuore della fitoterapia seria.</blockquote>
+      </div>
+
+      <div class="article-disclaimer">
+        <strong>Una nota importante.</strong> Le informazioni di questa pagina hanno carattere divulgativo e non sostituiscono il parere del tuo medico o farmacista di fiducia. In caso di terapie in corso, gravidanza, allattamento o condizioni croniche, chiedi sempre una consulenza professionale prima di iniziare qualsiasi fitoterapico.
+      </div>
+
+      <div class="article-cta">
+        <span class="eyebrow" style="justify-content:center; display:flex;">Vuoi un consiglio personale?</span>
+        <h3>Passa in <em>parafarmacia</em></h3>
+        <p>La Dottoressa Emy può ascoltare il tuo caso specifico e suggerirti la soluzione fitoterapica più adatta, senza fretta.</p>
+        <a href="#contatti" data-page="contatti" class="btn btn-primary">Come trovarci →</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+
+<!-- ====================================================
+     ERBORISTERIA
+====================================================== -->
+<main class="page" id="page-erboristeria">
+
+  <section class="page-header">
+    <div class="wrap">
+      <a class="article-back" data-page="home" href="#home">Torna alla home</a>
+      <span class="eyebrow" style="justify-content:center; display:flex;">Un mestiere antico quanto l'uomo</span>
+      <h1>Erboristeria</h1>
+      <p class="lead">Dalle prime raccolte di erbe selvatiche alla bottega di quartiere: la storia di un sapere tramandato, oggi regolamentato e più vivo che mai.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="article-content">
+        <div class="excerpt-lead">Ogni tisana ha una storia lunga migliaia di anni. L'erboristeria è l'arte — oggi anche professione regolamentata — di riconoscere, raccogliere, conservare e preparare le piante per il benessere quotidiano.</div>
+
+        <p>L'<strong>erboristeria</strong> è la disciplina che studia il riconoscimento, la coltivazione, la raccolta, la conservazione e la preparazione delle piante officinali per uso alimentare e cosmetico-salutistico. Si distingue dalla fitoterapia clinica per un approccio più tradizionale e artigianale — tisane, infusi, decotti, macerati — piuttosto che per estratti farmaceutici standardizzati, pur condividendone le stesse radici botaniche.</p>
+
+        <h2>Le origini più antiche</h2>
+        <p>L'uso delle piante per curarsi è probabilmente vecchio quanto l'umanità stessa. Nel sito archeologico di Shanidar, in Iraq, il polline ritrovato accanto a una sepoltura neandertaliana di circa 60.000 anni fa ha fatto ipotizzare l'uso rituale o terapeutico di piante come l'achillea. Più concreta la testimonianza di <strong>Ötzi</strong>, la mummia alpina di 5300 anni fa, trovata con funghi <em>Piptoporus betulinus</em> dalle proprietà antiparassitarie: prove dirette che l'uomo preistorico conosceva e sfruttava le proprietà curative del mondo vegetale. Per millenni, questo sapere si è tramandato oralmente, custodito da guaritrici e guaritori in ogni cultura del pianeta.</p>
+
+        <h2>Le grandi civiltà e i primi testi scritti</h2>
+        <p>Con la scrittura, il sapere erboristico inizia a essere codificato. In Mesopotamia, tavolette cuneiformi babilonesi elencano rimedi a base di mirto e cipresso. In Egitto, il <strong>Papiro di Ebers</strong> (circa 1550 a.C.) raccoglie oltre 700 formulazioni vegetali. In Cina, la tradizione fa risalire al leggendario imperatore <strong>Shennong</strong> la compilazione dello <em>Shennong Bencao Jing</em>, testo fondativo della farmacopea cinese. In India si sviluppa la tradizione ayurvedica, con testi come la <em>Charaka Samhita</em>. In Grecia, <strong>Ippocrate</strong> pone le basi di un approccio razionale alla cura ("che il cibo sia la tua medicina"), mentre <strong>Teofrasto</strong>, allievo di Aristotele, è considerato il padre della botanica per la sua <em>Historia Plantarum</em>. A Roma, <strong>Dioscoride</strong> scrive il <em>De Materia Medica</em>, e <strong>Plinio il Vecchio</strong> dedica ampio spazio alle piante nella sua <em>Naturalis Historia</em>.</p>
+
+        <h2>Il Medioevo e i giardini dei semplici</h2>
+        <p>Con la caduta dell'Impero Romano, sono i monasteri a preservare il sapere antico, copiando manoscritti e coltivando gli <em>horti sanitatis</em>, i "giardini dei semplici" annessi alle abbazie. La <strong>Scuola Medica Salernitana</strong>, attiva tra il IX e il XIII secolo, diventa il primo vero centro medico organizzato d'Occidente, capace di fondere sapere greco, arabo, ebraico e latino nel celebre <em>Regimen Sanitatis Salernitanum</em>. In questo periodo emerge anche la figura di <strong>Ildegarda di Bingen</strong>, badessa benedettina tedesca, autrice della <em>Physica</em>, un trattato di erboristeria e medicina naturale ancora oggi studiato.</p>
+
+        <h2>Il Rinascimento e la nascita della farmacopea moderna</h2>
+        <p>L'invenzione della stampa permette la diffusione capillare degli <em>erbari illustrati</em>. In Italia, il commento di <strong>Pietro Andrea Mattioli</strong> al testo di Dioscoride (1544) diventa un successo editoriale europeo. Nello stesso periodo nascono i primi orti botanici universitari: quello di <strong>Padova</strong>, fondato nel 1545, è il più antico al mondo ancora nella sua sede originaria ed è oggi patrimonio UNESCO, seguito a breve distanza da quello di Pisa. Questi orti nascono proprio per lo studio scientifico delle piante medicinali.</p>
+
+        <h2>L'erboristeria in Italia oggi: una professione regolamentata</h2>
+        <p>In Italia, la raccolta e il commercio delle erbe medicinali sono regolati fin dalla <strong>Legge 6 gennaio 1931, n. 99</strong>, che istituisce la figura dell'erborista abilitato tramite esame di Stato. Oggi questa figura convive con i laureati in Scienze Erboristiche, formati nelle università. Dietro al banco delle tisane di una parafarmacia-erboristeria seria, quindi, non c'è solo passione: c'è una competenza normata dalla legge.</p>
+
+        <h2>L'arte della tisana: infuso, decotto, macerato</h2>
+        <p>Non tutte le preparazioni erboristiche si fanno allo stesso modo, e il metodo dipende dalla parte di pianta utilizzata:</p>
+        <ul>
+          <li><strong>Infuso</strong>: per le parti più delicate (fiori, foglie) — si versa acqua bollente sopra la pianta e si lascia riposare 5-10 minuti.</li>
+          <li><strong>Decotto</strong>: per le parti dure (radici, cortecce, semi) — si porta a bollore e si lascia sobbollire 10-20 minuti per estrarre i principi attivi più resistenti.</li>
+          <li><strong>Macerato</strong>: per le componenti più sensibili al calore — si lascia in immersione a freddo per diverse ore.</li>
+        </ul>
+
+        <h2>Cosa NON fare</h2>
+        <ul>
+          <li>Non raccogliere piante spontanee senza una conoscenza botanica certa: il rischio di confusione con specie tossiche è reale e concreto.</li>
+          <li>Non protrarre troppo a lungo l'uso di tisane "depurative" senza una pausa o un consiglio esperto.</li>
+          <li>Non sostituire con l'erboristeria una cura medica necessaria.</li>
+          <li>Prestare particolare cautela in gravidanza, allattamento e con i bambini piccoli, chiedendo sempre consiglio prima di un uso regolare.</li>
+        </ul>
+
+        <blockquote>Ogni tisana che prepariamo porta con sé migliaia di anni di osservazione umana — e un po' della nostra cura, oggi.</blockquote>
+      </div>
+
+      <div class="article-disclaimer">
+        <strong>Una nota importante.</strong> Le informazioni di questa pagina hanno carattere divulgativo e non sostituiscono il parere del tuo medico o farmacista di fiducia, specialmente in caso di terapie in corso, gravidanza o allattamento.
+      </div>
+
+      <div class="article-cta">
+        <span class="eyebrow" style="justify-content:center; display:flex;">Vuoi scoprire le nostre miscele?</span>
+        <h3>Scopri le <em>Tisane della Dottoressa Emy</em></h3>
+        <p>Infusi su misura, ingredienti selezionati, ogni miscela una storia da raccontare.</p>
+        <a href="#tisane" data-page="tisane" class="btn btn-primary">Vai alle tisane →</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+
+<!-- ====================================================
+     COSMESI
+====================================================== -->
+<main class="page" id="page-cosmesi">
+
+  <section class="page-header">
+    <div class="wrap">
+      <a class="article-back" data-page="home" href="#home">Torna alla home</a>
+      <span class="eyebrow" style="justify-content:center; display:flex;">La pelle, letta con metodo</span>
+      <h1>Cosmesi</h1>
+      <p class="lead">Dalle argille dell'Antico Egitto agli INCI di oggi: come nasce un prodotto cosmetico sicuro, e come sceglierlo davvero.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="article-content">
+        <div class="excerpt-lead">La cosmesi non è vanità: è la scienza che si occupa della superficie del corpo — pelle, capelli, unghie — con un obiettivo preciso: pulire, proteggere, mantenere in buono stato, senza vantare un'azione curativa.</div>
+
+        <p>Secondo il <strong>Regolamento UE 1223/2009</strong>, un cosmetico è "qualsiasi sostanza o miscela destinata a essere applicata sulle superfici esterne del corpo umano (epidermide, capelli, unghie, labbra, organi genitali esterni) al fine, esclusivamente o prevalentemente, di pulirle, profumarle, modificarne l'aspetto, proteggerle, mantenerle in buono stato o correggere gli odori corporei". La distinzione dai farmaci è netta: un cosmetico non può vantare un'azione terapeutica.</p>
+
+        <h2>Una storia lunga seimila anni</h2>
+        <p>La cosmesi accompagna l'uomo da millenni. Nell'Antico Egitto, già a partire dal 4000 a.C., si usava il <strong>kohl</strong> — a base di galena e malachite — per truccare gli occhi, non solo per estetica ma anche per proteggerli dal sole e dagli insetti; oli profumati, cera d'api e creme a base di grassi animali completavano la cura del corpo, documentata nei papiri e ritrovata nei corredi funerari. Nella Grecia e nella Roma antiche, l'olio d'oliva era la base di molte preparazioni, e la cura del corpo alle terme era un vero rito sociale. Nel mondo arabo medievale, mentre in Occidente la cosmesi perdeva centralità culturale per ragioni religiose, prosperava la distillazione di essenze come l'acqua di rose, perfezionata da medici e alchimisti come Avicenna.</p>
+        <p>Il Rinascimento europeo riporta la cura estetica al centro dell'attenzione, ma non senza rischi: la celebre <em>biacca</em>, a base di piombo, usata per schiarire la pelle, causò avvelenamenti diffusi — un promemoria antico di quanto conti la sicurezza degli ingredienti.</p>
+
+        <h2>La svolta scientifica del Novecento</h2>
+        <p>La cosmesi moderna nasce quando chimica e dermatologia iniziano a dialogare. Un momento simbolico è il 1911, con il lancio della prima crema emulsionata olio-in-acqua stabile su scala industriale. Da lì in avanti l'industria cosmetica si struttura, si regolamenta e — dopo alcuni episodi di prodotti pericolosi che negli anni '30 spinsero le autorità a intervenire con norme più severe — costruisce un impianto di sicurezza sempre più rigoroso, che in Europa culmina nel Regolamento 1223/2009, tra i più severi al mondo.</p>
+
+        <h2>L'INCI: la lista che dice la verità</h2>
+        <p>Dal 1997 in Europa è obbligatorio riportare in etichetta l'<strong>INCI</strong> (International Nomenclature of Cosmetic Ingredients): l'elenco di tutti gli ingredienti, in ordine decrescente di concentrazione (sotto l'1% l'ordine è libero). Le piante compaiono con il nome botanico latino, le sostanze chimiche con la nomenclatura internazionale inglese — anche l'acqua, che infatti si legge "Aqua". Saper leggere un INCI significa poter riconoscere gli allergeni dichiarati obbligatoriamente (le sostanze profumanti sensibilizzanti individuate dalla normativa), capire la funzione dei conservanti, e non farsi spaventare da nomi complessi che spesso nascondono sostanze innocue.</p>
+
+        <h2>I principi attivi più richiesti oggi</h2>
+        <ul>
+          <li><strong>Acido ialuronico</strong>: idratazione profonda ed effetto volumizzante immediato.</li>
+          <li><strong>Retinolo</strong>: stimola il rinnovamento cellulare, tra gli attivi anti-age più studiati.</li>
+          <li><strong>Vitamina C</strong> (acido ascorbico e derivati): azione antiossidante e schiarente, dona luminosità.</li>
+          <li><strong>Niacinamide</strong>: regola la produzione di sebo e rinforza la barriera cutanea.</li>
+          <li><strong>Acidi esfolianti (AHA/BHA)</strong>: rinnovano la superficie della pelle, utili su texture irregolare e pori dilatati.</li>
+        </ul>
+
+        <h2>Perché conta il consiglio della farmacista cosmetologa</h2>
+        <p>Un conto è un consiglio generico, un altro è un'analisi personalizzata: riconoscere il tipo di pelle, leggere criticamente gli INCI dei prodotti già in uso, costruire una routine coerente — detersione, trattamento, protezione — invece di accumulare prodotti scollegati tra loro. È il lavoro che facciamo ogni giorno in parafarmacia.</p>
+
+        <h2>Cosa NON fare</h2>
+        <ul>
+          <li>Non introdurre più attivi esfolianti o "forti" insieme, senza gradualità: la pelle va abituata.</li>
+          <li>Non saltare mai la protezione solare quando si usano retinoidi o acidi esfolianti.</li>
+          <li>Non ignorare un patch test su prodotti nuovi, specialmente in caso di pelle sensibile o allergie note.</li>
+          <li>Non fidarsi di claim miracolistici privi di studi a supporto: se sembra troppo bello per essere vero, probabilmente lo è.</li>
+        </ul>
+
+        <blockquote>Non esiste "la crema perfetta". Esiste la crema perfetta per la tua pelle, oggi.</blockquote>
+      </div>
+
+      <div class="article-disclaimer">
+        <strong>Una nota importante.</strong> Le informazioni di questa pagina hanno carattere divulgativo e non sostituiscono una valutazione dermatologica professionale, specialmente in presenza di patologie cutanee, allergie note o terapie dermatologiche in corso.
+      </div>
+
+      <div class="article-cta">
+        <span class="eyebrow" style="justify-content:center; display:flex;">Vuoi un'analisi della tua pelle?</span>
+        <h3>Incontra la nostra <em>farmacista cosmetologa</em></h3>
+        <p>Routine su misura, lettura degli INCI, soluzioni concrete per acne, couperose, macchie e anti-age.</p>
+        <a href="#servizi" data-page="servizi" class="btn btn-primary">Scopri il servizio →</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+
+<!-- ====================================================
+     OMEOPATIA
+====================================================== -->
+<main class="page" id="page-omeopatia">
+
+  <section class="page-header">
+    <div class="wrap">
+      <a class="article-back" data-page="home" href="#home">Torna alla home</a>
+      <span class="eyebrow" style="justify-content:center; display:flex;">Un sistema nato oltre duecento anni fa</span>
+      <h1>Omeopatia</h1>
+      <p class="lead">Le origini, il metodo, il dibattito scientifico: tutto quello che c'è da sapere sull'omeopatia, spiegato con chiarezza e onestà.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="article-content">
+        <div class="excerpt-lead">Granuli, tubi, monodose: dietro a questi piccoli contenitori c'è una storia precisa, nata dall'intuizione di un medico tedesco alla fine del Settecento.</div>
+
+        <p>L'<strong>omeopatia</strong> è un sistema terapeutico fondato sul principio <em>"similia similibus curantur"</em> — il simile cura il simile: una sostanza che in dosi elevate provoca determinati sintomi in un soggetto sano, somministrata in dosi infinitesimali, sarebbe in grado di curare quegli stessi sintomi in un soggetto malato.</p>
+
+        <h2>Samuel Hahnemann e la nascita dell'omeopatia</h2>
+        <p><strong>Samuel Hahnemann</strong> nasce nel 1755 a Meissen, in Germania. Medico e chimico, si allontana presto dalla pratica clinica, disilluso dalla medicina "eroica" del suo tempo — salassi, purganti drastici, composti a base di mercurio — che spesso danneggiava i pazienti più della malattia stessa. Nel 1790, traducendo un trattato di farmacologia dello scozzese William Cullen, Hahnemann nota una spiegazione sull'azione della china (corteccia usata contro la malaria) che non lo convince, e decide di sperimentarla su se stesso. Assumendo ripetutamente china, sviluppa sintomi simili a quelli della malaria — l'episodio passato alla storia come <em>experimentum Cullenianum</em>. Da questa osservazione nasce l'intuizione del "simile cura il simile": nel 1796 pubblica il primo saggio sul principio, e nel 1810 dà alle stampe l'<em>Organon dell'arte del guarire</em>, il testo fondativo dell'omeopatia.</p>
+
+        <h2>Il contesto storico: perché ebbe un tale successo</h2>
+        <p>Per comprendere la rapida diffusione dell'omeopatia nell'Ottocento bisogna guardare al contesto: la medicina ufficiale dell'epoca praticava salassi intensivi e somministrava sostanze tossiche come mercurio e antimonio. Le diluizioni omeopatiche, prive di quantità significative di principio attivo, erano quantomeno innocue — un vantaggio concreto rispetto ad alcune pratiche mediche del tempo, che contribuì alla sua crescente popolarità in Europa, specialmente durante le epidemie di colera del secolo.</p>
+
+        <h2>Come si preparano i rimedi: diluizione e dinamizzazione</h2>
+        <p>Il processo parte da una tintura madre, sottoposta a diluizioni successive: in scala decimale (DH) ogni passaggio diluisce 1:10, in scala centesimale (CH) 1:100. Tra un passaggio e l'altro, il preparato viene sottoposto a una forte agitazione meccanica, la <strong>succussione</strong>, che secondo la teoria omeopatica "dinamizza" la soluzione. Alle diluizioni più alte — una 30CH, ad esempio — il calcolo basato sul numero di Avogadro rende statisticamente improbabile la presenza anche di una sola molecola della sostanza di partenza: è questo il punto centrale attorno a cui ruota il dibattito scientifico sull'omeopatia.</p>
+
+        <h2>La diffusione nel mondo e in Italia</h2>
+        <p>Hahnemann si trasferisce a Parigi nel 1835, e da lì l'omeopatia si diffonde in tutta Europa, negli Stati Uniti e, soprattutto, in India, dove oggi è particolarmente radicata e integrata nel sistema sanitario nazionale. In Italia arriva a metà Ottocento. Oggi la vendita dei medicinali omeopatici è regolamentata: quelli registrati presso l'AIFA possono essere commercializzati, ma — coerentemente con la normativa europea — senza indicazioni terapeutiche specifiche approvate in etichetta.</p>
+
+        <h2>Cosa dice la scienza oggi</h2>
+        <p>Le principali revisioni sistematiche della letteratura scientifica — tra cui il rapporto del 2015 dell'Australian National Health and Medical Research Council e quello del 2017 dell'EASAC (European Academies' Science Advisory Council) — concludono che non esistono prove solide di un'efficacia dell'omeopatia superiore al placebo per condizioni cliniche specifiche. Allo stesso tempo, proprio per l'altissima diluizione, i preparati omeopatici registrati sono generalmente considerati sicuri e ben tollerati. Molte persone riferiscono un beneficio soggettivo, spiegabile — almeno in parte — con l'effetto placebo, il tempo dedicato durante la consultazione, o la naturale remissione di alcuni disturbi.</p>
+
+        <h2>Cosa trovi in parafarmacia</h2>
+        <p>Granuli, globuli e tubi dose o monodose sono le forme più diffuse. Le diluizioni più richieste sono 5CH, 9CH, 15CH e 30CH, scelte in base al tipo di disturbo secondo la tradizione omeopatica. Per consuetudine si assumono per via sublinguale, lontano dai pasti e da sostanze aromatiche intense come menta e caffè.</p>
+
+        <h2>Cosa NON fare</h2>
+        <ul>
+          <li>Non sostituire terapie necessarie, croniche o salvavita con l'omeopatia, senza il parere del medico curante.</li>
+          <li>Non ritardare una diagnosi medica necessaria affidandosi esclusivamente a un rimedio omeopatico.</li>
+          <li>Non considerare l'omeopatia equivalente, per meccanismo d'azione dimostrato, a un farmaco convenzionale.</li>
+        </ul>
+
+        <blockquote>L'omeopatia può accompagnare il tuo percorso di benessere, ma la scelta più onesta è conoscerne davvero le origini, il metodo e i limiti — non solo l'etichetta sulla scatola.</blockquote>
+      </div>
+
+      <div class="article-disclaimer">
+        <strong>Una nota importante.</strong> Le informazioni di questa pagina hanno carattere divulgativo e non sostituiscono il parere del tuo medico di fiducia, specialmente in presenza di patologie in corso, gravidanza o allattamento.
+      </div>
+
+      <div class="article-cta">
+        <span class="eyebrow" style="justify-content:center; display:flex;">Vuoi un consiglio personale?</span>
+        <h3>Parliamone in <em>parafarmacia</em></h3>
+        <p>La Dottoressa Emy può ascoltare la tua situazione specifica e aiutarti a orientarti tra i rimedi omeopatici disponibili.</p>
+        <a href="#contatti" data-page="contatti" class="btn btn-primary">Come trovarci →</a>
+      </div>
+    </div>
+  </section>
+
 </main>
 
 
