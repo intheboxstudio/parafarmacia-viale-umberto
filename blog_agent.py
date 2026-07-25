@@ -667,6 +667,97 @@ Genera l'articolo completo e pubblicalo usando il tool `publish_article`."""
 
 
 # ============================================================================
+# 3b. DUPLICATE CHECKER (Claude API — anti-doppione semantico)
+# ============================================================================
+
+class DuplicateChecker:
+    """Verifica se un nuovo topic tratta lo stesso problema di un articolo
+    già pubblicato, ANCHE se il titolo usa parole diverse.
+
+    Bug osservato ripetutamente: la discovery via Google Suggest produce
+    frasi diverse per lo stesso identico problema di salute — es. "ansia da
+    prestazione e tremore emotivo" e "ansia, tremore e stanchezza prima di
+    un evento importante" sono lo stesso articolo in tutto tranne le
+    parole — e il confronto sullo slug (fatto DOPO la generazione, in
+    BlogAgent.run) non li intercetta perché gli slug risultano diversi.
+
+    Qui il confronto è semantico (via Claude, non string-matching) e viene
+    fatto PRIMA di generare l'articolo completo, così un topic doppione
+    viene scartato subito invece di sprecare la generazione e scoprirlo
+    solo alla fine.
+    """
+
+    SYSTEM_PROMPT = (
+        "Sei un editor che deve evitare di pubblicare due volte lo stesso "
+        "argomento su un blog di salute e benessere, anche quando i titoli "
+        "usano parole diverse. Valuta se il NUOVO topic tratta sostanzialmente "
+        "lo stesso problema/disturbo/domanda di uno dei titoli già pubblicati "
+        "(stesso disturbo, stessa situazione, anche se la formulazione è "
+        "diversa). Sii severo: in caso di dubbio, considera plausibile la "
+        "somiglianza."
+    )
+
+    TOOL_SCHEMA = {
+        "name": "duplicate_check",
+        "description": "Segnala se il nuovo topic è un doppione tematico di un articolo già pubblicato.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "is_duplicate": {
+                    "type": "boolean",
+                    "description": "True se il nuovo topic tratta sostanzialmente lo stesso problema di un titolo già pubblicato."
+                },
+                "matches_title": {
+                    "type": "string",
+                    "description": "Il titolo già pubblicato che si sovrappone, oppure stringa vuota se is_duplicate è false."
+                },
+                "reason": {
+                    "type": "string",
+                    "description": "Una frase che spiega la decisione."
+                },
+            },
+            "required": ["is_duplicate", "reason"],
+        },
+    }
+
+    def __init__(self, client: Anthropic):
+        self.client = client
+
+    def is_duplicate(self, topic: str, existing_titles: list[str]) -> tuple[bool, str]:
+        """Restituisce (is_duplicate, motivo). Fail-open: se il controllo
+        stesso fallisce (rete, API, ecc.) non blocca la pubblicazione — si
+        limita a loggare un warning, coerente col resto della pipeline
+        (es. SourceFinder.find fa lo stesso con Brave Search)."""
+        if not existing_titles:
+            return False, ""
+
+        titles_list = "\n".join(f"- {t}" for t in existing_titles)
+        user_msg = (
+            f"Titoli già pubblicati sul blog:\n{titles_list}\n\n"
+            f'Nuovo topic da valutare: "{topic}"\n\n'
+            "Il nuovo topic tratta sostanzialmente lo stesso problema di uno "
+            "dei titoli già pubblicati, anche con parole diverse? "
+            "Rispondi usando il tool."
+        )
+        try:
+            response = self.client.messages.create(
+                model=CLAUDE_MODEL,
+                max_tokens=300,
+                system=self.SYSTEM_PROMPT,
+                tools=[self.TOOL_SCHEMA],
+                tool_choice={"type": "tool", "name": "duplicate_check"},
+                messages=[{"role": "user", "content": user_msg}],
+            )
+            for block in response.content:
+                if block.type == "tool_use" and block.name == "duplicate_check":
+                    data = block.input
+                    return bool(data.get("is_duplicate")), str(data.get("reason", ""))
+        except Exception as exc:
+            log.warning("Controllo anti-doppione semantico fallito (%s), procedo senza bloccare", exc)
+        return False, ""
+
+
+# ============================================================================
 # 4. IMAGE GENERATOR (Unsplash API — foto stock professionali)
 # ============================================================================
 
@@ -976,6 +1067,25 @@ class GitPublisher:
             return set()
         return {a.get("slug") for a in feed.get("articles", []) if a.get("slug")}
 
+    def get_existing_titles(self) -> list[str]:
+        """Restituisce i titoli (HTML-stripped) di tutti gli articoli nel
+        feed, usati da DuplicateChecker per il confronto semantico — a
+        differenza di get_existing_slugs(), qui serve il testo leggibile,
+        non l'identificatore URL."""
+        result = self._get_file("articles.json")
+        if result is None:
+            return []
+        content, _sha = result
+        try:
+            feed = json.loads(content)
+        except json.JSONDecodeError:
+            return []
+        return [
+            re.sub(r"<[^>]+>", "", a.get("title", "")).strip()
+            for a in feed.get("articles", [])
+            if a.get("title")
+        ]
+
 
 # ============================================================================
 # AGENT ORCHESTRATION
@@ -997,6 +1107,7 @@ class BlogAgent:
         self.discoverer = TopicDiscoverer()
         self.source_finder = SourceFinder(self.brave_key)
         self.generator = ArticleGenerator(self.anthropic_key)
+        self.dup_checker = DuplicateChecker(self.generator.client)
         self.image_gen = ImageGenerator(self.unsplash_key, self.assets_dir)
         self.publisher = GitPublisher(self.github_token, self.github_repo, self.github_branch)
 
@@ -1030,13 +1141,31 @@ class BlogAgent:
             return
 
         try:
-            # 1-3. Discovery + generazione, con retry se lo slug risultante
-            # è già stato pubblicato di recente (evita articoli duplicati).
+            # 1-3. Discovery + generazione, con doppio anti-doppione:
+            #   a) PRIMA di generare: controllo semantico (DuplicateChecker)
+            #      sul topic contro i titoli già pubblicati — intercetta
+            #      anche topic diversi a parole ma sullo stesso problema
+            #      (es. "ansia da prestazione" vs "ansia prima di un
+            #      evento importante", bug osservato più volte perché lo
+            #      slug risultante è diverso e sfuggiva al controllo b).
+            #   b) DOPO la generazione: confronto esatto sullo slug, come
+            #      rete di sicurezza per titoli identici o quasi.
             existing_slugs = self.publisher.get_existing_slugs()
-            MAX_TOPIC_ATTEMPTS = 5
+            existing_titles = self.publisher.get_existing_titles()
+            MAX_TOPIC_ATTEMPTS = 8
             data = slug = None
             for attempt in range(1, MAX_TOPIC_ATTEMPTS + 1):
                 category, topic = self.discoverer.discover()
+
+                is_dup, reason = self.dup_checker.is_duplicate(topic, existing_titles)
+                if is_dup:
+                    log.warning(
+                        "Topic scartato (stesso problema di un articolo già pubblicato, "
+                        "tentativo %d/%d): %r — %s",
+                        attempt, MAX_TOPIC_ATTEMPTS, topic, reason,
+                    )
+                    continue
+
                 sources_hint = self.source_finder.find(topic)
                 data = self.generator.generate(topic, category, sources_hint)
                 slug = slugify(re.sub(r"<[^>]+>", "", data["title"]))
@@ -1048,7 +1177,7 @@ class BlogAgent:
                 )
             else:
                 log.error(
-                    "Non sono riuscito a generare un articolo con slug univoco dopo %d tentativi. Abort.",
+                    "Non sono riuscito a generare un articolo con topic univoco dopo %d tentativi. Abort.",
                     MAX_TOPIC_ATTEMPTS,
                 )
                 sys.exit(1)
