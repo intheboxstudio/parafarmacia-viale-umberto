@@ -1,37 +1,127 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://intheboxstudio.github.io/parafarmacia-viale-umberto/</loc>
-    <lastmod>2026-07-14</lastmod>
+    <loc>https://www.parafarmaciaemy.it/</loc>
+    <lastmod>2026-07-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://intheboxstudio.github.io/parafarmacia-viale-umberto/blog/soffri-di-ansia-tremore-e-stanchezza-prima-di-un-evento-importante-ecco-cosa-far/</loc>
+    <loc>https://www.parafarmaciaemy.it/servizi/</loc>
+    <lastmod>2026-07-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.parafarmaciaemy.it/tisane/</loc>
+    <lastmod>2026-07-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.parafarmaciaemy.it/primus/</loc>
+    <lastmod>2026-07-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.parafarmaciaemy.it/blog/</loc>
+    <lastmod>2026-07-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.parafarmaciaemy.it/instagram/</loc>
+    <lastmod>2026-07-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.parafarmaciaemy.it/contatti/</loc>
+    <lastmod>2026-07-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.parafarmaciaemy.it/scrivici/</loc>
+    <lastmod>2026-07-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.parafarmaciaemy.it/privacy/</loc>
+    <lastmod>2026-07-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.parafarmaciaemy.it/fitoterapia/</loc>
+    <lastmod>2026-07-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.parafarmaciaemy.it/erboristeria/</loc>
+    <lastmod>2026-07-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.parafarmaciaemy.it/cosmesi/</loc>
+    <lastmod>2026-07-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.parafarmaciaemy.it/omeopatia/</loc>
+    <lastmod>2026-07-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.parafarmaciaemy.it/blog/hai-un-bambino-che-non-riesce-a-dormire-e-non-sai-come-aiutarlo/</loc>
+    <lastmod>2026-07-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.parafarmaciaemy.it/blog/soffri-di-stress-emotivo-e-tensione-nervosa-ecco-cosa-sapere-davvero-sullignatia/</loc>
+    <lastmod>2026-07-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.parafarmaciaemy.it/blog/difficolta-ad-addormentarti-la-sera-non-ti-lascia-vivere-serena/</loc>
+    <lastmod>2026-07-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.parafarmaciaemy.it/blog/soffri-di-carenza-di-vitamina-d-ecco-cosa-fare-davvero/</loc>
+    <lastmod>2026-07-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.parafarmaciaemy.it/blog/soffri-di-ansia-tremore-e-stanchezza-prima-di-un-evento-importante-ecco-cosa-far/</loc>
     <lastmod>2026-07-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://intheboxstudio.github.io/parafarmacia-viale-umberto/blog/soffri-di-ansia-da-prestazione-e-tremore-emotivo-ecco-cosa-fare-davvero/</loc>
+    <loc>https://www.parafarmaciaemy.it/blog/soffri-di-ansia-da-prestazione-e-tremore-emotivo-ecco-cosa-fare-davvero/</loc>
     <lastmod>2026-07-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://intheboxstudio.github.io/parafarmacia-viale-umberto/blog/soffri-di-carenza-di-vitamina-d-ecco-cosa-fare-davvero/</loc>
-    <lastmod>2026-07-09</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://intheboxstudio.github.io/parafarmacia-viale-umberto/blog/soffri-di-stress-cronico-ecco-cosa-fare-davvero/</loc>
+    <loc>https://www.parafarmaciaemy.it/blog/soffri-di-stress-cronico-ecco-cosa-fare-davvero/</loc>
     <lastmod>2026-07-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://intheboxstudio.github.io/parafarmacia-viale-umberto/blog/hai-la-couperose-e-non-sai-come-risolverlo/</loc>
+    <loc>https://www.parafarmaciaemy.it/blog/hai-la-couperose-e-non-sai-come-risolverlo/</loc>
     <lastmod>2026-07-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

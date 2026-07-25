@@ -1,6 +1,4 @@
-# SWITCH-DOMAIN: quando attivi www.parafarmaciaemy.it
-# aggiorna la riga Sitemap qui sotto con il nuovo dominio.
 User-agent: *
 Allow: /
 
-Sitemap: https://intheboxstudio.github.io/parafarmacia-viale-umberto/sitemap.xml
+Sitemap: https://www.parafarmaciaemy.it/sitemap.xml

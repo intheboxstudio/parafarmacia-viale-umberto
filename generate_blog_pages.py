@@ -18,8 +18,10 @@ nuovo articolo ha subito la sua pagina indicizzabile.
     import subprocess
     subprocess.run(["python3", "generate_blog_pages.py"], check=True)
 
-SWITCH-DOMAIN: quando attivi www.parafarmaciaemy.it cambia BASE_URL
-qui sotto e rilancia lo script (rigenera tutto in pochi secondi).
+BASE_URL e SITE_NAME vivono in site_config.py, condivisi con
+generate_pages.py — per cambiare dominio basta aggiornare quel file.
+Il sitemap.xml generato qui include anche le pagine principali del sito
+(vedi PAGES in generate_pages.py), non solo gli articoli del blog.
 """
 
 import json
@@ -28,13 +30,12 @@ import re
 from pathlib import Path
 from datetime import datetime, timezone
 
+from site_config import BASE_URL, SITE_NAME
+from generate_pages import PAGES as SITE_PAGES
+
 # ============================================================
 # CONFIGURAZIONE
 # ============================================================
-BASE_URL = "https://intheboxstudio.github.io/parafarmacia-viale-umberto"
-# BASE_URL = "https://www.parafarmaciaemy.it"   # <-- SWITCH-DOMAIN: decommenta questa e commenta quella sopra
-
-SITE_NAME = "Parafarmacia Erboristeria Viale Umberto 1°"
 ARTICLES_JSON = Path("articles.json")
 OUT_DIR = Path("blog")
 SITEMAP = Path("sitemap.xml")
@@ -107,7 +108,7 @@ footer {{ margin-top: 56px; padding-top: 24px; border-top: 1px solid #dbe8f1;
 </head>
 <body>
 <div class="wrap">
-  <a class="back" href="{base}/#blog">&larr; Torna al sito</a>
+  <a class="back" href="{base}/blog/">&larr; Torna al sito</a>
   <span class="category">{category}</span>
   <h1>{title_html}</h1>
   <div class="meta">{date_human} · {reading_time} di lettura · {site}</div>
@@ -118,11 +119,11 @@ footer {{ margin-top: 56px; padding-top: 24px; border-top: 1px solid #dbe8f1;
     <strong>Hai domande su questo argomento?</strong><br>
     Passa a trovarci in Viale Umberto 1°, 17/D a Reggio Emilia,
     chiamaci allo <a href="tel:0522081652">0522&nbsp;081652</a>
-    oppure <a href="{base}/#scrivici">scrivici dal sito</a>.
+    oppure <a href="{base}/scrivici/">scrivici dal sito</a>.
   </div>
   <footer>
     {site} · Viale Umberto 1°, 17/D — 42121 Reggio Emilia ·
-    <a href="{base}/#privacy" style="color:inherit;">Privacy &amp; Cookie</a>
+    <a href="{base}/privacy/" style="color:inherit;">Privacy &amp; Cookie</a>
   </footer>
 </div>
 </body>
@@ -168,7 +169,11 @@ def main() -> None:
     articles = data.get("articles", [])
     print(f"Trovati {len(articles)} articoli in {ARTICLES_JSON}")
 
-    urls = [(f"{BASE_URL}/", datetime.now(timezone.utc).date().isoformat(), "weekly", "1.0")]
+    today = datetime.now(timezone.utc).date().isoformat()
+    urls = [
+        (f"{BASE_URL}/{slug + '/' if slug else ''}", today, "weekly" if slug == "" else "monthly", "1.0" if slug == "" else "0.8")
+        for slug, _title, _description in SITE_PAGES
+    ]
 
     for art in articles:
         slug = art["slug"]
