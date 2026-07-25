@@ -509,22 +509,23 @@ h1, h2, h3, h4{
 .storefront-section{ padding-top: 0; }
 .storefront-grid{
   display: grid;
-  grid-template-columns: 1.3fr 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 24px;
-  align-items: stretch;
+  max-width: 780px;
+  margin: 0 auto;
 }
 .storefront-photo{
   position: relative;
   border-radius: var(--r-lg);
   overflow: hidden;
   box-shadow: var(--ombra-card);
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 3 / 4;
 }
-.storefront-photo.storefront-photo-tall{ aspect-ratio: 3 / 4; }
 .storefront-photo img{
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
   display: block;
   transition: transform .6s ease;
 }
@@ -532,20 +533,19 @@ h1, h2, h3, h4{
 .storefront-caption{
   position: absolute;
   left: 0; right: 0; bottom: 0;
-  padding: 26px 24px 22px;
-  background: linear-gradient(180deg, transparent 0%, rgba(31,58,77,.78) 100%);
+  padding: 22px 18px 18px;
+  background: linear-gradient(180deg, transparent 0%, rgba(31,58,77,.8) 100%);
   color: var(--bianco);
 }
-.storefront-caption .eyebrow{ color: var(--azzurro-soft); }
+.storefront-caption .eyebrow{ color: var(--azzurro-soft); font-size: 11px; }
 .storefront-caption p{
-  font-size: 14px;
-  margin-top: 8px;
+  font-size: 13px;
+  margin-top: 6px;
   color: var(--bianco);
   opacity: .92;
 }
-@media (max-width: 700px){
-  .storefront-grid{ grid-template-columns: 1fr; }
-  .storefront-photo, .storefront-photo.storefront-photo-tall{ aspect-ratio: 4 / 3; }
+@media (max-width: 600px){
+  .storefront-grid{ max-width: 340px; grid-template-columns: 1fr; }
 }
 
 /* PILLARS */
