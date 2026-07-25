@@ -505,6 +505,49 @@ h1, h2, h3, h4{
   .intro-stats{ grid-template-columns: repeat(2, 1fr); }
 }
 
+/* STOREFRONT (foto vere del negozio) */
+.storefront-section{ padding-top: 0; }
+.storefront-grid{
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 24px;
+  align-items: stretch;
+}
+.storefront-photo{
+  position: relative;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: var(--ombra-card);
+  aspect-ratio: 4 / 3;
+}
+.storefront-photo.storefront-photo-tall{ aspect-ratio: 3 / 4; }
+.storefront-photo img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .6s ease;
+}
+.storefront-photo:hover img{ transform: scale(1.04); }
+.storefront-caption{
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: 26px 24px 22px;
+  background: linear-gradient(180deg, transparent 0%, rgba(31,58,77,.78) 100%);
+  color: var(--bianco);
+}
+.storefront-caption .eyebrow{ color: var(--azzurro-soft); }
+.storefront-caption p{
+  font-size: 14px;
+  margin-top: 8px;
+  color: var(--bianco);
+  opacity: .92;
+}
+@media (max-width: 700px){
+  .storefront-grid{ grid-template-columns: 1fr; }
+  .storefront-photo, .storefront-photo.storefront-photo-tall{ aspect-ratio: 4 / 3; }
+}
+
 /* PILLARS */
 .pillars-section{
   background:
