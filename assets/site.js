@@ -223,12 +223,12 @@ const menuLinks = document.querySelectorAll('[data-page]');
 const SITE_TITLE_SUFFIX = ' — Parafarmacia Erboristeria Viale Umberto 1°';
 const PAGE_META = {
   home: {
-    title: 'Parafarmacia Erboristeria Viale Umberto 1° — Reggio Emilia',
-    description: "Parafarmacia Erboristeria Viale Umberto 1° – Reggio Emilia. Fitoterapia, erboristeria, cosmesi, omeopatia. Tisane artigianali, consulenze nutrizionali, naturopatia, farmacista cosmetologa, punto vendita Pane Primus e stanze per consulenze su appuntamento."
+    title: 'Parafarmacia Emy — Erboristeria e Omeopatia a Reggio Emilia, Viale Umberto 1°',
+    description: "Parafarmacia Emy – Parafarmacia Erboristeria in Viale Umberto 1°, Reggio Emilia (Reggio nell'Emilia). Fitoterapia, erboristeria, cosmesi, omeopatia. Tisane artigianali, nutrizionista e naturopatia a Reggio Emilia, farmacista cosmetologa, punto vendita Pane Primus e stanze per consulenze su appuntamento."
   },
   servizi: {
-    title: 'Servizi: Nutrizionista, Naturopata e Farmacista Cosmetologa' + SITE_TITLE_SUFFIX,
-    description: 'Consulenze su appuntamento a Reggio Emilia: nutrizionista, naturopata e farmacista cosmetologa. Due stanze attrezzate, affittabili a ore, per professionisti del benessere.'
+    title: 'Nutrizionista e Naturopatia a Reggio Emilia — Servizi' + SITE_TITLE_SUFFIX,
+    description: "Nutrizionista e naturopatia a Reggio Emilia (Reggio nell'Emilia), in Parafarmacia Viale Umberto 1°: consulenze su appuntamento per alimentazione, benessere naturale e cosmesi. Due stanze attrezzate per professionisti del settore."
   },
   tisane: {
     title: 'Le Tisane della Dottoressa Emy' + SITE_TITLE_SUFFIX,
@@ -263,16 +263,16 @@ const PAGE_META = {
     description: "Dalle prime farmacopee vegetali alla ricerca clinica di oggi: cos'è la fitoterapia, cos'è il fitocomplesso e cosa dice davvero la scienza, spiegato con onestà."
   },
   erboristeria: {
-    title: 'Erboristeria: Storia di un Mestiere Antico' + SITE_TITLE_SUFFIX,
-    description: 'Dalle raccolte di erbe selvatiche alla bottega di quartiere: storia, normativa italiana e metodi di preparazione (infuso, decotto, macerato).'
+    title: 'Erboristeria a Reggio Emilia — Storia di un Mestiere Antico' + SITE_TITLE_SUFFIX,
+    description: "Erboristeria a Reggio Emilia (Reggio nell'Emilia), in Viale Umberto 1°: storia, normativa italiana e metodi di preparazione (infuso, decotto, macerato), spiegati con chiarezza."
   },
   cosmesi: {
     title: 'Cosmesi: Come Nasce (e si Legge) un Prodotto Sicuro' + SITE_TITLE_SUFFIX,
     description: "Dalle argille dell'Antico Egitto agli INCI di oggi: come nasce un cosmetico sicuro, i principi attivi più richiesti e come sceglierlo davvero."
   },
   omeopatia: {
-    title: 'Omeopatia: Origini e Dibattito Scientifico' + SITE_TITLE_SUFFIX,
-    description: 'Samuel Hahnemann, il principio del simile, come si preparano i rimedi e cosa dice oggi la scienza sull\'omeopatia, spiegato con chiarezza.'
+    title: 'Omeopatia a Reggio Emilia — Origini e Dibattito Scientifico' + SITE_TITLE_SUFFIX,
+    description: "Omeopatia a Reggio Emilia (Reggio nell'Emilia), in Parafarmacia Viale Umberto 1°: Samuel Hahnemann, il principio del simile, come si preparano i rimedi e cosa dice oggi la scienza, spiegato con chiarezza."
   }
 };
 

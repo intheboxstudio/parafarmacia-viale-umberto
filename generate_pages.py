@@ -46,13 +46,14 @@ SITE_TITLE_SUFFIX = f" — {SITE_NAME}"
 
 # (slug, title, description) — slug "" = home.
 PAGES = [
-    ("", "Parafarmacia Erboristeria Viale Umberto 1° — Reggio Emilia",
-        "Parafarmacia Erboristeria Viale Umberto 1° – Reggio Emilia. Fitoterapia, erboristeria, cosmesi, omeopatia. "
-        "Tisane artigianali, consulenze nutrizionali, naturopatia, farmacista cosmetologa, punto vendita Pane Primus "
-        "e stanze per consulenze su appuntamento."),
-    ("servizi", "Servizi: Nutrizionista, Naturopata e Farmacista Cosmetologa" + SITE_TITLE_SUFFIX,
-        "Consulenze su appuntamento a Reggio Emilia: nutrizionista, naturopata e farmacista cosmetologa. Due stanze "
-        "attrezzate, affittabili a ore, per professionisti del benessere."),
+    ("", "Parafarmacia Emy — Erboristeria e Omeopatia a Reggio Emilia, Viale Umberto 1°",
+        "Parafarmacia Emy – Parafarmacia Erboristeria in Viale Umberto 1°, Reggio Emilia (Reggio nell'Emilia). "
+        "Fitoterapia, erboristeria, cosmesi, omeopatia. Tisane artigianali, nutrizionista e naturopatia a Reggio "
+        "Emilia, farmacista cosmetologa, punto vendita Pane Primus e stanze per consulenze su appuntamento."),
+    ("servizi", "Nutrizionista e Naturopatia a Reggio Emilia — Servizi" + SITE_TITLE_SUFFIX,
+        "Nutrizionista e naturopatia a Reggio Emilia (Reggio nell'Emilia), in Parafarmacia Viale Umberto 1°: "
+        "consulenze su appuntamento per alimentazione, benessere naturale e cosmesi. Due stanze attrezzate per "
+        "professionisti del settore."),
     ("tisane", "Le Tisane della Dottoressa Emy" + SITE_TITLE_SUFFIX,
         "Miscele artigianali composte a mano in negozio, mai online: ingredienti selezionati uno a uno. Scopri la "
         "storia e gli ingredienti delle Tisane della Dottoressa Emy."),
@@ -77,15 +78,15 @@ PAGES = [
     ("fitoterapia", "Fitoterapia: Storia, Metodo e Cosa Dice la Scienza" + SITE_TITLE_SUFFIX,
         "Dalle prime farmacopee vegetali alla ricerca clinica di oggi: cos'è la fitoterapia, cos'è il fitocomplesso "
         "e cosa dice davvero la scienza, spiegato con onestà."),
-    ("erboristeria", "Erboristeria: Storia di un Mestiere Antico" + SITE_TITLE_SUFFIX,
-        "Dalle raccolte di erbe selvatiche alla bottega di quartiere: storia, normativa italiana e metodi di "
-        "preparazione (infuso, decotto, macerato)."),
+    ("erboristeria", "Erboristeria a Reggio Emilia — Storia di un Mestiere Antico" + SITE_TITLE_SUFFIX,
+        "Erboristeria a Reggio Emilia (Reggio nell'Emilia), in Viale Umberto 1°: storia, normativa italiana e "
+        "metodi di preparazione (infuso, decotto, macerato), spiegati con chiarezza."),
     ("cosmesi", "Cosmesi: Come Nasce (e si Legge) un Prodotto Sicuro" + SITE_TITLE_SUFFIX,
         "Dalle argille dell'Antico Egitto agli INCI di oggi: come nasce un cosmetico sicuro, i principi attivi più "
         "richiesti e come sceglierlo davvero."),
-    ("omeopatia", "Omeopatia: Origini e Dibattito Scientifico" + SITE_TITLE_SUFFIX,
-        "Samuel Hahnemann, il principio del simile, come si preparano i rimedi e cosa dice oggi la scienza "
-        "sull'omeopatia, spiegato con chiarezza."),
+    ("omeopatia", "Omeopatia a Reggio Emilia — Origini e Dibattito Scientifico" + SITE_TITLE_SUFFIX,
+        "Omeopatia a Reggio Emilia (Reggio nell'Emilia), in Parafarmacia Viale Umberto 1°: Samuel Hahnemann, il "
+        "principio del simile, come si preparano i rimedi e cosa dice oggi la scienza, spiegato con chiarezza."),
 ]
 
 HEAD_TEMPLATE = """<meta charset="UTF-8" />
@@ -132,9 +133,17 @@ ORG_JSON_LD = {
     "@context": "https://schema.org",
     "@type": "Pharmacy",
     "name": SITE_NAME,
+    "alternateName": ["Parafarmacia Emy", "Parafarmacia Viale Umberto"],
     "url": BASE_URL + "/",
     "telephone": "+39 0522 081652",
     "email": "parafarmaciavialeumberto@gmail.com",
+    "areaServed": {
+        "@type": "City",
+        "name": "Reggio Emilia",
+    },
+    "sameAs": [
+        "https://www.instagram.com/parafarmacia.viale.umberto/",
+    ],
     "address": {
         "@type": "PostalAddress",
         "streetAddress": "Viale Umberto 1°, 17/D",
