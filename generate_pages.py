@@ -89,7 +89,17 @@ PAGES = [
         "principio del simile, come si preparano i rimedi e cosa dice oggi la scienza, spiegato con chiarezza."),
 ]
 
-HEAD_TEMPLATE = """<meta charset="UTF-8" />
+HEAD_TEMPLATE = """<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JS9H2L4VD5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){{dataLayer.push(arguments);}}
+  gtag('js', new Date());
+
+  gtag('config', 'G-JS9H2L4VD5');
+</script>
+
+<meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="description" content="{description}" />
 <title>{title}</title>
