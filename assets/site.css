@@ -505,21 +505,31 @@ h1, h2, h3, h4{
   .intro-stats{ grid-template-columns: repeat(2, 1fr); }
 }
 
-/* STOREFRONT (foto vere del negozio) */
+/* STOREFRONT (foto vere del negozio) — carosello a scorrimento */
 .storefront-section{ padding-top: 0; }
-.storefront-grid{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+.storefront-carousel{
+  display: flex;
   gap: 24px;
-  max-width: 780px;
-  margin: 0 auto;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scroll-padding-left: 32px;
+  padding: 4px 4px 24px;
+  margin: 0 -4px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--azzurro-soft) transparent;
 }
+.storefront-carousel::-webkit-scrollbar{ height: 6px; }
+.storefront-carousel::-webkit-scrollbar-thumb{ background: var(--azzurro-soft); border-radius: 999px; }
+.storefront-carousel::-webkit-scrollbar-track{ background: transparent; }
 .storefront-photo{
   position: relative;
+  flex: 0 0 300px;
   border-radius: var(--r-lg);
   overflow: hidden;
   box-shadow: var(--ombra-card);
   aspect-ratio: 3 / 4;
+  scroll-snap-align: start;
 }
 .storefront-photo img{
   width: 100%;
@@ -545,7 +555,8 @@ h1, h2, h3, h4{
   opacity: .92;
 }
 @media (max-width: 600px){
-  .storefront-grid{ max-width: 340px; grid-template-columns: 1fr; }
+  .storefront-photo{ flex-basis: 240px; }
+  .storefront-carousel{ gap: 16px; scroll-padding-left: 20px; }
 }
 
 /* PILLARS */
