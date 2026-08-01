@@ -235,8 +235,8 @@ const PAGE_META = {
     description: 'Miscele artigianali composte a mano in negozio, mai online: ingredienti selezionati uno a uno. Scopri la storia e gli ingredienti delle Tisane della Dottoressa Emy.'
   },
   primus: {
-    title: 'Pane Primus — Punto Vendita Ufficiale' + SITE_TITLE_SUFFIX,
-    description: 'Uno dei pochi punti vendita ufficiali del Pane Primus a Reggio Emilia: grano a basso indice glicemico, lievito madre, fermentazione lunga oltre 24h. Prenota il tuo pane.'
+    title: 'Pane Primus a Reggio Emilia — Tutta la Linea' + SITE_TITLE_SUFFIX,
+    description: 'Punto vendita ufficiale Pane Primus a Reggio Emilia: tutta la linea con foto, ingredienti e valori nutrizionali — Primus 100, Classic, Ciocco, Zenzero, Uvetta, Bianco, Rosso e Olive.'
   },
   blog: {
     title: 'Blog: Consigli di Erboristeria, Omeopatia e Naturopatia' + SITE_TITLE_SUFFIX,
@@ -482,6 +482,78 @@ function observeReveals(){
   document.querySelectorAll('.reveal:not(.visible)').forEach(el => observer.observe(el));
 }
 observeReveals();
+
+/* ============== STOREFRONT SLIDESHOW (foto vere del negozio) ============== */
+(function initStorefrontSlideshow(){
+  const track = document.getElementById('storefrontTrack');
+  if(!track) return;
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const originals = Array.from(track.children);
+  if(reduceMotion || originals.length < 2) return;
+
+  // Clona le foto e le accoda per un loop infinito senza scatti visibili
+  originals.forEach(node => {
+    const clone = node.cloneNode(true);
+    clone.setAttribute('aria-hidden', 'true');
+    track.appendChild(clone);
+  });
+
+  let index = 0;
+  let stepPx = 0;
+  let timer = null;
+
+  function measureStep(){
+    const a = track.children[0];
+    const b = track.children[1];
+    stepPx = b.offsetLeft - a.offsetLeft;
+  }
+
+  function goTo(i, animate){
+    track.classList.toggle('no-transition', !animate);
+    track.style.transform = `translateX(-${stepPx * i}px)`;
+  }
+
+  function advance(){
+    index++;
+    goTo(index, true);
+    if(index === originals.length){
+      track.addEventListener('transitionend', function reset(){
+        track.removeEventListener('transitionend', reset);
+        index = 0;
+        goTo(index, false);
+      }, { once: true });
+    }
+  }
+
+  function start(){
+    stop();
+    timer = setInterval(advance, 3800);
+  }
+  function stop(){
+    if(timer){ clearInterval(timer); timer = null; }
+  }
+
+  measureStep();
+  goTo(index, false);
+  start();
+
+  const viewport = track.parentElement;
+  viewport.addEventListener('mouseenter', stop);
+  viewport.addEventListener('mouseleave', start);
+  document.addEventListener('visibilitychange', () => {
+    if(document.hidden) stop(); else start();
+  });
+
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      measureStep();
+      goTo(index, false);
+    }, 150);
+  });
+})();
 
 /* ============== INSTAGRAM EMBED LOADER ============== */
 /* Trasforma gli URL dei post Instagram in iframe embed ufficiali.

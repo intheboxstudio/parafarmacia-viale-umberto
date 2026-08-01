@@ -57,9 +57,9 @@ PAGES = [
     ("tisane", "Le Tisane della Dottoressa Emy" + SITE_TITLE_SUFFIX,
         "Miscele artigianali composte a mano in negozio, mai online: ingredienti selezionati uno a uno. Scopri la "
         "storia e gli ingredienti delle Tisane della Dottoressa Emy."),
-    ("primus", "Pane Primus — Punto Vendita Ufficiale" + SITE_TITLE_SUFFIX,
-        "Uno dei pochi punti vendita ufficiali del Pane Primus a Reggio Emilia: grano a basso indice glicemico, "
-        "lievito madre, fermentazione lunga oltre 24h. Prenota il tuo pane."),
+    ("primus", "Pane Primus a Reggio Emilia — Tutta la Linea" + SITE_TITLE_SUFFIX,
+        "Punto vendita ufficiale Pane Primus a Reggio Emilia: tutta la linea con foto, ingredienti e valori "
+        "nutrizionali — Primus 100, Classic, Ciocco, Zenzero, Uvetta, Bianco, Rosso e Olive."),
     ("blog", "Blog: Consigli di Erboristeria, Omeopatia e Naturopatia" + SITE_TITLE_SUFFIX,
         "Un articolo nuovo martedì, giovedì e sabato: erboristeria, omeopatia, naturopatia e cura del corpo, a cura "
         "della Parafarmacia Viale Umberto 1° di Reggio Emilia."),
