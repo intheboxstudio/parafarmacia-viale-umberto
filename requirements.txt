@@ -4,3 +4,7 @@ requests>=2.31.0
 Pillow>=10.0.0
 # instagram_agent.py: cifra il token rinnovato per riscriverlo nel GitHub secret
 PyNaCl>=1.5.0
+# Windows non ha un database dei fusi orari di sistema: senza questo,
+# ZoneInfo("Europe/Rome") fallisce e gli agenti non partono in locale.
+# Su Linux (GitHub Actions) è ridondante ma innocuo.
+tzdata>=2024.1

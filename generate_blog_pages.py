@@ -11,12 +11,18 @@ NON vengono indicizzati da Google. Queste pagine statiche sì.
 Come si usa:
     python3 generate_blog_pages.py
 
-Da integrare nel tuo blog_agent.py: chiamalo alla fine di ogni run
-(mar/gio/sab), subito dopo aver aggiornato articles.json, così ogni
-nuovo articolo ha subito la sua pagina indicizzabile.
+Serve a rigenerare tutto in blocco (es. dopo aver cambiato il template o
+per recuperare articoli rimasti indietro). Nel funzionamento normale non
+va lanciato a mano: blog_agent.py importa render_article_page() e
+build_sitemap() da qui e pubblica pagina e sitemap su GitHub subito dopo
+articles.json, dentro lo stesso run.
 
-    import subprocess
-    subprocess.run(["python3", "generate_blog_pages.py"], check=True)
+Perché l'agente importa le funzioni invece di lanciare questo script:
+blog_agent.py aggiorna articles.json via API REST di GitHub, non nella
+copia di lavoro. Nel runner di Actions il file su disco resta quello
+vecchio, quindi uno `subprocess.run` qui rigenererebbe le pagine SENZA
+l'articolo appena pubblicato. Le funzioni invece lavorano sui dati in
+memoria, quelli giusti.
 
 BASE_URL e SITE_NAME vivono in site_config.py, condivisi con
 generate_pages.py — per cambiare dominio basta aggiornare quel file.
@@ -171,6 +177,64 @@ def date_human(iso_date: str) -> str:
         return ""
 
 
+def article_path(article: dict) -> str:
+    """Percorso della pagina dell'articolo, relativo alla root del repo."""
+    return f"{OUT_DIR.as_posix()}/{article['slug']}/index.html"
+
+
+def render_article_page(article: dict) -> str:
+    """
+    L'HTML completo della pagina di un articolo.
+
+    Usata sia da main() (scrittura su disco) sia da blog_agent.py, che la
+    pubblica su GitHub via API: il template resta uno solo.
+    """
+    canonical = f"{BASE_URL}/blog/{article['slug']}/"
+    # immagine: il JSON usa percorsi relativi tipo ./assets/blog/x.jpg
+    image_rel = (article.get("image") or "").lstrip("./")
+    og_image = f"{BASE_URL}/{image_rel}" if image_rel else f"{BASE_URL}/assets/primus.webp"
+
+    return PAGE_TEMPLATE.format(
+        title=esc(strip_tags(article["title"])),
+        title_html=article["title"],  # mantiene gli <em> nel corpo pagina
+        site=esc(SITE_NAME),
+        description=esc(strip_tags(article.get("excerpt", ""))[:158]),
+        canonical=canonical,
+        base=BASE_URL,
+        og_image=og_image,
+        json_ld=build_json_ld(article, canonical, og_image),
+        category=esc(article.get("categoryLabel", "")),
+        date_human=date_human(article.get("date", "")),
+        reading_time=esc(article.get("readingTime", "")),
+        content=article.get("content", ""),
+    )
+
+
+def build_sitemap(articles: list[dict]) -> str:
+    """La sitemap completa: pagine principali del sito + articoli del blog."""
+    today = datetime.now(timezone.utc).date().isoformat()
+    urls = [
+        (f"{BASE_URL}/{slug + '/' if slug else ''}", today,
+         "weekly" if slug == "" else "monthly", "1.0" if slug == "" else "0.8")
+        for slug, _title, _description in SITE_PAGES
+    ]
+    urls += [
+        (f"{BASE_URL}/blog/{art['slug']}/", (art.get("date") or "")[:10], "monthly", "0.7")
+        for art in articles
+    ]
+
+    entries = "\n".join(
+        f"  <url>\n    <loc>{esc(loc)}</loc>\n    <lastmod>{lastmod}</lastmod>\n"
+        f"    <changefreq>{freq}</changefreq>\n    <priority>{prio}</priority>\n  </url>"
+        for loc, lastmod, freq, prio in urls
+    )
+    return (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        f"{entries}\n</urlset>\n"
+    )
+
+
 def main() -> None:
     if not ARTICLES_JSON.exists():
         raise SystemExit(f"File non trovato: {ARTICLES_JSON} — lancia lo script dalla root del repo.")
@@ -179,55 +243,15 @@ def main() -> None:
     articles = data.get("articles", [])
     print(f"Trovati {len(articles)} articoli in {ARTICLES_JSON}")
 
-    today = datetime.now(timezone.utc).date().isoformat()
-    urls = [
-        (f"{BASE_URL}/{slug + '/' if slug else ''}", today, "weekly" if slug == "" else "monthly", "1.0" if slug == "" else "0.8")
-        for slug, _title, _description in SITE_PAGES
-    ]
-
     for art in articles:
-        slug = art["slug"]
-        canonical = f"{BASE_URL}/blog/{slug}/"
-        # immagine: il JSON usa percorsi relativi tipo ./assets/blog/x.jpg
-        image_rel = (art.get("image") or "").lstrip("./")
-        og_image = f"{BASE_URL}/{image_rel}" if image_rel else f"{BASE_URL}/assets/primus.webp"
-
-        page = PAGE_TEMPLATE.format(
-            title=esc(strip_tags(art["title"])),
-            title_html=art["title"],  # mantiene gli <em> nel corpo pagina
-            site=esc(SITE_NAME),
-            description=esc(strip_tags(art.get("excerpt", ""))[:158]),
-            canonical=canonical,
-            base=BASE_URL,
-            og_image=og_image,
-            json_ld=build_json_ld(art, canonical, og_image),
-            category=esc(art.get("categoryLabel", "")),
-            date_human=date_human(art.get("date", "")),
-            reading_time=esc(art.get("readingTime", "")),
-            content=art.get("content", ""),
-        )
-
-        out = OUT_DIR / slug / "index.html"
+        out = Path(article_path(art))
         out.parent.mkdir(parents=True, exist_ok=True)
-        out.write_text(page, encoding="utf-8")
-        print(f"  ✓ blog/{slug}/index.html")
+        out.write_text(render_article_page(art), encoding="utf-8")
+        print(f"  ✓ {out.as_posix()}")
 
-        lastmod = (art.get("date") or "")[:10]
-        urls.append((canonical, lastmod, "monthly", "0.7"))
-
-    # ---- sitemap.xml ----
-    entries = "\n".join(
-        f"  <url>\n    <loc>{esc(loc)}</loc>\n    <lastmod>{lastmod}</lastmod>\n"
-        f"    <changefreq>{freq}</changefreq>\n    <priority>{prio}</priority>\n  </url>"
-        for loc, lastmod, freq, prio in urls
-    )
-    SITEMAP.write_text(
-        '<?xml version="1.0" encoding="UTF-8"?>\n'
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-        f"{entries}\n</urlset>\n",
-        encoding="utf-8",
-    )
-    print(f"  ✓ {SITEMAP} ({len(urls)} URL)")
+    sitemap = build_sitemap(articles)
+    SITEMAP.write_text(sitemap, encoding="utf-8")
+    print(f"  ✓ {SITEMAP} ({sitemap.count('<url>')} URL)")
     print("\nFatto. Committa le cartelle blog/ e sitemap.xml insieme ad articles.json.")
 
 

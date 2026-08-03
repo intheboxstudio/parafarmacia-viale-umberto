@@ -9,6 +9,15 @@ Agente AI che il martedì, il giovedì e il sabato alle 10:00 (Europe/Rome):
   3. Genera un articolo originale via Claude API (claude-sonnet-4-6).
   4. Trova un'immagine di copertina coerente su Unsplash (foto stock pro).
   5. Aggiorna articles.json e pubblica via Git push su GitHub.
+  6. Genera la pagina statica blog/<slug>/index.html e rigenera
+     sitemap.xml, pubblicando entrambi nello stesso run.
+
+Perché il passo 6 esiste: gli articoli caricati via JavaScript dalla SPA
+non vengono indicizzati da Google. Fino a prima esisteva
+generate_blog_pages.py, ma andava lanciato a mano dopo ogni articolo — e
+in pratica non succedeva, così gli articoli restavano invisibili alla
+ricerca. Ora è l'agente stesso a farlo, importando le funzioni di
+rendering da quello script.
 
 Variabili d'ambiente richieste:
   - ANTHROPIC_API_KEY    : chiave API Anthropic
@@ -43,6 +52,8 @@ from zoneinfo import ZoneInfo
 
 import requests
 from anthropic import Anthropic
+
+from generate_blog_pages import article_path, build_sitemap, render_article_page
 
 # ============================================================================
 # CONFIGURAZIONE
@@ -946,8 +957,14 @@ class GitPublisher:
         r = requests.put(url, headers=self.headers, json=payload, timeout=15)
         r.raise_for_status()
 
-    def publish_article(self, article: Article) -> None:
-        """Aggiorna articles.json con il nuovo articolo in testa."""
+    def publish_article(self, article: Article) -> list[dict[str, Any]] | None:
+        """
+        Aggiorna articles.json con il nuovo articolo in testa.
+
+        Restituisce la lista aggiornata degli articoli — serve a
+        publish_blog_pages() per ricostruire la sitemap — oppure None se
+        l'articolo era già presente e non è stato pubblicato nulla.
+        """
         log.info("Pubblicazione articolo: %s", article.slug)
 
         result = self._get_file("articles.json")
@@ -961,7 +978,7 @@ class GitPublisher:
         existing_ids = {a.get("id") for a in feed.get("articles", [])}
         if article.id in existing_ids:
             log.warning("Articolo già presente, skip: %s", article.id)
-            return
+            return None
 
         feed.setdefault("articles", []).insert(0, article.to_dict())
 
@@ -975,6 +992,42 @@ class GitPublisher:
         new_content = json.dumps(feed, ensure_ascii=False, indent=2)
         self._put_file("articles.json", new_content, sha, commit_msg)
         log.info("articles.json aggiornato su GitHub")
+        return feed["articles"]
+
+    def publish_blog_pages(self, article: Article, all_articles: list[dict[str, Any]]) -> None:
+        """
+        Pubblica la pagina statica dell'articolo e rigenera la sitemap.
+
+        Senza questo passaggio l'articolo esisterebbe solo dentro
+        articles.json: visibile navigando il sito, invisibile a Google, che
+        non esegue il routing JavaScript della SPA. Il template è lo stesso
+        di generate_blog_pages.py — qui lo applichiamo ai dati in memoria,
+        perché nel runner di Actions il file su disco è ancora quello vecchio.
+
+        Un errore qui NON deve far fallire il run: l'articolo è già stato
+        pubblicato, e la pagina si recupera rilanciando generate_blog_pages.py.
+        """
+        art_dict = article.to_dict()
+
+        page_path = article_path(art_dict)
+        log.info("Pubblicazione pagina statica: %s", page_path)
+        existing = self._get_file(page_path)
+        self._put_file(
+            page_path,
+            render_article_page(art_dict),
+            existing[1] if existing else None,
+            f"blog: pagina statica '{article.slug}' ({article.date[:10]})",
+        )
+
+        log.info("Rigenerazione sitemap.xml (%d articoli)", len(all_articles))
+        existing = self._get_file("sitemap.xml")
+        self._put_file(
+            "sitemap.xml",
+            build_sitemap(all_articles),
+            existing[1] if existing else None,
+            f"sitemap: aggiornata con '{article.slug}' ({article.date[:10]})",
+        )
+        log.info("Pagina statica e sitemap pubblicate")
 
     def publish_image(self, local_path: Path, remote_path: str) -> None:
         """Carica un'immagine binaria nel repo."""
@@ -1215,7 +1268,20 @@ class BlogAgent:
                 )
 
             # 7. Pubblica articolo (aggiorna JSON su GitHub)
-            self.publisher.publish_article(article)
+            all_articles = self.publisher.publish_article(article)
+
+            # 8. Pagina statica indicizzabile + sitemap aggiornata.
+            #    Isolato dal resto: se fallisce, l'articolo resta pubblicato
+            #    e la pagina si recupera con `python generate_blog_pages.py`.
+            if all_articles is not None:
+                try:
+                    self.publisher.publish_blog_pages(article, all_articles)
+                except Exception as exc:  # noqa: BLE001
+                    log.error(
+                        "Pagina statica/sitemap non pubblicate (%s). L'articolo è "
+                        "online ma Google non lo vedrà finché non rilanci "
+                        "generate_blog_pages.py.", exc,
+                    )
 
             log.info("✓ Pubblicazione completata: %s", article.slug)
 
