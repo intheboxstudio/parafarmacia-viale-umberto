@@ -555,61 +555,94 @@ observeReveals();
   });
 })();
 
-/* ============== INSTAGRAM EMBED LOADER ============== */
-/* Trasforma gli URL dei post Instagram in iframe embed ufficiali.
-   Se l'array "instagramPosts" è vuoto, mostra la griglia decorativa di fallback. */
-(function initInstagramFeed(){
-  // L'array è dichiarato nella pagina Instagram. Se non esiste, esci.
-  if(typeof instagramPosts === 'undefined' || !Array.isArray(instagramPosts) || instagramPosts.length === 0){
-    return; // Lascia visibile il fallback decorativo
+/* ============== INSTAGRAM — GRIGLIA DEI POST REALI ============== */
+/*
+ * Legge instagram.json (generato ogni notte da instagram_agent.py tramite le
+ * API ufficiali Instagram) e costruisce la griglia 3 colonne della pagina
+ * /instagram/, uguale a quella del profilo: quadrati, badge carosello/reel
+ * nell'angolo, caption e data in overlay al passaggio del mouse.
+ *
+ * Ogni riquadro linka al PERMALINK del singolo post: cliccando si apre quel
+ * post specifico su Instagram, non il profilo generale.
+ *
+ * Se instagram.json non esiste ancora o non ha post, non tocchiamo nulla e
+ * resta visibile la griglia decorativa già presente nel markup (#igFallback).
+ */
+const INSTAGRAM_FEED_URL = '/instagram.json';
+
+// Icone d'angolo, come su Instagram: pile di riquadri per i caroselli,
+// triangolo play per i reel.
+const IG_TYPE_BADGES = {
+  CAROUSEL_ALBUM: '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="7.5" y="3.5" width="13" height="13" rx="2.5" stroke="currentColor" stroke-width="2"/><path d="M16.5 20.5H6a2.5 2.5 0 0 1-2.5-2.5V7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+  VIDEO: '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 5.5l11 6.5-11 6.5v-13z" fill="currentColor"/></svg>'
+};
+
+function igFormatDate(iso){
+  if(!iso) return '';
+  const d = new Date(iso);
+  if(isNaN(d)) return '';
+  return d.toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+
+function renderInstagramTile(post){
+  if(!post || !post.permalink || !post.image) return '';
+
+  const badge = IG_TYPE_BADGES[post.type] || '';
+  const date  = igFormatDate(post.timestamp);
+  const label = post.caption ? esc(post.caption) : 'Guarda il post su Instagram';
+
+  return `
+    <a class="ig-tile" href="${escAttr(post.permalink)}" target="_blank" rel="noopener"
+       aria-label="Apri su Instagram il post del ${escAttr(date || 'profilo')}">
+      <img src="${escAttr(assetUrl(post.image))}" alt="${escAttr(post.alt || '')}" loading="lazy" decoding="async">
+      ${badge ? `<span class="ig-tile-badge">${badge}</span>` : ''}
+      <span class="ig-tile-overlay">
+        <span class="ig-tile-caption">${label}</span>
+        ${date ? `<span class="ig-tile-date">${esc(date)}</span>` : ''}
+      </span>
+    </a>`;
+}
+
+async function initInstagramFeed(){
+  const grid = document.getElementById('igRealGrid');
+  if(!grid) return; // non siamo sulla pagina Instagram
+
+  let feed;
+  try{
+    const res = await fetch(INSTAGRAM_FEED_URL, { cache: 'no-cache' });
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    feed = await res.json();
+  }catch(err){
+    console.warn('[instagram] feed non disponibile, resta la griglia di fallback:', err.message);
+    return;
   }
 
-  const realGrid = document.getElementById('igRealGrid');
+  const tiles = (feed && Array.isArray(feed.posts) ? feed.posts : [])
+    .map(renderInstagramTile)
+    .filter(Boolean);
+
+  if(!tiles.length) return;
+
+  grid.innerHTML = tiles.join('');
+  grid.style.display = 'grid';
+
   const fallback = document.getElementById('igFallback');
-  if(!realGrid) return;
+  if(fallback) fallback.remove();
 
-  // Estrae il codice del post da un URL Instagram (qualsiasi formato)
-  function extractPostCode(url){
-    const m = url.match(/instagram\.com\/(?:p|reel|tv)\/([A-Za-z0-9_-]+)/);
-    return m ? m[1] : null;
-  }
-
-  // Costruisce ogni card embed
-  instagramPosts.forEach((url, i) => {
-    const code = extractPostCode(url);
-    if(!code) return;
-
-    const card = document.createElement('div');
-    card.className = 'ig-embed-card';
-    card.innerHTML = `
-      <div class="ig-embed-loading" id="igLoad${i}">
-        <div class="ig-embed-loading-content">
-          <svg viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="9" stroke="#2E6489" stroke-width="2" stroke-linecap="round" stroke-dasharray="14 28"/>
-          </svg>
-          <p>Caricamento post…</p>
-        </div>
-      </div>
-      <iframe
-        src="https://www.instagram.com/p/${code}/embed/captioned/"
-        loading="lazy"
-        scrolling="no"
-        allowtransparency="true"
-        allow="encrypted-media"
-        onload="this.previousElementSibling.classList.add('hidden')"
-      ></iframe>
-    `;
-    realGrid.appendChild(card);
-  });
-
-  // Mostra griglia reale e nasconde fallback
-  realGrid.style.display = 'grid';
-  if(fallback) fallback.style.display = 'none';
-
-  // Aggiorna anche il tag "Aggiornato dal profilo" → "Feed dal vivo"
   const feedTag = document.querySelector('.ig-feed-tag');
   if(feedTag) feedTag.textContent = 'Feed dal vivo';
-})();
+
+  // Se una foto non si carica (URL scaduto, file cancellato), togliamo il
+  // riquadro invece di lasciare l'icona di immagine rotta in mezzo alla griglia.
+  grid.querySelectorAll('img').forEach(img => {
+    img.addEventListener('error', () => {
+      const tile = img.closest('.ig-tile');
+      if(tile) tile.remove();
+    }, { once: true });
+  });
+}
+
+initInstagramFeed();
 
 /* ============== BLOG ENGINE ============== */
 /*

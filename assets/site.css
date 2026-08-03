@@ -1815,64 +1815,102 @@ h1, h2, h3, h4{
 .ig-real-feed.active{ display: block; }
 .ig-real-feed.active ~ .ig-fallback-feed{ display: none; }
 
-/* === EMBED INSTAGRAM REALE (iframe ufficiali) === */
+/* === GRIGLIA POST REALI (da instagram.json) ===
+   Stessa impaginazione del profilo Instagram: 3 colonne di quadrati con
+   pochissimo gutter. Le foto restano 3 colonne anche su mobile, come
+   nell'app — è quello che rende la sezione riconoscibile a colpo d'occhio. */
 .ig-real-grid{
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  gap: 6px;
 }
-.ig-embed-card{
+.ig-tile{
   position: relative;
-  background: var(--bianco);
-  border-radius: var(--r-md);
-  overflow: hidden;
-  border: 1px solid rgba(46,100,137,.1);
-  box-shadow: 0 2px 8px rgba(46,100,137,.05);
-  transition: all .4s ease;
-  min-height: 540px;
-}
-.ig-embed-card:hover{
-  transform: translateY(-6px);
-  box-shadow: var(--ombra-card);
-  border-color: rgba(74,136,173,.3);
-}
-.ig-embed-card iframe{
-  width: 100%;
-  height: 600px;
-  border: none;
   display: block;
-  background: white;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: var(--azzurro-luce);
+  border-radius: 3px;
+  isolation: isolate;
 }
-.ig-embed-loading{
+.ig-tile img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .6s cubic-bezier(.22,.61,.36,1);
+}
+.ig-tile:hover img{ transform: scale(1.06); }
+
+/* Badge d'angolo: carosello / reel */
+.ig-tile-badge{
+  position: absolute;
+  top: 10px; right: 10px;
+  width: 20px; height: 20px;
+  color: #fff;
+  z-index: 2;
+  pointer-events: none;
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,.5));
+}
+.ig-tile-badge svg{ width: 100%; height: 100%; display: block; }
+
+/* Overlay con caption e data */
+.ig-tile-overlay{
   position: absolute; inset: 0;
-  background: linear-gradient(135deg, var(--azzurro-luce) 0%, var(--rosa-soft) 100%);
-  display: grid; place-items: center;
   z-index: 1;
-  transition: opacity .5s;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 6px;
+  padding: 16px;
+  background: linear-gradient(to top, rgba(31,58,77,.88) 0%, rgba(31,58,77,.45) 45%, rgba(31,58,77,0) 100%);
+  color: #fff;
+  opacity: 0;
+  transition: opacity .35s ease;
 }
-.ig-embed-loading.hidden{ opacity: 0; pointer-events: none; }
-.ig-embed-loading-content{
-  text-align: center;
+.ig-tile:hover .ig-tile-overlay,
+.ig-tile:focus-visible .ig-tile-overlay{ opacity: 1; }
+.ig-tile:focus-visible{
+  outline: 2px solid var(--azzurro-deep);
+  outline-offset: 2px;
 }
-.ig-embed-loading-content svg{
-  width: 36px; height: 36px;
-  animation: spin 1.2s linear infinite;
+.ig-tile-caption{
+  font-size: 13px;
+  line-height: 1.45;
+  /* La caption viene già accorciata dall'agente, ma i post lunghi esistono:
+     tagliamo a 4 righe così l'overlay non deborda mai dal quadrato. */
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
-@keyframes spin{ to { transform: rotate(360deg); } }
-.ig-embed-loading-content p{
-  margin-top: 14px;
-  font-family: var(--display);
-  font-style: italic;
-  color: var(--azzurro-ink);
-  font-size: 14px;
+.ig-tile-date{
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  opacity: .8;
 }
 
-@media (max-width: 1000px){
-  .ig-real-grid{ grid-template-columns: repeat(2, 1fr); }
+/* Su touch il :hover non esiste: mostriamo solo un velo in basso, così la
+   data resta leggibile senza coprire la foto. */
+@media (hover: none){
+  .ig-tile-overlay{
+    opacity: 1;
+    background: linear-gradient(to top, rgba(31,58,77,.75) 0%, rgba(31,58,77,0) 55%);
+    padding: 10px;
+  }
+  .ig-tile-caption{ display: none; }
 }
+
 @media (max-width: 640px){
-  .ig-real-grid{ grid-template-columns: 1fr; gap: 18px; }
-  .ig-embed-card iframe{ height: 580px; }
+  .ig-real-grid{ gap: 3px; }
+  .ig-tile-badge{ width: 15px; height: 15px; top: 7px; right: 7px; }
+  .ig-tile-date{ font-size: 9.5px; letter-spacing: .05em; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .ig-tile img{ transition: none; }
+  .ig-tile:hover img{ transform: none; }
 }
 
 /* CTA Banda finale */
@@ -2206,6 +2244,7 @@ h1, h2, h3, h4{
   margin: 0 auto 20px;
   animation: spin 1s linear infinite;
 }
+@keyframes spin{ to { transform: rotate(360deg); } }
 
 /* ============== SINGOLO ARTICOLO ============== */
 .single-article{

@@ -1,0 +1,10 @@
+{
+  "lastUpdated": null,
+  "_comment": "File generato e aggiornato automaticamente da instagram_agent.py una volta al giorno. NON modificare manualmente, le modifiche andranno perse al prossimo run. Finché 'posts' è vuoto, la pagina /instagram/ mostra la griglia decorativa di fallback. Vedi LEGGIMI-INSTAGRAM.md per attivare l'agente.",
+  "profile": {
+    "username": "parafarmacia.viale.umberto",
+    "mediaCount": null,
+    "profileUrl": "https://www.instagram.com/parafarmacia.viale.umberto/"
+  },
+  "posts": []
+}

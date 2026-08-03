@@ -1,0 +1,52 @@
+name: Instagram Agent — aggiornamento griglia post
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SCHEDULING
+# ─────────────────────────────────────────────────────────────────────────────
+# Un aggiornamento al giorno basta: la parafarmacia non pubblica più volte al
+# giorno, e ogni run rinnova anche il token Instagram (che dura 60 giorni).
+# Se pubblichi qualcosa e vuoi vederlo subito sul sito, lancia il workflow a
+# mano da Actions → "Instagram Agent" → "Run workflow".
+# ─────────────────────────────────────────────────────────────────────────────
+
+on:
+  schedule:
+    - cron: '0 6 * * *'   # 08:00 IT (CEST) / 07:00 IT (CET) circa — una volta al giorno
+
+  workflow_dispatch: {}
+
+jobs:
+  update-instagram:
+    name: Aggiorna instagram.json
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run instagram agent
+        env:
+          INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
+          # Lo stesso PAT usato da blog-agent e reviews-agent. Perché il token
+          # Instagram si auto-rinnovi, questo PAT deve avere anche il permesso
+          # "Secrets: read and write" sul repo.
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          GITHUB_REPO: ${{ github.repository }}
+          GITHUB_BRANCH: main
+          INSTAGRAM_MAX_POSTS: '12'
+        run: python instagram_agent.py

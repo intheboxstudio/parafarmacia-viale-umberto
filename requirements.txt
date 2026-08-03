@@ -1,2 +1,6 @@
 anthropic>=0.40.0
 requests>=2.31.0
+# instagram_agent.py: ridimensiona le immagini dei post prima di committarle
+Pillow>=10.0.0
+# instagram_agent.py: cifra il token rinnovato per riscriverlo nel GitHub secret
+PyNaCl>=1.5.0

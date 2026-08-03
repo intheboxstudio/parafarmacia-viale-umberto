@@ -1589,33 +1589,24 @@
       </div>
 
       <!-- ============================================================
-           === DOVE INSERIRE I TUOI POST INSTAGRAM ===
-           
-           Per mostrare i tuoi post reali sul sito:
-           1. Apri Instagram, scegli un post che vuoi mostrare
-           2. Copia l'URL del post (es: https://www.instagram.com/p/ABC123xyz/)
-           3. Aggiungilo all'array "instagramPosts" qui sotto, dentro le virgolette
-           4. Ripeti per ogni post che vuoi mostrare (consigliato: 6 o 9 post)
-           5. Salva il file e ricarica la pagina — i post veri appariranno automaticamente
-           
-           Quando l'array è VUOTO, viene mostrata la griglia decorativa di default.
-           ============================================================ -->
-      <script>
-        // 👇 INSERISCI QUI GLI URL DEI TUOI POST INSTAGRAM 👇
-        const instagramPosts = [
-          // "https://www.instagram.com/p/CODICE_POST_1/",
-          // "https://www.instagram.com/p/CODICE_POST_2/",
-          // "https://www.instagram.com/p/CODICE_POST_3/",
-          // "https://www.instagram.com/p/CODICE_POST_4/",
-          // "https://www.instagram.com/p/CODICE_POST_5/",
-          // "https://www.instagram.com/p/CODICE_POST_6/",
-        ];
-      </script>
+           GRIGLIA DEI POST REALI
 
-      <!-- Container che ospiterà i post reali quando l'array sopra è popolato -->
+           Non c'è niente da compilare a mano qui dentro: il contenuto viene
+           da instagram.json, che instagram_agent.py rigenera ogni notte
+           leggendo il profilo tramite le API ufficiali Instagram
+           (workflow .github/workflows/instagram-agent.yml).
+
+           Il rendering lo fa initInstagramFeed() in assets/site.js: crea i
+           quadrati, ci mette il badge carosello/reel e fa puntare ogni tile
+           al permalink del singolo post.
+
+           Se instagram.json manca o è vuoto resta visibile la griglia
+           decorativa qui sotto, così la pagina non appare mai spezzata.
+           Vedi LEGGIMI-INSTAGRAM.md per la configurazione iniziale.
+           ============================================================ -->
       <div class="ig-real-grid" id="igRealGrid" style="display:none;"></div>
 
-      <!-- FALLBACK DECORATIVO: visibile finché l'array instagramPosts è vuoto -->
+      <!-- FALLBACK DECORATIVO: sostituito dai post veri appena il feed risponde -->
       <div class="ig-grid ig-fallback-feed" id="igFallback">
 
         <!-- POST 1 — Tisane -->
