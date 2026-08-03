@@ -1,6 +1,6 @@
 {
   "$schema": "https://parafarmacia-viale-umberto.it/reviews/schema.json",
-  "lastUpdated": "2026-08-02T09:43:34.620749+02:00",
+  "lastUpdated": "2026-08-03T10:47:15.689048+02:00",
   "_comment": "File generato e aggiornato automaticamente da reviews_agent.py una volta al giorno. NON modificare manualmente, le modifiche andranno perse al prossimo run.",
   "placeName": "Parafarmacia Erboristeria viale Umberto",
   "rating": 4.9,
@@ -21,7 +21,7 @@
       "authorPhoto": "https://lh3.googleusercontent.com/a-/ALV-UjU5DVyFCPNqK-vPvqQ6rI3wHwCn1e5t-JlV_8Y2YVKUJvzmC4c=s128-c0x00000000-cc-rp-mo",
       "authorUrl": "https://www.google.com/maps/contrib/109213596841486673776/reviews",
       "rating": 5,
-      "relativeTime": "8 mesi fa",
+      "relativeTime": "9 mesi fa",
       "text": "Questo è un ottimo posto per chi cerca prodotti a base di erbe e naturali di qualità. La gamma ha tutto ciò di cui hai bisogno, dai cosmetici per il corpo e il viso ai rimedi omeopatici. E ciò che è particolarmente bello, tutti i prodotti sono di alta qualità. Trovo sempre quello che cerco qui a prezzi ragionevoli.",
       "time": 1762349836
     },
