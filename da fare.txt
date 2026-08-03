@@ -1,0 +1,23 @@
+Ho girato tutto il sito (home, servizi, tisane, blog, instagram, contatti, le nuove pagine) sia su schermo ampio che provando la vista mobile. Ecco la mia opinione onesta.
+
+Cosa funziona già bene
+
+- Palette e typography: l'abbinamento Fraunces (serif editoriale) + Manrope (sans pulito) è ben scelto, azzurro pastello + rosa cipria + avorio danno un'immagine calma e curata, sopra la media dei siti di parafarmacie locali che di solito sono template anonimi.
+- Impaginazione: buon uso di whitespace, drop-cap sui blog, gerarchia dei titoli chiara, sezioni ben respirate.
+- Le icone custom nella pagina Servizi (le illustrazioni SVG "equilibrium", "natura", "essentia") sono un dettaglio di qualità, fatto su misura, non stock.
+- Storytelling della pagina Tisane — capitoli, narrazione, buona idea.
+
+Cosa cambierei, in ordine di priorità
+
+1. La farfalla. È il pezzo che mi convince meno. È carina come idea, ma galleggia sopra tutto (z-index massimo) e in più punti si sovrappone letteralmente a titoli e testo — l'ho vista tagliare in due "Quattro mondi, un'unica visione" e "un mestiere antico quanto l'uomo". Per un brand di parafarmacia/erboristeria, un elemento decorativo estraneo che copre il contenuto principale comunica il contrario di "professionale": distrae, non rinforza. Io la toglierei del tutto, o al massimo la confinerei alla sola hero, molto più piccola e senza z-index massimo.
+
+2. Foto vere, non solo illustrazioni. Il sito si appoggia molto su blob decorativi e line-art. È elegante ma anonimo — potrebbe essere il sito di qualunque brand wellness. Due o tre foto vere (l'insegna/vetrina, l'interno del negozio, la Dottoressa Emy al banco) darebbero fiducia locale reale, che per chi cerca "parafarmacia Reggio Emilia" conta più di un'illustrazione, per quanto bella.
+
+3. Il muro dei marchi. È solo testo su celle bianche uguali — non ci sono i loghi veri. Oggi legge come una tabella segnaposto, non come una vetrina di marchi selezionati. Se hai i loghi in alta risoluzione vale la pena sostituirli.
+
+4. SEO tecnico, non estetico ma importante. Tutto il sito è un unico index.html con routing via JavaScript: significa che ogni pagina condivide lo stesso <title> e la stessa meta description — anche le pagine nuove che ho creato (Fitoterapia, Erboristeria...) e Servizi, Tisane, Blog. Chi cerca su Google "fitoterapia Reggio Emilia" difficilmente troverà quella pagina specifica, perché tecnicamente Google vede sempre lo stesso titolo di pagina. È un intervento tecnico (aggiornare document.title dinamicamente ad ogni navigazione), non stravolge nulla visivamente ma ha un impatto reale sul traffico da ricerca.
+                                                                                                                       5. Instagram "ultimi post" sono blocchi coloeenshot reali — si vede che sono segnaposto.
+                                                                                                                       In sintesi
+                                                                                                                       Il sito è già solido e curato, non stravolgeo è "più bello, più moderno, piùprofessionale" punterei su: togliere/ridimensionare la farfalla, aggiungere foto vere, e sistemare title/meta dinamici per pagina — quest'ultimo è quello con più ri altri due sono percezione del brand.
+
+Vuoi che cominci da uno di questi?
