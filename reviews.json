@@ -1,6 +1,6 @@
 {
   "$schema": "https://parafarmacia-viale-umberto.it/reviews/schema.json",
-  "lastUpdated": "2026-08-15T07:50:01.653740+02:00",
+  "lastUpdated": "2026-08-16T07:52:27.915654+02:00",
   "_comment": "File generato e aggiornato automaticamente da reviews_agent.py una volta al giorno. NON modificare manualmente, le modifiche andranno perse al prossimo run.",
   "placeName": "Parafarmacia Erboristeria viale Umberto",
   "rating": 4.9,
@@ -15,6 +15,15 @@
       "relativeTime": "un mese fa",
       "text": "Sei molto gentilissima cone clienti😊",
       "time": 1782886605
+    },
+    {
+      "author": "simona pardo",
+      "authorPhoto": "https://lh3.googleusercontent.com/a-/ALV-UjXPNAJIFRF6-t9QtscUkQnLAmObNbh0jZ9FA8QghsNI0vDmg1R-=s128-c0x00000000-cc-rp-mo-ba3",
+      "authorUrl": "https://www.google.com/maps/contrib/105815936754702204943/reviews",
+      "rating": 5,
+      "relativeTime": "un mese fa",
+      "text": "Una garanzia assoluta! Questa parafarmacia sotto casa è un vero punto di riferimento: l'assortimento è vastissimo e ci sono sempre tantissime proposte e novità. La titolare è eccezionale, estremamente preparata, professionale e con una rara disponibilità verso il cliente. Trova sempre la soluzione giusta con il sorriso. Consigliatissima!",
+      "time": 1782883841
     },
     {
       "author": "Maryjane Molteni",
@@ -42,15 +51,6 @@
       "relativeTime": "un anno fa",
       "text": "La mia esperienza è ormai \" lunga\" di qualche anno\nDalla sua apertura\nLe persone fanno la differenza e la titolare la fa in positivo su tutto\nProfessionalità\nGentilezza\nDisponibilità\nGrazie Emily",
       "time": 1746449117
-    },
-    {
-      "author": "FRANCESCA TORLAI",
-      "authorPhoto": "https://lh3.googleusercontent.com/a-/ALV-UjVbBW1difHxTuweKBdM927qy3oRzTnBWUXnqPJf3PfbEcTxkVo2=s128-c0x00000000-cc-rp-mo",
-      "authorUrl": "https://www.google.com/maps/contrib/101902647802885378167/reviews",
-      "rating": 5,
-      "relativeTime": "3 anni fa",
-      "text": "La Parafarmacia di Viale Umberto è un ottimo punto di riferimento per me,  massima professionalità, efficenza ed attenzione alle mie richieste, vasta gamma di prodotti disponibili, soprattutto Emi, la titolare si contraddistingue per il suo grande spirito di accoglienza e per le sua innata gentilezza, highly reccomended!",
-      "time": 1675098273
     }
   ]
 }
