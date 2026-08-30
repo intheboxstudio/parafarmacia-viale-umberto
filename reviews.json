@@ -1,6 +1,6 @@
 {
   "$schema": "https://parafarmacia-viale-umberto.it/reviews/schema.json",
-  "lastUpdated": "2026-08-29T13:44:14.427044+02:00",
+  "lastUpdated": "2026-08-30T12:35:18.028697+02:00",
   "_comment": "File generato e aggiornato automaticamente da reviews_agent.py una volta al giorno. NON modificare manualmente, le modifiche andranno perse al prossimo run.",
   "placeName": "Parafarmacia Erboristeria viale Umberto",
   "rating": 4.9,
@@ -12,7 +12,7 @@
       "authorPhoto": "https://lh3.googleusercontent.com/a-/ALV-UjVSAzNojGnhrTOkBqkDHbpNqffRVuRFJRw0cnA2DIQdpmz2n5A=s128-c0x00000000-cc-rp-mo",
       "authorUrl": "https://www.google.com/maps/contrib/114358800466823207646/reviews",
       "rating": 5,
-      "relativeTime": "un mese fa",
+      "relativeTime": "2 mesi fa",
       "text": "Sei molto gentilissima cone clienti😊",
       "time": 1782886605
     },
@@ -21,7 +21,7 @@
       "authorPhoto": "https://lh3.googleusercontent.com/a-/ALV-UjXPNAJIFRF6-t9QtscUkQnLAmObNbh0jZ9FA8QghsNI0vDmg1R-=s128-c0x00000000-cc-rp-mo-ba3",
       "authorUrl": "https://www.google.com/maps/contrib/105815936754702204943/reviews",
       "rating": 5,
-      "relativeTime": "un mese fa",
+      "relativeTime": "2 mesi fa",
       "text": "Una garanzia assoluta! Questa parafarmacia sotto casa è un vero punto di riferimento: l'assortimento è vastissimo e ci sono sempre tantissime proposte e novità. La titolare è eccezionale, estremamente preparata, professionale e con una rara disponibilità verso il cliente. Trova sempre la soluzione giusta con il sorriso. Consigliatissima!",
       "time": 1782883841
     },
