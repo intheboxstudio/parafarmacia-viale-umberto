@@ -1,6 +1,6 @@
 {
   "$schema": "https://parafarmacia-viale-umberto.it/reviews/schema.json",
-  "lastUpdated": "2026-09-06T11:34:35.642736+02:00",
+  "lastUpdated": "2026-09-07T12:35:05.967883+02:00",
   "_comment": "File generato e aggiornato automaticamente da reviews_agent.py una volta al giorno. NON modificare manualmente, le modifiche andranno perse al prossimo run.",
   "placeName": "Parafarmacia Erboristeria viale Umberto",
   "rating": 4.9,
@@ -9,7 +9,7 @@
   "reviews": [
     {
       "author": "Rezin Derka",
-      "authorPhoto": "https://lh3.googleusercontent.com/a-/ALV-UjVSAzNojGnhrTOkBqkDHbpNqffRVuRFJRw0cnA2DIQdpmz2n5A=s128-c0x00000000-cc-rp-mo",
+      "authorPhoto": "https://lh3.googleusercontent.com/a-/ALV-UjVxJlvoqKjkpm9RFXYWSZ6iQqjSNIOo92U7S-81CNt3sveioeF9=s128-c0x00000000-cc-rp-mo",
       "authorUrl": "https://www.google.com/maps/contrib/114358800466823207646/reviews",
       "rating": 5,
       "relativeTime": "2 mesi fa",
